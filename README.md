@@ -13,6 +13,8 @@ Note: I've created a quick and dirty .apk for testing if this still works as a g
 
 Right now the interface is installable and mostly navigable, but it is incapable of data entry and functionality.
 
+The hope is to get functionality working and then build it out for sediment core logging.
+
 ---
 
 For more information please refer to: 
