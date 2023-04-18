@@ -1,6 +1,6 @@
 SedMob for Android
 ======
-*An Android installer for SedMob the FOSS mobile application for geological and sedimentological core logging*
+*An Android installer for **SedMob**, the FOSS mobile application for field geological and sedimentological core logging*
 
 SedMob is an open-source, mobile software package for creating sedimentary logs, targeted for use in tablets and smartphones. The user can create an unlimited number of logs, save data from each bed in the log as well as export and synchronize the data with a remote server. SedMob is designed as a mobile interface to SedLog: a free multiplatform package for drawing graphic logs that runs on PC computers. Data entered into SedMob are saved in the CSV file format, fully compatible with SedLog.
 
