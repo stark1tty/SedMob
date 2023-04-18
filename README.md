@@ -27,6 +27,7 @@ The hope is to get functionality working and then build it out for sediment core
 - Sign release.
 - Create simple navigation buttons.
 - Fix for default android commands.
+- Update icon.
 
 #### Possible Future Roadmap
 - Colour Recording menu.
