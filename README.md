@@ -1,4 +1,4 @@
-SedMob
+SedMob for Android
 ======
 *Mobile software for field geologists*
 
