@@ -10,11 +10,27 @@ SedLog can be found here: https://sedlog.rhul.ac.uk/
 
 ## Development Notes
 
-v.1.0.0-alpha (18 April 2023): I've created a quick and dirty .apk for testing if this still works as a good free and open source data collection tool for fieldwork. Comments and help are welcome. The [original repo by Pawel Wolniewicz](https://github.com/pwlw/SedMob) is generally contained within the www folder. The .apk can be found on the release page here: https://github.com/stark1tty/SedMob/releases/tag/v1.0.0-alpha
+### v.1.0.0-alpha (18 April 2023) 
+
+I've created a quick and dirty .apk for testing if this still works as a good free and open source data collection tool for fieldwork. Comments and help are welcome. The [original repo by Pawel Wolniewicz](https://github.com/pwlw/SedMob) is generally contained within the www folder. The .apk can be found on the release page here: https://github.com/stark1tty/SedMob/releases/tag/v1.0.0-alpha
 
 Right now the interface is installable and mostly navigable, but it is incapable of data entry and functionality.
 
-The hope is to get functionality working and then build it out for sediment core logging. *Hopefully* a module could be added for export for RockWorks.
+The hope is to get functionality working and then build it out for sediment core logging. Feel free to add to the lists below.
+
+#### To dos
+- Rebuild with older version of Gradle (fingers crossed)
+- Investigate CSS/prettify UI
+- Create menu options for default sedimentological recording, bonus for including Tröels-Smith (1955)
+- Ensure local saving works correctly.
+
+#### Possible Future Roadmap
+- Colour Recording.
+- *Hopefully* a module could be added for export for RockWorks.
+- Gallery options.
+- Other export options e.g. to Dropbox, email, etc.
+- Figure out server linking.
+- SedLog style previews?
 
 ---
 
