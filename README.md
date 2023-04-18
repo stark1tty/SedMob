@@ -14,7 +14,7 @@ v.1.0.0-alpha (18 April 2023): I've created a quick and dirty .apk for testing i
 
 Right now the interface is installable and mostly navigable, but it is incapable of data entry and functionality.
 
-The hope is to get functionality working and then build it out for sediment core logging.
+The hope is to get functionality working and then build it out for sediment core logging. *Hopefully* a module could be added for export for RockWorks.
 
 ---
 
