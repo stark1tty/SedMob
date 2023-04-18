@@ -8,8 +8,8 @@ SedLog can be found here: https://sedlog.rhul.ac.uk/
 
 ---
 
-## Attention
-Note: I've created a quick and dirty .apk for testing if this still works as a good free and open source data collection tool for fieldwork. Comments and help are welcome. The [original repo by Pawel Wolniewicz](https://github.com/pwlw/SedMob) is generally contained within the www folder. The .apk can be found on the release page here: https://github.com/stark1tty/SedMob/releases/tag/v1.0.0-alpha
+## Development Notes
+v.1.0.0-alpha (18 April 2023): I've created a quick and dirty .apk for testing if this still works as a good free and open source data collection tool for fieldwork. Comments and help are welcome. The [original repo by Pawel Wolniewicz](https://github.com/pwlw/SedMob) is generally contained within the www folder. The .apk can be found on the release page here: https://github.com/stark1tty/SedMob/releases/tag/v1.0.0-alpha
 
 Right now the interface is installable and mostly navigable, but it is incapable of data entry and functionality.
 
