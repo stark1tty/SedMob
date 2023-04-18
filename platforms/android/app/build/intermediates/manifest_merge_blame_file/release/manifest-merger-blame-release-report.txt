@@ -1,0 +1,154 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.sedmob"
+4    android:hardwareAccelerated="true"
+5    android:versionCode="10000"
+6    android:versionName="1.0.0" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="22"
+9-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml
+10        android:targetSdkVersion="30" />
+10-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml
+11
+12    <supports-screens
+12-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:5-191
+13        android:anyDensity="true"
+13-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:23-48
+14        android:largeScreens="true"
+14-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:49-76
+15        android:normalScreens="true"
+15-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:77-105
+16        android:resizeable="true"
+16-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:106-131
+17        android:smallScreens="true"
+17-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:132-159
+18        android:xlargeScreens="true" />
+18-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:3:160-188
+19
+20    <uses-permission android:name="android.permission.INTERNET" />
+20-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:4:5-67
+20-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:4:22-64
+21    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+21-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:16:5-81
+21-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:16:22-78
+22
+23    <queries>
+23-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:17:5-31:15
+24        <intent>
+24-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:18:9-20:18
+25            <action android:name="android.media.action.IMAGE_CAPTURE" />
+25-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:19:13-73
+25-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:19:21-70
+26        </intent>
+27        <intent>
+27-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:21:9-23:18
+28            <action android:name="android.intent.action.GET_CONTENT" />
+28-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:22:13-72
+28-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:22:21-69
+29        </intent>
+30        <intent>
+30-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:24:9-26:18
+31            <action android:name="android.intent.action.PICK" />
+31-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:25:13-65
+31-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:25:21-62
+32        </intent>
+33        <intent>
+33-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:27:9-30:18
+34            <action android:name="com.android.camera.action.CROP" />
+34-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:28:13-69
+34-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:28:21-66
+35
+36            <data
+36-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:29:13-73
+37                android:mimeType="image/*"
+37-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:29:19-45
+38                android:scheme="content" />
+38-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:29:46-70
+39        </intent>
+40    </queries>
+41
+42    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+42-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:32:5-81
+42-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:32:22-78
+43    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+43-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:33:5-79
+43-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:33:22-76
+44
+45    <uses-feature
+45-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:34:5-90
+46        android:name="android.hardware.location.gps"
+46-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:34:19-63
+47        android:required="true" />
+47-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:34:64-87
+48
+49    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+49-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:35:5-71
+49-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:35:22-68
+50    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+50-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:36:5-80
+50-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:36:22-77
+51    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+51-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:37:5-79
+51-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:37:22-76
+52
+53    <application
+53-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:5:5-15:19
+54        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+54-->[androidx.core:core:1.6.0] /root/.gradle/caches/transforms-3/05c54d8ad95781334c3d3eae3297a031/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
+55        android:hardwareAccelerated="true"
+55-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:5:18-52
+56        android:icon="@mipmap/ic_launcher"
+56-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:5:53-87
+57        android:label="@string/app_name"
+57-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:5:88-120
+58        android:supportsRtl="true" >
+58-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:5:121-147
+59        <activity
+59-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:9-11:20
+60            android:name="com.example.sedmob.MainActivity"
+60-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:229-256
+61            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+61-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:19-135
+62            android:exported="true"
+62-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:136-159
+63            android:label="@string/activity_name"
+63-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:160-197
+64            android:launchMode="singleTop"
+64-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:198-228
+65            android:theme="@style/Theme.AppCompat.NoActionBar"
+65-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:257-307
+66            android:windowSoftInputMode="adjustResize" >
+66-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:6:308-350
+67            <intent-filter android:label="@string/launcher_name" >
+67-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:7:13-10:29
+67-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:7:28-65
+68                <action android:name="android.intent.action.MAIN" />
+68-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:8:17-69
+68-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:8:25-66
+69
+70                <category android:name="android.intent.category.LAUNCHER" />
+70-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:9:17-77
+70-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:9:27-74
+71            </intent-filter>
+72        </activity>
+73
+74        <provider
+75            android:name="org.apache.cordova.camera.FileProvider"
+75-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:12:149-202
+76            android:authorities="com.example.sedmob.cordova.plugin.camera.provider"
+76-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:12:19-88
+77            android:exported="false"
+77-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:12:89-113
+78            android:grantUriPermissions="true" >
+78-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:12:114-148
+79            <meta-data
+79-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:13:13-123
+80                android:name="android.support.FILE_PROVIDER_PATHS"
+80-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:13:24-74
+81                android:resource="@xml/camera_provider_paths" />
+81-->/home/nika/SedMob/platforms/android/app/src/main/AndroidManifest.xml:13:75-120
+82        </provider>
+83    </application>
+84
+85</manifest>

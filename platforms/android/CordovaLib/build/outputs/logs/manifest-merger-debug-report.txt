@@ -1,0 +1,23 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:20:1-22:12
+INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:20:1-22:12
+INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:20:1-22:12
+	package
+		ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:21:7-35
+		INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+		INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+	android:versionName
+		ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:21:36-61
+	xmlns:android
+		ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:20:11-69
+	android:versionCode
+		ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml:21:62-85
+uses-sdk
+INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+		ADDED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
+		INJECTED from /home/nika/SedMob/platforms/android/CordovaLib/AndroidManifest.xml
