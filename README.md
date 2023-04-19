@@ -48,13 +48,13 @@ The hope is to get functionality working and then build it out for sediment core
 
 <table>
   <tr>
-    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png" alt="Screenshot 1" width="150" height="300"></a></td>
-    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105720.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105720.png" alt="Screenshot 2" width="150" height="300"></a></td>
-    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105729.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105729.png" alt="Screenshot 3" width="150" height="300"></a></td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png" alt="Screenshot 1" width="150" height="300"></a><br> Main Menu</td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105720.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105720.png" alt="Screenshot 2" width="150" height="300"></a><br> Core Details</td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105729.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105729.png" alt="Screenshot 3" width="150" height="300"></a><br>Core Log</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png" alt="Screenshot 4" width="150" height="300"></a></td>
-    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png" alt="Screenshot 5" width="150" height="300"></a></td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png" alt="Screenshot 4" width="150" height="300"></a><br>Core Log</td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png" alt="Screenshot 5" width="150" height="300"></a><br>Core Log</td>
     <td></td>
   </tr>
 </table>
