@@ -39,7 +39,7 @@ The hope is to get functionality working and then build it out for sediment core
 - Other export options e.g. to Dropbox, email, etc.
 - Figure out server linking.
 - SedLog style previews?
-- Create splash page.
+- Improve splash page.
 - More accessible navigation UI.
 
 ---
