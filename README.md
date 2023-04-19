@@ -22,6 +22,7 @@ The hope is to get functionality working and then build it out for sediment core
 
 #### To dos
 - [x] Contacted author.
+- Add audio permission modules in Cordova.
 - Rebuild with older version of Gradle (fingers crossed).
 - Investigate CSS/prettify UI.
 - Create default menu options for default sedimentological recording, bonus for including Tröels-Smith (1955).
