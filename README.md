@@ -46,6 +46,7 @@ The hope is to get functionality working and then build it out for sediment core
 
 ## Screenshots
 
+<center>
 <table>
   <tr>
     <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105712.png" alt="Screenshot 1" width="150" height="300"></a><br> Main Menu</td>
@@ -58,6 +59,7 @@ The hope is to get functionality working and then build it out for sediment core
     <td></td>
   </tr>
 </table>
+</center>
 
 ---
 
