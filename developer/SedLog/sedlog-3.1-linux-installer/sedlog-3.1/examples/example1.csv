@@ -1,0 +1,10 @@
+THICKNESS (CM),BASE BOUNDARY,LITHOLOGY,LITHOLOGY %,LITHOLOGY2,LITHOLOGY2 %,LITHOLOGY3,LITHOLOGY3 %,GRAIN SIZE BASE,PHI VALUES BASE,GRAIN SIZE TOP,PHI VALUES TOP,SYMBOLS IN BED,SYMBOLS/STRUCTURES,NOTES COLUMN,BIOTURBATION TYPE,INTENSITY,PALAEOCURRENT VALUES,FACIES,OTHER1 TEXT,OTHER1 SYMBOL,OTHER2 TEXT,OTHER2 SYMBOL,OTHER3 TEXT,OTHER3 SYMBOL
+100.0,<none>,Limestone,100,<none>,0,<none>,0,vf,3.5,vf,3.5,<none>,"Gastropods","Gastropods",<none>,0,"",1,"","","","","",""
+45.0,Sharp,Shale,100,<none>,0,<none>,0,clay,10.0,clay,10.0,<none>,"","Dark",Moderate bioturbation,1,"",2,"","","","","",""
+45.0,Erosion,Conglomerate,100,<none>,0,<none>,0,pebble,-3.0,granule,-1.5,<none>,"","Polymict",<none>,0,"",3,"","","","","",""
+135.0,Gradational,Sandstone,100,<none>,0,<none>,0,vc,-0.5,m,1.5,Trough cross bedding,"","60 cm sets",<none>,0,"90, 100, 120, 100, 105",4,"","","","","",""
+65.0,Gradational,Sandstone,100,<none>,0,<none>,0,m,1.5,m,1.5,Planar cross bedding,"","",<none>,0,"",4,"","","","","",""
+50.0,Gradational,Sandstone,100,<none>,0,<none>,0,f,2.5,f,2.5,Current ripple cross-lamination,"","",<none>,0,"85",4,"","","","","",""
+60.0,Sharp,Siltstone,100,<none>,0,<none>,0,silt,6.0,silt,6.0,<none>,"Roots","thin, fine sandy laminae",<none>,0,"",2,"","","","","",""
+35.0,<none>,Coal,100,<none>,0,<none>,0,<none>,0.0,<none>,0.0,<none>,"","coal",<none>,0,"",5,"","","","","",""
+65.0,Sharp,Siltstone,60,Claystone,40,<none>,0,clay/silt,8.0,clay/silt,8.0,<none>,"Plant material","",<none>,0,"",2,"","","","","",""
