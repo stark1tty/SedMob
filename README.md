@@ -1,3 +1,5 @@
+<img src="https://github.com/stark1tty/SedMob/raw/master/developer/Banner/core.jpg" alt="Banner" width="500"/>
+
 SedMob for Android
 ======
 *An Android installer for **SedMob**, the FOSS mobile application for field geological and sedimentological core logging*
@@ -39,6 +41,11 @@ The hope is to get functionality working and then build it out for sediment core
 - SedLog style previews?
 - Create splash page.
 - More accessible navigation UI.
+
+---
+
+## Screenshots
+
 
 ---
 
