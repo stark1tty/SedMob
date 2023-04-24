@@ -59,7 +59,7 @@ The hope is to get functionality working and then build it out for sediment core
   <tr>
     <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105737.png" alt="Screenshot 4" width="150" height="300"></a><br>Core Log</td>
     <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230419-105741.png" alt="Screenshot 5" width="150" height="300"></a><br>Core Log</td>
-    <td></td>
+    <td><a href="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230424-134429.png"><img src="https://github.com/stark1tty/SedMob/raw/master/developer/Screenshots/2023-03/Screenshot_20230424-134429.png" alt="Screenshot 5" width="150" height="300"></a><br>Settings Menu</td>
   </tr>
 </table>
 </center>
