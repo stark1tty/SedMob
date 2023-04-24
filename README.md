@@ -42,6 +42,7 @@ The hope is to get functionality working and then build it out for sediment core
 - SedLog style previews?
 - Improve splash page.
 - More accessible navigation UI.
+- New sheets: Daysheets (activity log), trench pits, misc notes., Test pits
 
 ---
 
