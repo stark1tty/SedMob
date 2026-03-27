@@ -103,12 +103,24 @@ def something(profile_id):
 
 From the README, planned features include:
 
+- Bed photo management
+- Profile photo upload
+- Bulk CSV export
+- Reference data rename/edit and group delete
+- Reference data import/export
+- Lithology percentage auto-balancing
+- Database backup & restore
+- Bed audio upload
+- Browser geolocation
+- Bed direction reversal
+- High-contrast field mode
+- GPS "Get Location" button
+- Variable popup descriptions
+- Reference data descriptions
 - Dark mode / UI improvements
 - Default menu options for standard sedimentological recording (including Tröels-Smith 1955)
 - Colour recording menu
 - Core metadata fields (client, project, etc.)
-- Gallery / photo attachments
 - Additional export options (Dropbox, email, RockWorks)
-- Server synchronization
 - SedLog-style graphical previews
 - New sheet types: day sheets, trench pits, test pits, misc notes

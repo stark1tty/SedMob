@@ -27,12 +27,17 @@ Gneisswork/
 │   ├── models.py           # SQLAlchemy ORM models
 │   ├── seed.py             # Reference data seeding
 │   ├── requirements.txt    # Python dependencies
-│   └── templates/
-│       ├── base.html       # Master layout template
-│       ├── home.html       # Profile list (home page)
-│       ├── profile_form.html  # Profile create/edit + bed list
-│       ├── bed_form.html      # Bed create/edit form
-│       └── reference.html     # Reference data management
+│   ├── static/
+│   │   └── favicon.png     # Site icon
+│   ├── templates/
+│   │   ├── base.html       # Master layout template
+│   │   ├── home.html       # Profile list (home page)
+│   │   ├── profile_form.html  # Profile create/edit + bed list
+│   │   ├── bed_form.html      # Bed create/edit form
+│   │   └── reference.html     # Reference data management
+│   └── tests/
+│       ├── conftest.py     # Fixtures: app, client, db (in-memory SQLite)
+│       └── test_*.py       # Feature test modules
 ├── .pwlw-sedmob/           # Legacy Cordova mobile app (archived)
 ├── media/                  # Banner, icon, and screenshots
 └── docs/                   # This documentation

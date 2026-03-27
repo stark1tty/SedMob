@@ -30,12 +30,16 @@ pip install -r sedmob/requirements.txt
 
 Defined in `sedmob/requirements.txt`:
 
-| Package          | Version | Purpose                      |
-| ---------------- | ------- | ---------------------------- |
-| flask            | >= 3.0  | Web framework                |
-| flask-sqlalchemy | >= 3.1  | SQLAlchemy ORM integration   |
-| pytest           | >= 8.0  | Test runner                  |
-| pytest-flask     | >= 1.3  | Flask-specific test fixtures |
+| Package          | Version | Purpose                          |
+| ---------------- | ------- | -------------------------------- |
+| flask            | >= 3.0  | Web framework                    |
+| flask-sqlalchemy | >= 3.1  | SQLAlchemy ORM integration       |
+| pytest           | >= 8.0  | Test runner                      |
+| pytest-flask     | >= 1.3  | Flask-specific test fixtures     |
+| hypothesis       | >= 6.0  | Property-based testing           |
+| pytest           | >= 8.0  | Test runner                      |
+| pytest-flask     | >= 1.3  | Flask-specific test fixtures     |
+| hypothesis       | >= 6.0  | Property-based testing framework |
 
 ## Running the Application
 

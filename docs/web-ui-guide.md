@@ -126,6 +126,8 @@ Phi values are stored automatically based on the selected grain size.
 | Base  | Select | Carbonate grain size at base (mudstone to rudstone) |
 | Top   | Select | Carbonate grain size at top                         |
 
+Phi values are stored automatically based on the selected grain size.
+
 #### Bioturbation
 
 | Field     | Type   | Description                 |
