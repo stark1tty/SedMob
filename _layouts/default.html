@@ -210,6 +210,17 @@
         
         // Only add heading anchors if there are headings on the page
         if (headings.length > 0) {
+          // Add "On This Page" section header
+          var sectionHeader = document.createElement('li');
+          sectionHeader.style.cssText = 'margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e1e4e8;';
+          var headerSpan = document.createElement('span');
+          headerSpan.className = 'sidebar-title';
+          headerSpan.style.marginLeft = '0';
+          headerSpan.textContent = 'On This Page';
+          sectionHeader.appendChild(headerSpan);
+          nav.appendChild(sectionHeader);
+          
+          // Add heading links
           headings.forEach(function(h) {
             if (!h.id) return;
             var li = document.createElement('li');
