@@ -121,6 +121,42 @@ SedMob was originally developed as a Cordova-based mobile app by [Pawel Wolniewi
 
 Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary logs in the field. *Computers & Geosciences*, 66, 10.1016/j.cageo.2014.02.004.
 
+## Citing SedMob
+
+If you use SedMob in your research or publications, please cite the appropriate version:
+
+```bibtex
+% This web application version
+@software{sedmob_web_2024,
+  author = {stark1tty},
+  title = {SedMob: Web Application for Field Geological Core Logging},
+  year = {2024},
+  url = {https://github.com/stark1tty/SedMob},
+  note = {Python/Flask web application}
+}
+
+% Original mobile application
+@software{sedmob_mobile_2014,
+  author = {Wolniewicz, Pawel},
+  title = {SedMob: Mobile Application for Sedimentary Logging},
+  year = {2014},
+  url = {https://github.com/pwlw/SedMob},
+  note = {Cordova-based mobile application}
+}
+
+% Research paper
+@article{wolniewicz2014sedmob,
+  author = {Wolniewicz, Pawel},
+  title = {SedMob: A mobile application for creating sedimentary logs in the field},
+  journal = {Computers \& Geosciences},
+  volume = {66},
+  pages = {211--218},
+  year = {2014},
+  doi = {10.1016/j.cageo.2014.02.004},
+  url = {https://doi.org/10.1016/j.cageo.2014.02.004}
+}
+```
+
 ## License
 
 Open source. See the repository for license details.
