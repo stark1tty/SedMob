@@ -1,7 +1,4 @@
----
-layout: default
-title: Home
----
+# Gneisswork
 
 <img src="media/banner/core.jpg" alt="Gneisswork Banner" width="500"/>
 
