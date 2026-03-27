@@ -178,4 +178,4 @@ If you use Gneisswork in your research or publications, please cite the appropri
 
 ## License
 
-Open source. See the repository for license details.
+This project is licensed under the [GNU General Public License v2.0](LICENSE) (or later), the same license as the original [SedMob](https://github.com/pwlw/SedMob) project by Pawel Wolniewicz.
