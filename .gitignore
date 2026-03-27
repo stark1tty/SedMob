@@ -1,12 +1,10 @@
-.archives
-
-# IDE / editor
-.dev/*
-.pwlw-sedmob/*
-.kiro/*
-.claude/*
-.github/*
-.vscode/*
+.archives/
+.dev/
+.pwlw-sedmob/
+.kiro/
+.claude/
+.github/
+.vscode/
 .idea/
 *.iml
 *.swp
