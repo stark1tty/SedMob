@@ -375,7 +375,7 @@
             a.href = '#' + h.id;
             a.textContent = h.textContent.replace(/\u00B6$/, '').trim();
             var depth = parseInt(h.tagName.charAt(1));
-            a.classList.add('depth-' + (depth + 2)); // h2 -> depth-4, h3 -> depth-5 for indentation
+            a.classList.add('depth-' + (depth + 1)); // h2 -> depth-3, h3 -> depth-4
             li.appendChild(a);
             nav.appendChild(li);
           });
