@@ -68,21 +68,6 @@ The app will be available at `http://localhost:5000`.
 pytest
 ```
 
-## Screenshots
-
-<table>
-  <tr>
-    <td><img src="media/screenshots/Screenshot_20230419-105712.png" alt="Main Menu" width="150" height="300"><br>Main Menu</td>
-    <td><img src="media/screenshots/Screenshot_20230419-105720.png" alt="Core Details" width="150" height="300"><br>Core Details</td>
-    <td><img src="media/screenshots/Screenshot_20230419-105729.png" alt="Core Log" width="150" height="300"><br>Core Log</td>
-  </tr>
-  <tr>
-    <td><img src="media/screenshots/Screenshot_20230419-105737.png" alt="Core Log" width="150" height="300"><br>Core Log</td>
-    <td><img src="media/screenshots/Screenshot_20230419-105741.png" alt="Core Log" width="150" height="300"><br>Core Log</td>
-    <td><img src="media/screenshots/Screenshot_20230424-134429.png" alt="Settings Menu" width="150" height="300"><br>Settings Menu</td>
-  </tr>
-</table>
-
 ## JSON API
 
 Gneisswork includes a read-only REST API at `/api` for programmatic access to your data.
