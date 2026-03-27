@@ -150,13 +150,16 @@
       <aside class="site-sidebar" id="sidebar">
         <p class="sidebar-title">Navigation</p>
         <ul class="sidebar-nav" id="sidebar-nav">
-          <!-- Documentation links (always visible) -->
+          <!-- Main navigation -->
           <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
           <li><a href="{{ '/docs/' | relative_url }}" {% if page.url contains '/docs/' and page.url != '/docs/README.html' %}class="active"{% endif %}>Documentation</a></li>
           
           {% if page.url contains '/docs/' %}
-          <!-- Documentation subnav -->
-          <li style="margin-top: 0.5rem;"><a href="{{ '/docs/getting-started.html' | relative_url }}" {% if page.url contains 'getting-started' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Getting Started</a></li>
+          <!-- Documentation pages section -->
+          <li style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e1e4e8;">
+            <span class="sidebar-title" style="margin-left: 0;">Documentation</span>
+          </li>
+          <li><a href="{{ '/docs/getting-started.html' | relative_url }}" {% if page.url contains 'getting-started' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Getting Started</a></li>
           <li><a href="{{ '/docs/web-ui-guide.html' | relative_url }}" {% if page.url contains 'web-ui-guide' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Web UI Guide</a></li>
           <li><a href="{{ '/docs/api-reference.html' | relative_url }}" {% if page.url contains 'api-reference' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>API Reference</a></li>
           <li><a href="{{ '/docs/data-models.html' | relative_url }}" {% if page.url contains 'data-models' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Data Models</a></li>
@@ -166,8 +169,10 @@
           <li><a href="{{ '/docs/contributing.html' | relative_url }}" {% if page.url contains 'contributing' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Contributing</a></li>
           <li><a href="{{ '/docs/legacy-mobile-app.html' | relative_url }}" {% if page.url contains 'legacy-mobile-app' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Legacy Mobile App</a></li>
           
-          <!-- Page headings (populated by JS below) -->
-          <li style="margin-top: 1rem;"><span class="sidebar-title" style="margin-left: 8px;">On This Page</span></li>
+          <!-- Page headings section (populated by JS below) -->
+          <li style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e1e4e8;">
+            <span class="sidebar-title" style="margin-left: 0;">On This Page</span>
+          </li>
           {% endif %}
         </ul>
       </aside>
