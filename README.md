@@ -99,6 +99,9 @@ curl http://localhost:5000/api/profiles
 
 ### Future enhancements
 
+- [ ] GPS "Get Location" button — Capture current device coordinates into Lat/Long/Alt fields on the profile form
+- [ ] Variable popup descriptions — Info popups explaining each field/variable on the bed and profile forms
+- [ ] Reference data descriptions — Add a description/definition field to reference data items (lithologies, structures, etc.)
 - [ ] Dark mode / UI improvements
 - [ ] Default menu options for standard sedimentological recording (including Tröels-Smith 1955)
 - [ ] Colour recording menu

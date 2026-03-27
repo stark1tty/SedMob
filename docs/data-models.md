@@ -72,6 +72,8 @@ Represents a single stratigraphic unit (bed/layer) within a profile.
 | `bioturbation_intensity` | String  |              | `""`    | Bioturbation intensity             |
 | `structures`             | String  |              | `""`    | Sedimentary structures (comma-sep) |
 | `bed_symbols`            | String  |              | `""`    | Bed symbols (comma-sep)            |
+| `top`                    | String  |              | `""`    | Top boundary description           |
+| `bottom`                 | String  |              | `""`    | Bottom boundary description        |
 | `audio`                  | String  |              | `""`    | Audio recording path               |
 
 ---

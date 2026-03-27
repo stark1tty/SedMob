@@ -55,6 +55,8 @@ class Bed(db.Model):
     bioturbation_intensity = db.Column(db.String, default="")
     structures = db.Column(db.String, default="")
     bed_symbols = db.Column(db.String, default="")
+    top = db.Column(db.String, default="")
+    bottom = db.Column(db.String, default="")
     audio = db.Column(db.String, default="")
 
     def to_dict(self):

@@ -1,0 +1,23 @@
+title: SedMob
+description: A free and open-source web application for field geological and sedimentological core logging
+url: https://stark1tty.github.io
+baseurl: /SedMob
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - .venv/
+  - .archives/
+  - .claude/
+  - .git/
+  - .github/
+  - .gitignore
+  - .kiro/
+  - .pwlw-sedmob/
+  - .pytest_cache/
+  - .vscode/
+  - instance/
+  - sedmob/
+  - run.py
+  - docs/

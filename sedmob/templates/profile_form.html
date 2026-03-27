@@ -13,11 +13,11 @@
             <option value="off" {{ 'selected' if not profile or profile.direction != 'on' }}>Off</option>
             <option value="on" {{ 'selected' if profile and profile.direction == 'on' }}>On</option>
         </select>
-        <label for="latitude">Latitude</label>
+        <label for="latitude">Latitude (°)</label>
         <input id="latitude" name="latitude" value="{{ profile.latitude if profile else '' }}">
-        <label for="longitude">Longitude</label>
+        <label for="longitude">Longitude (°)</label>
         <input id="longitude" name="longitude" value="{{ profile.longitude if profile else '' }}">
-        <label for="altitude">Altitude</label>
+        <label for="altitude">Altitude (m)</label>
         <input id="altitude" name="altitude" value="{{ profile.altitude if profile else '' }}">
         <button type="submit" class="btn btn-primary" style="margin-top:1rem">Save Log</button>
     </form>
@@ -28,12 +28,14 @@
     <a href="/profile/{{ profile.id }}/bed/new" class="btn btn-primary">Add new bed</a>
     {% if beds %}
     <table style="margin-top:.5rem">
-        <tr><th>#</th><th>Name</th><th>Thickness</th><th>Lithology</th></tr>
+        <tr><th>#</th><th>Name</th><th>Thickness</th><th>Top</th><th>Bottom</th><th>Lithology</th></tr>
         {% for bed in beds %}
         <tr>
             <td>{{ bed.position }}</td>
             <td><a href="/profile/{{ profile.id }}/bed/{{ bed.id }}">{{ bed.name or '(unnamed)' }}</a></td>
             <td>{{ bed.thickness }}</td>
+            <td>{{ bed.top }}</td>
+            <td>{{ bed.bottom }}</td>
             <td>{{ bed.lit1_type }}</td>
         </tr>
         {% endfor %}

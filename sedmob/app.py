@@ -107,7 +107,7 @@ def create_app(config=None):
         output = io.StringIO()
         writer = csv.writer(output)
         writer.writerow([
-            "Position", "Name", "Thickness", "Facies", "Notes", "Boundary",
+            "Position", "Name", "Thickness", "Top", "Bottom", "Facies", "Notes", "Boundary",
             "Paleocurrent", "Lit1 Group", "Lit1 Type", "Lit1 %",
             "Lit2 Group", "Lit2 Type", "Lit2 %",
             "Lit3 Group", "Lit3 Type", "Lit3 %",
@@ -117,7 +117,7 @@ def create_app(config=None):
         ])
         for bed in beds:
             writer.writerow([
-                bed.position, bed.name, bed.thickness, bed.facies, bed.notes,
+                bed.position, bed.name, bed.thickness, bed.top, bed.bottom, bed.facies, bed.notes,
                 bed.boundary, bed.paleocurrent,
                 bed.lit1_group, bed.lit1_type, bed.lit1_percentage,
                 bed.lit2_group, bed.lit2_type, bed.lit2_percentage,
@@ -254,6 +254,7 @@ def create_app(config=None):
             bed.thickness = thickness
         for field in [
             "name", "facies", "notes", "boundary", "paleocurrent",
+            "top", "bottom",
             "lit1_group", "lit1_type", "lit1_percentage",
             "lit2_group", "lit2_type", "lit2_percentage",
             "lit3_group", "lit3_type", "lit3_percentage",

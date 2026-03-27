@@ -105,6 +105,8 @@ Returns a single profile with all its beds nested in a `beds` array, ordered by 
       "bioturbation_intensity": "",
       "structures": "",
       "bed_symbols": "",
+      "top": "",
+      "bottom": "",
       "audio": ""
     }
   ]

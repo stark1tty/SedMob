@@ -10,6 +10,12 @@
         <label for="thickness">Thickness (cm) *</label>
         <input id="thickness" name="thickness" value="{{ bed.thickness if bed else '' }}" required>
 
+        <label for="top">Top (m)</label>
+        <input id="top" name="top" value="{{ bed.top if bed else '' }}">
+
+        <label for="bottom">Bottom (m)</label>
+        <input id="bottom" name="bottom" value="{{ bed.bottom if bed else '' }}">
+
         <label for="facies">Facies</label>
         <input id="facies" name="facies" value="{{ bed.facies if bed else '' }}">
 
