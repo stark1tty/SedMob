@@ -9,7 +9,9 @@ The `.pwlw-sedmob/` directory contains the original SedMob application, a Cordov
 
 ## Reference
 
-Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary logs in the field. *Computers & Geosciences*, 66, 10.1016/j.cageo.2014.02.004.
+Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary logs in the field. *Computers & Geosciences*, 66, 211–218. [DOI: 10.1016/j.cageo.2014.02.004](https://doi.org/10.1016/j.cageo.2014.02.004)
+
+A markdown conversion of the full paper is available at [`.dev/sedlog_paper.md`](https://github.com/stark1tty/Gneisswork/blob/main/.dev/sedlog_paper.md).
 
 ## Tech Stack
 

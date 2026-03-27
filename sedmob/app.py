@@ -100,34 +100,84 @@ def create_app(config=None):
         return {"ok": True}
 
     # ── CSV Export ─────────────────────────────────────────
+    # SedLog-compatible CSV format (see Wolniewicz 2014, Zervas et al. 2009)
+    # Headers and column order match the original SedMob Cordova app so that
+    # exported files can be opened directly in SedLog for graphic log generation.
+
+    def _sedlog_val(value):
+        """Return value for CSV cell, replacing empty/None with '<none>'."""
+        if value is None or str(value).strip() == "":
+            return "<none>"
+        return str(value)
+
+    def _sedlog_grain_size(bed):
+        """Merge clastic/carbonate grain size into single base/top pair.
+
+        SedLog expects one grain size base and one grain size top column.
+        The original app used clastic values when present, falling back to
+        carbonate values otherwise.
+        """
+        size_base = bed.size_clastic_base if bed.size_clastic_base else bed.size_carbo_base
+        phi_base = bed.phi_clastic_base
+        if not phi_base or phi_base == "<none>":
+            phi_base = bed.phi_carbo_base
+        size_top = bed.size_clastic_top if bed.size_clastic_top else bed.size_carbo_top
+        phi_top = bed.phi_clastic_top
+        if not phi_top or phi_top == "<none>":
+            phi_top = bed.phi_carbo_top
+        return size_base, phi_base, size_top, phi_top
+
     @app.route("/profile/<int:profile_id>/export")
     def profile_export(profile_id):
         profile = db.get_or_404(Profile, profile_id)
         beds = Bed.query.filter_by(profile_id=profile_id).order_by(Bed.position).all()
         output = io.StringIO()
         writer = csv.writer(output)
+        # Columns 1–25: SedLog-compatible (same order as original SedMob app)
+        # Columns 26+: Gneisswork extras (position, name, groups, etc.)
         writer.writerow([
-            "Position", "Name", "Thickness", "Top", "Bottom", "Facies", "Notes", "Boundary",
-            "Paleocurrent", "Lit1 Group", "Lit1 Type", "Lit1 %",
-            "Lit2 Group", "Lit2 Type", "Lit2 %",
-            "Lit3 Group", "Lit3 Type", "Lit3 %",
-            "Clastic Base Size", "Clastic Base Phi", "Clastic Top Size", "Clastic Top Phi",
-            "Carbonate Base Size", "Carbonate Base Phi", "Carbonate Top Size", "Carbonate Top Phi",
-            "Bioturbation Type", "Bioturbation Intensity", "Structures", "Symbols",
+            "THICKNESS (CM)", "BASE BOUNDARY",
+            "LITHOLOGY", "LITHOLOGY %",
+            "LITHOLOGY2", "LITHOLOGY2 %",
+            "LITHOLOGY3", "LITHOLOGY3 %",
+            "GRAIN SIZE BASE", "PHI VALUES BASE",
+            "GRAIN SIZE TOP", "PHI VALUES TOP",
+            "SYMBOLS IN BED", "SYMBOLS/STRUCTURES",
+            "NOTES COLUMN", "BIOTURBATION TYPE", "INTENSITY",
+            "PALAEOCURRENT VALUES", "FACIES",
+            "OTHER1 TEXT", "OTHER1 SYMBOL",
+            "OTHER2 TEXT", "OTHER2 SYMBOL",
+            "OTHER3 TEXT", "OTHER3 SYMBOL",
+            # Gneisswork extras
+            "Position", "Name", "Top", "Bottom",
+            "Lit1 Group", "Lit2 Group", "Lit3 Group",
+            "Clastic Base Size", "Clastic Base Phi",
+            "Clastic Top Size", "Clastic Top Phi",
+            "Carbonate Base Size", "Carbonate Base Phi",
+            "Carbonate Top Size", "Carbonate Top Phi",
         ])
+        v = _sedlog_val
         for bed in beds:
+            size_base, phi_base, size_top, phi_top = _sedlog_grain_size(bed)
             writer.writerow([
-                bed.position, bed.name, bed.thickness, bed.top, bed.bottom, bed.facies, bed.notes,
-                bed.boundary, bed.paleocurrent,
-                bed.lit1_group, bed.lit1_type, bed.lit1_percentage,
-                bed.lit2_group, bed.lit2_type, bed.lit2_percentage,
-                bed.lit3_group, bed.lit3_type, bed.lit3_percentage,
+                v(bed.thickness), v(bed.boundary),
+                v(bed.lit1_type), v(bed.lit1_percentage),
+                v(bed.lit2_type), v(bed.lit2_percentage),
+                v(bed.lit3_type), v(bed.lit3_percentage),
+                v(size_base), v(phi_base),
+                v(size_top), v(phi_top),
+                v(bed.bed_symbols), v(bed.structures),
+                v(bed.notes), v(bed.bioturbation_type),
+                v(bed.bioturbation_intensity),
+                v(bed.paleocurrent), v(bed.facies),
+                "", "", "", "", "", "",
+                # Gneisswork extras
+                bed.position, bed.name, bed.top, bed.bottom,
+                bed.lit1_group, bed.lit2_group, bed.lit3_group,
                 bed.size_clastic_base, bed.phi_clastic_base,
                 bed.size_clastic_top, bed.phi_clastic_top,
                 bed.size_carbo_base, bed.phi_carbo_base,
                 bed.size_carbo_top, bed.phi_carbo_top,
-                bed.bioturbation_type, bed.bioturbation_intensity,
-                bed.structures, bed.bed_symbols,
             ])
         filename = f"{profile.name.replace(' ', '_')}_export.csv"
         return Response(

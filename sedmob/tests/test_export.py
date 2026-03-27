@@ -22,11 +22,15 @@ def test_csv_export(client, db):
 
     reader = csv.reader(io.StringIO(resp.data.decode()))
     rows = list(reader)
-    assert rows[0][0] == "Position"  # header
+    assert rows[0][0] == "THICKNESS (CM)"  # SedLog-compatible header
     assert len(rows) == 3  # header + 2 beds
-    assert rows[1][1] == "Bed1"
-    assert rows[1][2] == "50"
-    assert rows[2][1] == "Bed2"
+    # SedLog columns
+    assert rows[1][0] == "50"       # THICKNESS (CM)
+    assert rows[1][2] == "Sandstone"  # LITHOLOGY
+    assert rows[1][1] == "Sharp"    # BASE BOUNDARY
+    # Gneisswork extras (after column 25)
+    assert rows[1][26] == "Bed1"    # Name
+    assert rows[2][26] == "Bed2"    # Name
 
 
 def test_csv_export_empty_profile(client, db):
