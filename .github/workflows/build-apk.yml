@@ -49,6 +49,7 @@ jobs:
           automake \
           libtool \
           libtool-bin \
+          libltdl-dev \
           pkg-config \
           cmake \
           ninja-build \
@@ -83,8 +84,7 @@ jobs:
     
     - name: Build APK with Buildozer
       run: |
-        yes | buildozer android debug || true
-        buildozer android debug
+        yes | buildozer android debug 2>&1
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
