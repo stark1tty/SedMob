@@ -72,11 +72,11 @@ def something(profile_id):
 2. Extend `base.html`:
 
 ```html
-{% extends "base.html" %}
+{% raw %}{% extends "base.html" %}
 {% block title_extra %} – Page Title{% endblock %}
 {% block content %}
 <!-- your content here -->
-{% endblock %}
+{% endblock %}{% endraw %}
 ```
 
 ## Adding API Endpoints
