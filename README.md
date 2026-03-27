@@ -83,13 +83,27 @@ curl http://localhost:5000/api/profiles
 
 ## Roadmap
 
+### Missing from original app (conversion gaps)
+
+- [ ] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
+- [ ] Profile photo upload — Upload/display a photo per profile (original: camera capture)
+- [ ] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
+- [ ] Reference data rename/edit — Rename lithologies, structures, and their groups (original: `butsavesymbol`)
+- [ ] Reference data group delete — Delete lithology/structure groups with cascade (original: `butdelsymbol` for groups)
+- [ ] Grain size phi value storage — Store phi values alongside grain size names in bed form (original: stored both)
+- [ ] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% (original: `pagebed.js`)
+- [ ] Database backup & restore — Export/import full database as downloadable file (original: SQL dump to file)
+- [ ] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
+- [ ] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
+- [ ] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
+
+### Future enhancements
+
 - [ ] Dark mode / UI improvements
 - [ ] Default menu options for standard sedimentological recording (including Tröels-Smith 1955)
 - [ ] Colour recording menu
 - [ ] Core metadata fields (client, project, etc.)
-- [ ] Gallery / photo attachments
 - [ ] Additional export options (Dropbox, email, RockWorks)
-- [ ] Server synchronization
 - [ ] SedLog-style graphical previews
 - [ ] New sheet types: day sheets, trench pits, test pits, misc notes
 
