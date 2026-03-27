@@ -131,7 +131,7 @@ Individual structure types within a group.
 
 ### GrainClastic
 
-Clastic grain size scale with phi values.
+Clastic grain size scale with phi values. Each bed stores a base and top grain size to represent grading within the bed. Note: the model does not handle multiple fining-upward or coarsening-upward sequences within a single bed (see [Wolniewicz, 2014](https://doi.org/10.1016/j.cageo.2014.02.004), Table 1).
 
 | Column | Type    | Constraints | Description                   |
 | ------ | ------- | ----------- | ----------------------------- |

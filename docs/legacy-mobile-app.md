@@ -84,9 +84,10 @@ The legacy app had several features that haven't been ported to the Flask rewrit
 | Bed photos table           | Yes        | No        | `bedphotos` table with descriptions      |
 | Database backup/restore    | Yes        | No        | Exported SQL to device file system       |
 | MySQL synchronization      | Yes        | No        | Synced to remote MySQL via PHP endpoint  |
-| Theme switching            | Yes        | No        | High contrast mode toggle                |
+| Theme switching            | Yes        | No        | High contrast mode toggle for field use  |
 | Geolocation auto-capture   | Yes        | No        | Used Cordova geolocation API             |
 | Lithology % auto-balance   | Yes        | No        | JS enforced 3 lithologies summing to 100 |
+| Ref data import/export     | Yes        | No        | Export/import custom lithologies and structures between installations |
 
 ## Database Schema Comparison
 

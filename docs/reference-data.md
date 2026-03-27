@@ -5,7 +5,7 @@ title: Reference Data
 
 # Reference Data
 
-Gneisswork ships with pre-seeded geological classification data that populates dropdown menus throughout the application. This data is inserted on first run if the reference tables are empty.
+Gneisswork ships with pre-seeded geological classification data that populates dropdown menus throughout the application. This data is inserted on first run if the reference tables are empty. The default reference data is fully compatible with the standard symbol libraries used in [SedLog](https://sedlog.rhul.ac.uk/) (Zervas et al., 2009), ensuring that CSV exports can be visualized directly without custom symbol setup.
 
 Source: `sedmob/seed.py`
 
@@ -208,5 +208,7 @@ Validation rules:
 - Names must contain only letters, digits, and spaces
 - Duplicate names within the same table are rejected
 - Deleting a lithology or structure does not affect existing bed records (beds store values by name, not by foreign key)
+
+SedLog interoperability: Custom lithologies and structures added in Gneisswork must use the same names as their counterparts in SedLog for CSV exports to render correctly. SedLog also requires corresponding image files for custom symbols to generate graphic logs (see [Wolniewicz, 2014](https://doi.org/10.1016/j.cageo.2014.02.004)).
 
 Note: Grain sizes, bioturbation types, and boundaries are currently only editable via the database directly or by modifying `seed.py` before first run.
