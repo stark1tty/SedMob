@@ -1,6 +1,6 @@
 <img src="media/banner/core.jpg" alt="Gneisswork Banner" width="500"/>
 
-# Gneisswork
+# <img src="media/icon/sedlog.png" alt="Gneisswork icon" width="32" height="32" style="background:white;border-radius:6px;padding:2px;vertical-align:middle;"> Gneisswork
 
 [![GitHub Pages](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment)
 [![Build Android APK](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml)
