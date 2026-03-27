@@ -63,4 +63,10 @@ coverage.xml
 
 # Archives / misc
 *.bak
-*.tmp.vscode/
+*.tmp
+
+# Buildozer / Android
+.buildozer/
+bin/
+*.apk
+*.aab

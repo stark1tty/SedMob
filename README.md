@@ -3,6 +3,7 @@
 # SedMob
 
 [![GitHub Pages](https://github.com/stark1tty/SedMob/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stark1tty/SedMob/actions/workflows/pages/pages-build-deployment)
+[![Build Android APK](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml/badge.svg)](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml)
 
 A free and open-source web application for field geological and sedimentological core logging.
 
@@ -20,7 +21,23 @@ SedMob lets geologists create sedimentary logs in the field using any device wit
 
 ## Getting Started
 
-### Requirements
+### Android APK (Mobile Field Use)
+
+Download the latest APK from the [Releases page](https://github.com/stark1tty/SedMob/releases) or build artifacts from the [Actions tab](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml).
+
+**Installation:**
+1. Download `sedmob-*.apk` to your Android device
+2. Enable "Install from Unknown Sources" in Android settings
+3. Install the APK
+4. Launch SedMob - the app runs completely offline!
+
+The APK is a standalone app (~50-80 MB) with Python, Flask, and SQLite bundled. Perfect for field logging without internet.
+
+📖 See [docs/ANDROID_BUILD.md](docs/ANDROID_BUILD.md) for building from source.
+
+### Web App (Desktop/Server)
+
+#### Requirements
 
 - Python 3.10+
 - pip
