@@ -70,3 +70,8 @@ coverage.xml
 bin/
 *.apk
 *.aab
+*.so
+*.a
+local.properties
+p4a/
+pythonforandroid/
