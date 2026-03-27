@@ -64,4 +64,4 @@ coverage.xml
 
 # Archives / misc
 *.bak
-*.tmp
+*.tmp.vscode/
