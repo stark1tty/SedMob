@@ -3,6 +3,8 @@
 .pwlw-sedmob/
 .kiro/
 .claude/
+.github/*
+!.github/workflows/
 .vscode/
 .idea/
 *.iml
