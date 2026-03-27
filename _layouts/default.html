@@ -260,7 +260,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
           <!-- Main navigation -->
           <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
-          <li><a href="{{ '/docs/' | relative_url }}" {% if page.url contains '/docs/' and page.url != '/docs/README.html' %}class="active"{% endif %}>Documentation</a></li>
+          <li><a href="{{ '/docs/' | relative_url }}" {% if page.url contains '/docs/' %}class="active"{% endif %}>Documentation</a></li>
           
           {% if page.url contains '/docs/' %}
           <!-- Documentation pages section -->
