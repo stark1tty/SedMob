@@ -17,6 +17,7 @@
 *.sublime-project
 *.sublime-workspace
 .history/
+.hypothesis/*
 
 # Python
 **/__pycache__/
