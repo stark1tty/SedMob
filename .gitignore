@@ -1,0 +1,65 @@
+# IDE / editor
+.dev/*
+.pwlw-sedmob/*
+.kiro/*
+.claude/*
+.vscode/*
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+.history/
+
+# Python
+**/__pycache__/
+*.py[cod]
+*.pyo
+**/*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# pytest
+**/.pytest_cache/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Flask
+instance/
+
+# Logs
+*.log
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Environment variables
+.env
+.env.local
+.env.production
+!.env.example
+
+# OS files
+**/.DS_Store
+**/Thumbs.db
+
+# Archives / misc
+*.bak
+*.tmp

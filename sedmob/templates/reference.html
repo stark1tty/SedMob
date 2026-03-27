@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title_extra %} – Reference Data{% endblock %}
+{% block content %}
+<h1>Reference Data</h1>
+
+<div class="card">
+    <h2>Lithology Groups &amp; Types</h2>
+    <form method="post" action="/reference/lithology/add" style="margin-bottom:1rem">
+        <label for="lith_name">New lithology name</label>
+        <input id="lith_name" name="name" required>
+        <label for="lith_type_id">Add to group (leave blank to create a new group)</label>
+        <select id="lith_type_id" name="type_id">
+            <option value="">-- New group --</option>
+            {% for lt in lithology_types %}
+            <option value="{{ lt.id }}">{{ lt.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    {% for lt in lithology_types %}
+    <h3>{{ lt.name }}</h3>
+    <table>
+        {% for l in lt.lithologies %}
+        <tr>
+            <td>{{ l.name }}</td>
+            <td>
+                <form method="post" action="/reference/lithology/{{ l.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+</div>
+
+<div class="card">
+    <h2>Structure Groups &amp; Types</h2>
+    <form method="post" action="/reference/structure/add" style="margin-bottom:1rem">
+        <label for="struct_name">New structure name</label>
+        <input id="struct_name" name="name" required>
+        <label for="struct_type_id">Add to group (leave blank to create a new group)</label>
+        <select id="struct_type_id" name="type_id">
+            <option value="">-- New group --</option>
+            {% for st in structure_types %}
+            <option value="{{ st.id }}">{{ st.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    {% for st in structure_types %}
+    <h3>{{ st.name }}</h3>
+    <table>
+        {% for s in st.structures %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>
+                <form method="post" action="/reference/structure/{{ s.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+</div>
+{% endblock %}

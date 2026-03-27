@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title_extra %} – {{ "Edit" if bed else "New" }} Bed{% endblock %}
+{% block content %}
+<h1>{{ "Edit" if bed else "New" }} Bed – {{ profile.name }}</h1>
+<div class="card">
+    <form method="post">
+        <label for="name">Bed Name</label>
+        <input id="name" name="name" value="{{ bed.name if bed else '' }}">
+
+        <label for="thickness">Thickness (cm) *</label>
+        <input id="thickness" name="thickness" value="{{ bed.thickness if bed else '' }}" required>
+
+        <label for="facies">Facies</label>
+        <input id="facies" name="facies" value="{{ bed.facies if bed else '' }}">
+
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="2">{{ bed.notes if bed else '' }}</textarea>
+
+        <label for="paleocurrent">Paleocurrent</label>
+        <input id="paleocurrent" name="paleocurrent" value="{{ bed.paleocurrent if bed else '' }}">
+
+        <label for="boundary">Base Boundary</label>
+        <select id="boundary" name="boundary">
+            <option value="">--</option>
+            {% for b in ref.boundaries %}
+            <option value="{{ b.name }}" {{ 'selected' if bed and bed.boundary == b.name }}>{{ b.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3 style="margin-top:1.5rem">Lithology 1</h3>
+        <label for="lit1_group">Group</label>
+        <select id="lit1_group" name="lit1_group">
+            <option value="">--</option>
+            {% for lt in ref.lithology_types %}
+            <option value="{{ lt.name }}" {{ 'selected' if bed and bed.lit1_group == lt.name }}>{{ lt.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit1_type">Type</label>
+        <select id="lit1_type" name="lit1_type">
+            <option value="">--</option>
+            {% for l in ref.lithologies %}
+            <option value="{{ l.name }}" {{ 'selected' if bed and bed.lit1_type == l.name }}>{{ l.type.name }} &gt; {{ l.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit1_percentage">Percentage</label>
+        <input id="lit1_percentage" name="lit1_percentage" type="number" min="0" max="100"
+               value="{{ bed.lit1_percentage if bed else '100' }}">
+
+        <h3>Lithology 2</h3>
+        <label for="lit2_group">Group</label>
+        <select id="lit2_group" name="lit2_group">
+            <option value="">--</option>
+            {% for lt in ref.lithology_types %}
+            <option value="{{ lt.name }}" {{ 'selected' if bed and bed.lit2_group == lt.name }}>{{ lt.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit2_type">Type</label>
+        <select id="lit2_type" name="lit2_type">
+            <option value="">--</option>
+            {% for l in ref.lithologies %}
+            <option value="{{ l.name }}" {{ 'selected' if bed and bed.lit2_type == l.name }}>{{ l.type.name }} &gt; {{ l.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit2_percentage">Percentage</label>
+        <input id="lit2_percentage" name="lit2_percentage" type="number" min="0" max="100"
+               value="{{ bed.lit2_percentage if bed else '0' }}">
+
+        <h3>Lithology 3</h3>
+        <label for="lit3_group">Group</label>
+        <select id="lit3_group" name="lit3_group">
+            <option value="">--</option>
+            {% for lt in ref.lithology_types %}
+            <option value="{{ lt.name }}" {{ 'selected' if bed and bed.lit3_group == lt.name }}>{{ lt.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit3_type">Type</label>
+        <select id="lit3_type" name="lit3_type">
+            <option value="">--</option>
+            {% for l in ref.lithologies %}
+            <option value="{{ l.name }}" {{ 'selected' if bed and bed.lit3_type == l.name }}>{{ l.type.name }} &gt; {{ l.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="lit3_percentage">Percentage</label>
+        <input id="lit3_percentage" name="lit3_percentage" type="number" min="0" max="100"
+               value="{{ bed.lit3_percentage if bed else '0' }}">
+
+        <h3 style="margin-top:1.5rem">Grain Size – Clastic</h3>
+        <label for="size_clastic_base">Base</label>
+        <select id="size_clastic_base" name="size_clastic_base">
+            <option value="">--</option>
+            {% for g in ref.grain_clastic %}
+            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_clastic_base == g.name }}>{{ g.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="size_clastic_top">Top</label>
+        <select id="size_clastic_top" name="size_clastic_top">
+            <option value="">--</option>
+            {% for g in ref.grain_clastic %}
+            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_clastic_top == g.name }}>{{ g.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3>Grain Size – Carbonate</h3>
+        <label for="size_carbo_base">Base</label>
+        <select id="size_carbo_base" name="size_carbo_base">
+            <option value="">--</option>
+            {% for g in ref.grain_carbonate %}
+            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_carbo_base == g.name }}>{{ g.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="size_carbo_top">Top</label>
+        <select id="size_carbo_top" name="size_carbo_top">
+            <option value="">--</option>
+            {% for g in ref.grain_carbonate %}
+            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_carbo_top == g.name }}>{{ g.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h3 style="margin-top:1.5rem">Bioturbation</h3>
+        <label for="bioturbation_type">Type</label>
+        <select id="bioturbation_type" name="bioturbation_type">
+            <option value="">--</option>
+            {% for bt in ref.bioturbation %}
+            <option value="{{ bt.name }}" {{ 'selected' if bed and bed.bioturbation_type == bt.name }}>{{ bt.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="bioturbation_intensity">Intensity</label>
+        <input id="bioturbation_intensity" name="bioturbation_intensity"
+               value="{{ bed.bioturbation_intensity if bed else '' }}">
+
+        <h3 style="margin-top:1.5rem">Structures &amp; Symbols</h3>
+        <label for="structures">Structures</label>
+        <input id="structures" name="structures" value="{{ bed.structures if bed else '' }}">
+        <label for="bed_symbols">Symbols</label>
+        <input id="bed_symbols" name="bed_symbols" value="{{ bed.bed_symbols if bed else '' }}">
+
+        <div style="margin-top:1.5rem">
+            <button type="submit" class="btn btn-primary">Save Bed</button>
+            <a href="/profile/{{ profile.id }}" class="btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% if bed %}
+<div class="card">
+    <form method="post" action="/profile/{{ profile.id }}/bed/{{ bed.id }}/delete"
+          onsubmit="return confirm('Delete this bed?')">
+        <button type="submit" class="btn btn-danger">Delete Bed</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

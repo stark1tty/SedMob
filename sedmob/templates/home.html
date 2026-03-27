@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Log List</h1>
+<a href="/profile/new" class="btn btn-primary">Create new log</a>
+<div class="card" style="margin-top:1rem">
+    <h2>Open existing log</h2>
+    {% if profiles %}
+    <table>
+        <tr><th>Name</th><th>Description</th><th>Actions</th></tr>
+        {% for p in profiles %}
+        <tr>
+            <td><a href="/profile/{{ p.id }}">{{ p.name }}</a></td>
+            <td>{{ p.description }}</td>
+            <td><a href="/profile/{{ p.id }}/export" class="btn btn-success">CSV</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No logs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

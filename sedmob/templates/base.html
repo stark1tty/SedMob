@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SedMob{% block title_extra %}{% endblock %}</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 1rem; background: #f5f5f5; }
+        nav { background: #2c3e50; padding: .75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+        nav a { color: #ecf0f1; text-decoration: none; margin-right: 1rem; }
+        .flash { background: #d4edda; border: 1px solid #c3e6cb; padding: .5rem 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .btn { display: inline-block; padding: .5rem 1rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: .9rem; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        input, select, textarea { padding: .4rem; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box; }
+        label { display: block; margin-top: .75rem; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+        th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid #ddd; }
+        .card { background: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/reference">Reference Data</a>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+    {% for msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>
