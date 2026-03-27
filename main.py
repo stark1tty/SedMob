@@ -13,7 +13,7 @@ from jnius import autoclass
 from sedmob.app import create_app
 
 
-class SedMobApp(App):
+class GneissworkApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.flask_thread = None
@@ -28,13 +28,13 @@ class SedMobApp(App):
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
         status_label = Label(
-            text=f'SedMob Server Running\n{self.server_url}',
+            text=f'Gneisswork Server Running\n{self.server_url}',
             size_hint=(1, 0.2)
         )
         
         # Button to open in default browser
         open_button = Button(
-            text='Open SedMob',
+            text='Open Gneisswork',
             size_hint=(1, 0.2),
             on_press=self.open_browser
         )
@@ -72,4 +72,4 @@ class SedMobApp(App):
 
 
 if __name__ == '__main__':
-    SedMobApp().run()
+    GneissworkApp().run()

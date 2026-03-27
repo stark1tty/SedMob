@@ -14,8 +14,8 @@ title: Getting Started
 
 ```bash
 # Clone the repository
-git clone https://github.com/stark1tty/SedMob.git
-cd SedMob
+git clone https://github.com/stark1tty/Gneisswork.git
+cd Gneisswork
 
 # Create and activate a virtual environment
 python -m venv .venv
@@ -60,9 +60,9 @@ if __name__ == "__main__":
 
 ## First Run Behavior
 
-On first launch, SedMob automatically:
+On first launch, Gneisswork automatically:
 
-1. Creates the SQLite database file at `instance/sedmob.db`
+1. Creates the SQLite database file at `instance/gneisswork.db`
 2. Runs all table migrations via `db.create_all()`
 3. Seeds reference tables with standard geological classification data (lithologies, structures, grain sizes, bioturbation types, boundaries)
 
@@ -74,7 +74,7 @@ The app factory (`create_app`) sets these defaults:
 
 | Setting                          | Default Value         | Description                    |
 | -------------------------------- | --------------------- | ------------------------------ |
-| `SQLALCHEMY_DATABASE_URI`        | `sqlite:///sedmob.db` | SQLite database path           |
+| `SQLALCHEMY_DATABASE_URI`        | `sqlite:///gneisswork.db` | SQLite database path           |
 | `SQLALCHEMY_TRACK_MODIFICATIONS` | `False`               | Disables modification tracking |
 | `SECRET_KEY`                     | `dev-secret-key`      | Flask session signing key      |
 

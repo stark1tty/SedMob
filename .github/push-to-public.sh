@@ -1,5 +1,5 @@
 #!/bin/bash
-# Push to public repo (stark1tty/SedMob) respecting .gitignore
+# Push to public repo (stark1tty/Gneisswork) respecting .gitignore
 # Use this instead of pushing directly to origin
 
 set -e

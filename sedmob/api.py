@@ -1,4 +1,4 @@
-"""REST-ish JSON API blueprint for SedMob data."""
+"""REST-ish JSON API blueprint for Gneisswork data."""
 from flask import Blueprint, jsonify, abort
 from sedmob.models import db, Profile, Bed
 

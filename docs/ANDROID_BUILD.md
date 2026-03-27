@@ -1,6 +1,6 @@
-# Building SedMob as an Android APK
+# Building Gneisswork as an Android APK
 
-SedMob can be packaged as a standalone Android APK using [Buildozer](https://buildozer.readthedocs.io/) and [Python for Android](https://python-for-android.readthedocs.io/).
+Gneisswork can be packaged as a standalone Android APK using [Buildozer](https://buildozer.readthedocs.io/) and [Python for Android](https://python-for-android.readthedocs.io/).
 
 ## How It Works
 
@@ -8,7 +8,7 @@ The APK bundles:
 - Python 3 runtime
 - Flask web server
 - Kivy UI framework
-- All SedMob dependencies
+- All Gneisswork dependencies
 - SQLite database
 
 When launched, the app:
@@ -63,7 +63,7 @@ buildozer android release
 buildozer android clean
 ```
 
-Output APK location: `bin/sedmob-*.apk`
+Output APK location: `bin/gneisswork-*.apk`
 
 ## Configuration
 
@@ -78,7 +78,7 @@ All build settings are in `buildozer.spec`:
 
 ### From GitHub Actions
 1. Go to Actions → Build Android APK workflow
-2. Download the `sedmob-debug-apk` artifact
+2. Download the `gneisswork-debug-apk` artifact
 3. Extract the `.apk` file
 4. Transfer to Android device
 5. Enable "Install from Unknown Sources" in Android settings

@@ -48,6 +48,7 @@ jobs:
           autoconf \
           automake \
           libtool \
+          libtool-bin \
           pkg-config \
           cmake \
           ninja-build \
@@ -88,7 +89,7 @@ jobs:
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: sedmob-debug-apk
+        name: gneisswork-debug-apk
         path: bin/*.apk
         retention-days: 30
     

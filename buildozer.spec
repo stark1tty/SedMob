@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = SedMob
+title = Gneisswork
 
 # (str) Package name
-package.name = sedmob
+package.name = gneisswork
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.sedmob
+package.domain = org.gneisswork
 
 # (str) Source code where the main.py live
 source.dir = .

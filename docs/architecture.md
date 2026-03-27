@@ -18,7 +18,7 @@ title: Architecture
 ## Project Structure
 
 ```
-SedMob/
+Gneisswork/
 ├── run.py                  # Application entry point
 ├── sedmob/
 │   ├── __init__.py         # Package marker
@@ -40,7 +40,7 @@ SedMob/
 
 ## Application Factory Pattern
 
-SedMob uses Flask's application factory pattern via `create_app()` in `sedmob/app.py`. This function:
+Gneisswork uses Flask's application factory pattern via `create_app()` in `sedmob/app.py`. This function:
 
 1. Creates the Flask app instance with configuration
 2. Initializes the SQLAlchemy database extension
@@ -110,4 +110,4 @@ The `_ref_data()` helper function queries all reference tables at once and passe
 
 ## Database
 
-SQLite is used as the database engine. The database file is created automatically at Flask's `instance/sedmob.db` on first run. No migrations framework is used — `db.create_all()` handles schema creation.
+SQLite is used as the database engine. The database file is created automatically at Flask's `instance/gneisswork.db` on first run. No migrations framework is used — `db.create_all()` handles schema creation.

@@ -3,9 +3,9 @@ layout: default
 title: Documentation Home
 ---
 
-# SedMob Documentation
+# Gneisswork Documentation
 
-Welcome to the SedMob documentation! Choose a topic from the navigation below.
+Welcome to the Gneisswork documentation! Choose a topic from the navigation below.
 
 ## Quick Links
 
@@ -21,7 +21,7 @@ Welcome to the SedMob documentation! Choose a topic from the navigation below.
 
 ## Overview
 
-SedMob is a free and open-source web application for field geological and sedimentological core logging. It's designed to help geologists create detailed sedimentary logs in the field using any device with a browser.
+Gneisswork is a free and open-source web application for field geological and sedimentological core logging. It's designed to help geologists create detailed sedimentary logs in the field using any device with a browser.
 
 ### Key Features
 
@@ -41,5 +41,5 @@ SedMob is a free and open-source web application for field geological and sedime
 
 ## Getting Help
 
-- **Issues**: Report bugs on [GitHub Issues](https://github.com/stark1tty/SedMob/issues)
-- **Main Repository**: [github.com/stark1tty/SedMob](https://github.com/stark1tty/SedMob)
+- **Issues**: Report bugs on [GitHub Issues](https://github.com/stark1tty/Gneisswork/issues)
+- **Main Repository**: [github.com/stark1tty/Gneisswork](https://github.com/stark1tty/Gneisswork)

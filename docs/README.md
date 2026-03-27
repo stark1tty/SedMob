@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Documentation
-redirect_to: /SedMob/docs/
+redirect_to: /Gneisswork/docs/
 ---
 
-# SedMob Documentation
+# Gneisswork Documentation
 
-Welcome to the SedMob documentation. These docs cover the architecture, data models, API, user interface, and development setup for the SedMob sedimentary logging web application.
+Welcome to the Gneisswork documentation. These docs cover the architecture, data models, API, user interface, and development setup for the Gneisswork sedimentary logging web application.
 
 ## Table of Contents
 

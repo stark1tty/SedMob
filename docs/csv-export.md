@@ -5,7 +5,7 @@ title: CSV Export
 
 # CSV Export
 
-SedMob can export any profile to CSV format, designed for compatibility with [SedLog](https://sedlog.rhul.ac.uk/) desktop software for graphical log visualization.
+Gneisswork can export any profile to CSV format, designed for compatibility with [SedLog](https://sedlog.rhul.ac.uk/) desktop software for graphical log visualization.
 
 ## Export URL
 

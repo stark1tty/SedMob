@@ -5,7 +5,7 @@ title: Web UI Guide
 
 # Web UI Guide
 
-SedMob's web interface is built with Jinja2 templates and inline CSS. All pages share a common layout defined in `base.html`.
+Gneisswork's web interface is built with Jinja2 templates and inline CSS. All pages share a common layout defined in `base.html`.
 
 ## Navigation
 

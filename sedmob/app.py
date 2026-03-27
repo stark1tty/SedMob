@@ -1,4 +1,4 @@
-"""SedMob – Sedimentary logging web application."""
+"""Gneisswork – Sedimentary logging web application."""
 import csv
 import io
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
@@ -11,7 +11,7 @@ from sedmob.seed import seed_database
 
 def create_app(config=None):
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sedmob.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///gneisswork.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = "dev-secret-key"
     if config:

@@ -1,13 +1,13 @@
-<img src="media/banner/core.jpg" alt="SedMob Banner" width="500"/>
+<img src="media/banner/core.jpg" alt="Gneisswork Banner" width="500"/>
 
-# SedMob
+# Gneisswork
 
-[![GitHub Pages](https://github.com/stark1tty/SedMob/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stark1tty/SedMob/actions/workflows/pages/pages-build-deployment)
-[![Build Android APK](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml/badge.svg)](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml)
+[![GitHub Pages](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment)
+[![Build Android APK](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml)
 
 A free and open-source web application for field geological and sedimentological core logging.
 
-SedMob lets geologists create sedimentary logs in the field using any device with a browser. Create unlimited logs, record detailed bed-by-bed data, and export to CSV compatible with [SedLog](https://sedlog.rhul.ac.uk/) for desktop visualization.
+Gneisswork lets geologists create sedimentary logs in the field using any device with a browser. Create unlimited logs, record detailed bed-by-bed data, and export to CSV compatible with [SedLog](https://sedlog.rhul.ac.uk/) for desktop visualization.
 
 ## Features
 
@@ -23,13 +23,13 @@ SedMob lets geologists create sedimentary logs in the field using any device wit
 
 ### Android APK (Mobile Field Use)
 
-Download the latest APK from the [Releases page](https://github.com/stark1tty/SedMob/releases) or build artifacts from the [Actions tab](https://github.com/stark1tty/SedMob/actions/workflows/build-apk.yml).
+Download the latest APK from the [Releases page](https://github.com/stark1tty/Gneisswork/releases) or build artifacts from the [Actions tab](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml).
 
 **Installation:**
-1. Download `sedmob-*.apk` to your Android device
+1. Download `gneisswork-*.apk` to your Android device
 2. Enable "Install from Unknown Sources" in Android settings
 3. Install the APK
-4. Launch SedMob - the app runs completely offline!
+4. Launch Gneisswork - the app runs completely offline!
 
 The APK is a standalone app (~50-80 MB) with Python, Flask, and SQLite bundled. Perfect for field logging without internet.
 
@@ -46,8 +46,8 @@ The APK is a standalone app (~50-80 MB) with Python, Flask, and SQLite bundled. 
 
 ```bash
 # Clone the repository
-git clone https://github.com/stark1tty/SedMob.git
-cd SedMob
+git clone https://github.com/stark1tty/Gneisswork.git
+cd Gneisswork
 
 # Create a virtual environment
 python -m venv .venv
@@ -85,7 +85,7 @@ pytest
 
 ## JSON API
 
-SedMob includes a read-only REST API at `/api` for programmatic access to your data.
+Gneisswork includes a read-only REST API at `/api` for programmatic access to your data.
 
 | Endpoint                               | Description                     |
 | -------------------------------------- | ------------------------------- |
@@ -132,7 +132,7 @@ curl http://localhost:5000/api/profiles
 
 ## Background
 
-SedMob was originally developed as a Cordova-based mobile app by [Pawel Wolniewicz](https://github.com/pwlw/SedMob). This version is a rewrite as a Python/Flask web application, designed to run on any device with a browser.
+Gneisswork was originally developed as a Cordova-based mobile app by [Pawel Wolniewicz](https://github.com/pwlw/SedMob). This version is a rewrite as a Python/Flask web application, designed to run on any device with a browser.
 
 ## References
 
@@ -140,21 +140,21 @@ Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary log
 
 Zervas, D., Nichols, G.J., Hall, R., Smyth, H.R., Lüthje, C., & Murtagh, F. (2009). SedLog: A shareware program for drawing graphic logs and log data manipulation. *Computers & Geosciences*, 35(10), 2151-2159. [https://sedlog.rhul.ac.uk/](https://sedlog.rhul.ac.uk/)
 
-## Citing SedMob
+## Citing Gneisswork
 
-If you use SedMob in your research or publications, please cite the appropriate version:
+If you use Gneisswork in your research or publications, please cite the appropriate version:
 
 ```bibtex
 % This web application version
-@software{sedmob_web_2024,
+@software{gneisswork_web_2024,
   author = {stark1tty},
-  title = {SedMob: Web Application for Field Geological Core Logging},
+  title = {Gneisswork: Web Application for Field Geological Core Logging},
   year = {2024},
-  url = {https://github.com/stark1tty/SedMob},
+  url = {https://github.com/stark1tty/Gneisswork},
   note = {Python/Flask web application}
 }
 
-% Original mobile application
+% Original mobile application (SedMob)
 @software{sedmob_mobile_2014,
   author = {Wolniewicz, Pawel},
   title = {SedMob: Mobile Application for Sedimentary Logging},
@@ -175,7 +175,7 @@ If you use SedMob in your research or publications, please cite the appropriate 
   url = {https://doi.org/10.1016/j.cageo.2014.02.004}
 }
 
-% SedLog desktop application (SedMob exports are compatible)
+% SedLog desktop application (Gneisswork exports are compatible)
 @article{zervas2009sedlog,
   author = {Zervas, D. and Nichols, G. J. and Hall, R. and Smyth, H. R. and L{\"u}thje, C. and Murtagh, F.},
   title = {SedLog: A shareware program for drawing graphic logs and log data manipulation},

@@ -8,8 +8,8 @@ title: Contributing
 ## Development Setup
 
 ```bash
-git clone https://github.com/stark1tty/SedMob.git
-cd SedMob
+git clone https://github.com/stark1tty/Gneisswork.git
+cd Gneisswork
 
 python -m venv .venv
 source .venv/bin/activate
