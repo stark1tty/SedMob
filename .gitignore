@@ -5,7 +5,7 @@
 .pwlw-sedmob/*
 .kiro/*
 .claude/*
-.github/*
+.github/sync-backup.sh
 .vscode/*
 .idea/
 *.iml
