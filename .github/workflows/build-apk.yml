@@ -15,10 +15,10 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: '3.10'
     
@@ -63,7 +63,7 @@ jobs:
     - name: Install Buildozer and Cython
       run: |
         pip install --upgrade pip
-        pip install buildozer cython==0.29.36
+        pip install buildozer cython==3.0.11
     
     - name: Cache Buildozer global directory
       uses: actions/cache@v4
@@ -95,7 +95,7 @@ jobs:
     
     - name: Create Release (on tag)
       if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: bin/*.apk
         draft: false

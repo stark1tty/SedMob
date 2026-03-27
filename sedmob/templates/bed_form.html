@@ -91,36 +91,44 @@
                value="{{ bed.lit3_percentage if bed else '0' }}">
 
         <h3 style="margin-top:1.5rem">Grain Size – Clastic</h3>
-        <label for="size_clastic_base">Base</label>
-        <select id="size_clastic_base" name="size_clastic_base">
+        <label for="phi_clastic_base">Base</label>
+        <select id="phi_clastic_base" name="phi_clastic_base" data-name-field="size_clastic_base">
             <option value="">--</option>
             {% for g in ref.grain_clastic %}
-            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_clastic_base == g.name }}>{{ g.name }}</option>
+            <option value="{{ g.phi }}" {{ 'selected' if bed and bed.phi_clastic_base == g.phi }}>{{ g.name }}</option>
             {% endfor %}
         </select>
-        <label for="size_clastic_top">Top</label>
-        <select id="size_clastic_top" name="size_clastic_top">
+        <input type="hidden" id="size_clastic_base" name="size_clastic_base"
+               value="{{ bed.size_clastic_base if bed else '' }}">
+        <label for="phi_clastic_top">Top</label>
+        <select id="phi_clastic_top" name="phi_clastic_top" data-name-field="size_clastic_top">
             <option value="">--</option>
             {% for g in ref.grain_clastic %}
-            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_clastic_top == g.name }}>{{ g.name }}</option>
+            <option value="{{ g.phi }}" {{ 'selected' if bed and bed.phi_clastic_top == g.phi }}>{{ g.name }}</option>
             {% endfor %}
         </select>
+        <input type="hidden" id="size_clastic_top" name="size_clastic_top"
+               value="{{ bed.size_clastic_top if bed else '' }}">
 
         <h3>Grain Size – Carbonate</h3>
-        <label for="size_carbo_base">Base</label>
-        <select id="size_carbo_base" name="size_carbo_base">
+        <label for="phi_carbo_base">Base</label>
+        <select id="phi_carbo_base" name="phi_carbo_base" data-name-field="size_carbo_base">
             <option value="">--</option>
             {% for g in ref.grain_carbonate %}
-            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_carbo_base == g.name }}>{{ g.name }}</option>
+            <option value="{{ g.phi }}" {{ 'selected' if bed and bed.phi_carbo_base == g.phi }}>{{ g.name }}</option>
             {% endfor %}
         </select>
-        <label for="size_carbo_top">Top</label>
-        <select id="size_carbo_top" name="size_carbo_top">
+        <input type="hidden" id="size_carbo_base" name="size_carbo_base"
+               value="{{ bed.size_carbo_base if bed else '' }}">
+        <label for="phi_carbo_top">Top</label>
+        <select id="phi_carbo_top" name="phi_carbo_top" data-name-field="size_carbo_top">
             <option value="">--</option>
             {% for g in ref.grain_carbonate %}
-            <option value="{{ g.name }}" {{ 'selected' if bed and bed.size_carbo_top == g.name }}>{{ g.name }}</option>
+            <option value="{{ g.phi }}" {{ 'selected' if bed and bed.phi_carbo_top == g.phi }}>{{ g.name }}</option>
             {% endfor %}
         </select>
+        <input type="hidden" id="size_carbo_top" name="size_carbo_top"
+               value="{{ bed.size_carbo_top if bed else '' }}">
 
         <h3 style="margin-top:1.5rem">Bioturbation</h3>
         <label for="bioturbation_type">Type</label>
@@ -154,4 +162,13 @@
     </form>
 </div>
 {% endif %}
+<script>
+document.querySelectorAll('select[data-name-field]').forEach(function(sel) {
+    sel.addEventListener('change', function() {
+        var hidden = document.getElementById(sel.dataset.nameField);
+        var text = sel.options[sel.selectedIndex].text;
+        hidden.value = text === '--' ? '' : text;
+    });
+});
+</script>
 {% endblock %}
