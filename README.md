@@ -64,6 +64,23 @@ pytest
   </tr>
 </table>
 
+## JSON API
+
+SedMob includes a read-only REST API at `/api` for programmatic access to your data.
+
+| Endpoint                               | Description                     |
+| -------------------------------------- | ------------------------------- |
+| `GET /api/profiles`                    | List all profiles               |
+| `GET /api/profiles/<id>`               | Single profile with nested beds |
+| `GET /api/profiles/<id>/beds`          | All beds for a profile          |
+| `GET /api/profiles/<id>/beds/<bed_id>` | Single bed detail               |
+
+All endpoints return JSON. Example:
+
+```bash
+curl http://localhost:5000/api/profiles
+```
+
 ## Roadmap
 
 - [ ] Dark mode / UI improvements

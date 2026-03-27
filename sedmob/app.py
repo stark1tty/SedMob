@@ -19,6 +19,9 @@ def create_app(config=None):
 
     db.init_app(app)
 
+    from sedmob.api import api
+    app.register_blueprint(api)
+
     with app.app_context():
         db.create_all()
         seed_database()
