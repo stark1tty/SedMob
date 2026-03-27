@@ -20,4 +20,3 @@ exclude:
   - instance/
   - sedmob/
   - run.py
-  - docs/

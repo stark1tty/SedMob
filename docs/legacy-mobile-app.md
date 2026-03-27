@@ -1,3 +1,8 @@
+---
+layout: default
+title: Legacy Mobile App
+---
+
 # Legacy Mobile App
 
 The `.pwlw-sedmob/` directory contains the original SedMob application, a Cordova-based mobile app developed by [Pawel Wolniewicz](https://github.com/pwlw/SedMob). The current Flask web app is a rewrite of this original.

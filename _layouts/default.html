@@ -149,7 +149,27 @@
     <div class="site-wrapper">
       <aside class="site-sidebar" id="sidebar">
         <p class="sidebar-title">Navigation</p>
-        <ul class="sidebar-nav" id="sidebar-nav"></ul>
+        <ul class="sidebar-nav" id="sidebar-nav">
+          <!-- Documentation links (always visible) -->
+          <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
+          <li><a href="{{ '/docs/' | relative_url }}" {% if page.url contains '/docs/' and page.url != '/docs/README.html' %}class="active"{% endif %}>Documentation</a></li>
+          
+          {% if page.url contains '/docs/' %}
+          <!-- Documentation subnav -->
+          <li style="margin-top: 0.5rem;"><a href="{{ '/docs/getting-started.html' | relative_url }}" {% if page.url contains 'getting-started' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Getting Started</a></li>
+          <li><a href="{{ '/docs/web-ui-guide.html' | relative_url }}" {% if page.url contains 'web-ui-guide' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Web UI Guide</a></li>
+          <li><a href="{{ '/docs/api-reference.html' | relative_url }}" {% if page.url contains 'api-reference' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>API Reference</a></li>
+          <li><a href="{{ '/docs/data-models.html' | relative_url }}" {% if page.url contains 'data-models' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Data Models</a></li>
+          <li><a href="{{ '/docs/csv-export.html' | relative_url }}" {% if page.url contains 'csv-export' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>CSV Export</a></li>
+          <li><a href="{{ '/docs/reference-data.html' | relative_url }}" {% if page.url contains 'reference-data' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Reference Data</a></li>
+          <li><a href="{{ '/docs/architecture.html' | relative_url }}" {% if page.url contains 'architecture' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Architecture</a></li>
+          <li><a href="{{ '/docs/contributing.html' | relative_url }}" {% if page.url contains 'contributing' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Contributing</a></li>
+          <li><a href="{{ '/docs/legacy-mobile-app.html' | relative_url }}" {% if page.url contains 'legacy-mobile-app' %}class="active depth-3"{% else %}class="depth-3"{% endif %}>Legacy Mobile App</a></li>
+          
+          <!-- Page headings (populated by JS below) -->
+          <li style="margin-top: 1rem;"><span class="sidebar-title" style="margin-left: 8px;">On This Page</span></li>
+          {% endif %}
+        </ul>
       </aside>
 
       <main class="site-main">
@@ -178,37 +198,44 @@
     <script>
       anchors.add('.markdown-body h2, .markdown-body h3, .markdown-body h4');
 
-      // Build sidebar navigation from headings
+      // Build sidebar navigation from headings (only for section headings)
       (function() {
         var nav = document.getElementById('sidebar-nav');
-        var headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3, .markdown-body h4');
-        headings.forEach(function(h) {
-          if (!h.id) return;
-          var li = document.createElement('li');
-          var a = document.createElement('a');
-          a.href = '#' + h.id;
-          a.textContent = h.textContent.replace(/\u00B6$/, '').trim();
-          var depth = parseInt(h.tagName.charAt(1));
-          if (depth >= 3) a.classList.add('depth-' + depth);
-          li.appendChild(a);
-          nav.appendChild(li);
-        });
+        var headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+        
+        // Only add heading anchors if there are headings on the page
+        if (headings.length > 0) {
+          headings.forEach(function(h) {
+            if (!h.id) return;
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#' + h.id;
+            a.textContent = h.textContent.replace(/\u00B6$/, '').trim();
+            var depth = parseInt(h.tagName.charAt(1));
+            a.classList.add('depth-' + (depth + 2)); // h2 -> depth-4, h3 -> depth-5 for indentation
+            li.appendChild(a);
+            nav.appendChild(li);
+          });
 
-        // Highlight active section on scroll
-        var links = nav.querySelectorAll('a');
-        var headingEls = Array.from(headings).filter(function(h) { return h.id; });
-        function onScroll() {
-          var scrollY = window.scrollY + 80;
-          var current = null;
-          headingEls.forEach(function(h) {
-            if (h.offsetTop <= scrollY) current = h;
-          });
-          links.forEach(function(a) {
-            a.classList.toggle('active', current && a.getAttribute('href') === '#' + current.id);
-          });
+          // Highlight active section on scroll
+          var links = nav.querySelectorAll('a[href^="#"]');
+          var headingEls = Array.from(headings).filter(function(h) { return h.id; });
+          function onScroll() {
+            var scrollY = window.scrollY + 80;
+            var current = null;
+            headingEls.forEach(function(h) {
+              if (h.offsetTop <= scrollY) current = h;
+            });
+            links.forEach(function(a) {
+              var href = a.getAttribute('href');
+              if (href && href.startsWith('#')) {
+                a.classList.toggle('active', current && href === '#' + current.id);
+              }
+            });
+          }
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
         }
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
       })();
     </script>
   </body>

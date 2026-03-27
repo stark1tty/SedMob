@@ -111,6 +111,7 @@ curl http://localhost:5000/api/profiles
 - [ ] Additional export options (Dropbox, email, RockWorks)
 - [ ] SedLog-style graphical previews
 - [ ] New sheet types: day sheets, trench pits, test pits, misc notes
+- [ ] Test project
 
 ## Background
 

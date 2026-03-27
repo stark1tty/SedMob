@@ -1,3 +1,8 @@
+---
+layout: default
+title: Reference Data
+---
+
 # Reference Data
 
 SedMob ships with pre-seeded geological classification data that populates dropdown menus throughout the application. This data is inserted on first run if the reference tables are empty.

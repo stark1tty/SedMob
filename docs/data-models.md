@@ -1,3 +1,8 @@
+---
+layout: default
+title: Data Models
+---
+
 # Data Models
 
 All models are defined in `sedmob/models.py` using Flask-SQLAlchemy. Every model includes a `to_dict()` method for JSON serialization.

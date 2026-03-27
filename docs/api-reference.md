@@ -1,3 +1,8 @@
+---
+layout: default
+title: API Reference
+---
+
 # API Reference
 
 SedMob includes a read-only REST API for programmatic access to profile and bed data. The API is implemented as a Flask Blueprint registered at the `/api` prefix.
