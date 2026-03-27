@@ -155,7 +155,103 @@
         .sidebar-nav .depth-4 { display: none; }
         .sidebar-nav a { padding: 4px 10px; }
       }
+
+      /* Dark mode */
+      html[data-theme="dark"] body {
+        background: #0d1117;
+        color: #c9d1d9;
+      }
+      html[data-theme="dark"] .sidebar-title { color: #8b949e; }
+      html[data-theme="dark"] .sidebar-nav a { color: #c9d1d9; }
+      html[data-theme="dark"] .sidebar-nav a:hover { background: #161b22; color: #58a6ff; }
+      html[data-theme="dark"] .sidebar-nav a.active { background: #1c2128; color: #58a6ff; }
+      html[data-theme="dark"] .sidebar-nav .depth-3,
+      html[data-theme="dark"] .sidebar-nav .depth-4 { color: #8b949e; }
+      html[data-theme="dark"] .page-header { border-bottom-color: #30363d; }
+      html[data-theme="dark"] .page-header-title a { color: #c9d1d9; }
+      html[data-theme="dark"] .page-header-title a:hover { color: #58a6ff; }
+      html[data-theme="dark"] .page-header-title .icon-light { display: none; }
+      html[data-theme="dark"] .page-header-title .icon-dark { display: inline; }
+      html[data-theme="dark"] .btn-github {
+        color: #c9d1d9;
+        background: #21262d;
+        border-color: #30363d;
+      }
+      html[data-theme="dark"] .btn-github:hover { background: #30363d; }
+      html[data-theme="dark"] .btn-darkmode {
+        color: #c9d1d9;
+        background: #21262d;
+        border-color: #30363d;
+      }
+      html[data-theme="dark"] .btn-darkmode:hover { background: #30363d; }
+      html[data-theme="dark"] .markdown-body {
+        color: #c9d1d9;
+      }
+      html[data-theme="dark"] .markdown-body h1,
+      html[data-theme="dark"] .markdown-body h2,
+      html[data-theme="dark"] .markdown-body h3,
+      html[data-theme="dark"] .markdown-body h4,
+      html[data-theme="dark"] .markdown-body h5,
+      html[data-theme="dark"] .markdown-body h6 { color: #e6edf3; }
+      html[data-theme="dark"] .markdown-body a { color: #58a6ff; }
+      html[data-theme="dark"] .markdown-body code {
+        background: #161b22;
+        color: #e6edf3;
+      }
+      html[data-theme="dark"] .markdown-body pre {
+        background: #161b22;
+        border: 1px solid #30363d;
+      }
+      html[data-theme="dark"] .markdown-body pre code { background: transparent; }
+      html[data-theme="dark"] .markdown-body blockquote {
+        border-left-color: #30363d;
+        color: #8b949e;
+      }
+      html[data-theme="dark"] .markdown-body table th,
+      html[data-theme="dark"] .markdown-body table td {
+        border-color: #30363d;
+      }
+      html[data-theme="dark"] .markdown-body table tr { background: #0d1117; }
+      html[data-theme="dark"] .markdown-body table tr:nth-child(2n) { background: #161b22; }
+      html[data-theme="dark"] .markdown-body hr { border-color: #30363d; }
+      html[data-theme="dark"] .page-footer { border-top-color: #30363d; color: #8b949e; }
+      html[data-theme="dark"] .page-footer a { color: #58a6ff; }
+      html[data-theme="dark"] .site-sidebar::-webkit-scrollbar-thumb { background: #30363d; }
+      @media (max-width: 768px) {
+        html[data-theme="dark"] .site-sidebar { border-bottom-color: #30363d; }
+      }
+      /* Icon swap: show light icon by default, dark icon in dark mode */
+      .page-header-title .icon-dark { display: none; }
+      .page-header-title .icon-light { display: inline; }
+      /* Dark mode toggle button */
+      .btn-darkmode {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 5px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 20px;
+        color: #24292e;
+        background: #fafbfc;
+        border: 1px solid rgba(27,31,35,.15);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .btn-darkmode:hover { background: #f3f4f6; }
+      .btn-darkmode svg { width: 16px; height: 16px; fill: currentColor; }
+      .header-actions { display: flex; align-items: center; gap: 0.5rem; }
     </style>
+    <script>
+      /* Apply saved theme immediately to prevent flash */
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div class="site-wrapper">
@@ -193,14 +289,21 @@
         <nav class="page-header">
           <h1 class="page-header-title">
             <a href="{{ '/' | relative_url }}">
-              <img src="{{ '/favicon.png' | relative_url }}" alt="Gneisswork icon">
+              <img class="icon-light" src="{{ '/favicon.png' | relative_url }}" alt="Gneisswork icon">
+              <img class="icon-dark" src="{{ '/media/icon/favicon-white.png' | relative_url }}" alt="Gneisswork icon">
               {{ site.title | default: site.github.repository_name }}
             </a>
           </h1>
-          <a class="btn-github" href="{{ site.github.repository_url }}">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-            View on GitHub
-          </a>
+          <div class="header-actions">
+            <button class="btn-darkmode" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+              <svg class="icon-sun" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zm-8-5a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5H.75A.75.75 0 010 8zm13 0a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 0113 8zM2.343 2.343a.75.75 0 011.061 0l1.06 1.06a.75.75 0 01-1.06 1.061l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.06-1.06a.75.75 0 010-1.061zM2.343 13.657a.75.75 0 010-1.06l1.06-1.061a.75.75 0 111.061 1.06l-1.06 1.061a.75.75 0 01-1.061 0zm9.193-9.193a.75.75 0 010-1.061l1.061-1.06a.75.75 0 111.06 1.06l-1.06 1.06a.75.75 0 01-1.06 0z"></path></svg>
+              <svg class="icon-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z"></path></svg>
+            </button>
+            <a class="btn-github" href="{{ site.github.repository_url }}">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              View on GitHub
+            </a>
+          </div>
         </nav>
 
         <article class="markdown-body">
@@ -219,6 +322,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
     <script>
       anchors.add('.markdown-body h2, .markdown-body h3, .markdown-body h4');
+
+      // Dark mode toggle
+      (function() {
+        var toggle = document.getElementById('theme-toggle');
+        var html = document.documentElement;
+
+        function updateIcons() {
+          var isDark = html.getAttribute('data-theme') === 'dark';
+          toggle.querySelector('.icon-sun').style.display = isDark ? 'none' : 'block';
+          toggle.querySelector('.icon-moon').style.display = isDark ? 'block' : 'none';
+        }
+
+        toggle.addEventListener('click', function() {
+          var isDark = html.getAttribute('data-theme') === 'dark';
+          if (isDark) {
+            html.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+          } else {
+            html.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+          }
+          updateIcons();
+        });
+
+        updateIcons();
+      })();
 
       // Build sidebar navigation from headings (only for section headings)
       (function() {
