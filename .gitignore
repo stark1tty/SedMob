@@ -5,6 +5,7 @@
 .pwlw-sedmob/*
 .kiro/*
 .claude/*
+.github/*
 .vscode/*
 .idea/
 *.iml
