@@ -58,6 +58,7 @@ def test_profile_page_shows_beds(client, db):
     p = Profile.query.first()
     client.post(f"/profile/{p.id}/bed/new", data={
         "name": "Bed A", "thickness": "50",
+        "lit1_percentage": "100", "lit2_percentage": "0", "lit3_percentage": "0",
     })
     resp = client.get(f"/profile/{p.id}")
     assert b"Bed A" in resp.data

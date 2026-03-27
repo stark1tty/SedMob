@@ -256,6 +256,21 @@ def create_app(config=None):
         return redirect(url_for("reference"))
 
     # ── Helpers ────────────────────────────────────────────
+    def _validate_percentages(form):
+        """Return an error message string if percentages are invalid, else None."""
+        raw = [form.get("lit1_percentage", ""),
+               form.get("lit2_percentage", ""),
+               form.get("lit3_percentage", "")]
+        try:
+            values = [int(v) for v in raw]
+        except (ValueError, TypeError):
+            return "Lithology percentages must be valid integers."
+        if any(v < 0 or v > 100 for v in values):
+            return "Each lithology percentage must be between 0 and 100."
+        if sum(values) != 100:
+            return "Lithology percentages must sum to 100."
+        return None
+
     def _ref_data():
         return {
             "lithology_types": LithologyType.query.all(),
@@ -294,6 +309,10 @@ def create_app(config=None):
         thickness = request.form.get("thickness", "").strip()
         if not thickness:
             flash("Thickness is required.")
+            return redirect(request.url)
+        pct_error = _validate_percentages(request.form)
+        if pct_error:
+            flash(pct_error)
             return redirect(request.url)
         if bed is None:
             max_pos = db.session.query(db.func.max(Bed.position)).filter_by(

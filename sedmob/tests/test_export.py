@@ -10,10 +10,12 @@ def test_csv_export(client, db):
     client.post(f"/profile/{p.id}/bed/new", data={
         "thickness": "50", "name": "Bed1", "facies": "F1",
         "lit1_type": "Sandstone", "lit1_percentage": "80",
+        "lit2_percentage": "20", "lit3_percentage": "0",
         "boundary": "Sharp",
     })
     client.post(f"/profile/{p.id}/bed/new", data={
         "thickness": "30", "name": "Bed2", "facies": "F2",
+        "lit1_percentage": "100", "lit2_percentage": "0", "lit3_percentage": "0",
     })
     resp = client.get(f"/profile/{p.id}/export")
     assert resp.status_code == 200

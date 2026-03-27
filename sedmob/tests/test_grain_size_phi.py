@@ -1,6 +1,9 @@
 """Tests for grain size phi value dual storage."""
 from sedmob.models import Profile, Bed, GrainClastic, GrainCarbonate
 
+# Default valid percentages for bed creation.
+_PCT = {"lit1_percentage": "100", "lit2_percentage": "0", "lit3_percentage": "0"}
+
 
 def _create_profile(client):
     client.post("/profile/new", data={"name": "PhiTestLog"})
@@ -57,6 +60,7 @@ def test_submit_clastic_stores_both_columns(client, db):
         "thickness": "10",
         "phi_clastic_base": g.phi,
         "size_clastic_base": g.name,
+        **_PCT,
     })
     bed = Bed.query.first()
     assert bed.phi_clastic_base == g.phi
@@ -71,6 +75,7 @@ def test_submit_carbonate_stores_both_columns(client, db):
         "thickness": "10",
         "phi_carbo_base": g.phi,
         "size_carbo_base": g.name,
+        **_PCT,
     })
     bed = Bed.query.first()
     assert bed.phi_carbo_base == g.phi
@@ -82,6 +87,7 @@ def test_empty_selection_stores_empty_strings(client, db):
     p = _create_profile(client)
     client.post(f"/profile/{p.id}/bed/new", data={
         "thickness": "10",
+        **_PCT,
     })
     bed = Bed.query.first()
     assert bed.phi_clastic_base == ""
@@ -99,12 +105,14 @@ def test_edit_bed_updates_both_columns(client, db):
         "thickness": "10",
         "phi_clastic_base": g1.phi,
         "size_clastic_base": g1.name,
+        **_PCT,
     })
     bed = Bed.query.first()
     client.post(f"/profile/{p.id}/bed/{bed.id}", data={
         "thickness": "10",
         "phi_clastic_base": g2.phi,
         "size_clastic_base": g2.name,
+        **_PCT,
     })
     bed = db.session.get(Bed, bed.id)
     assert bed.phi_clastic_base == g2.phi
@@ -119,6 +127,7 @@ def test_preselection_on_edit(client, db):
         "thickness": "10",
         "phi_clastic_base": g.phi,
         "size_clastic_base": g.name,
+        **_PCT,
     })
     bed = Bed.query.first()
     resp = client.get(f"/profile/{p.id}/bed/{bed.id}")
@@ -134,6 +143,7 @@ def test_hidden_input_initialization_on_edit(client, db):
         "thickness": "10",
         "phi_clastic_base": g.phi,
         "size_clastic_base": g.name,
+        **_PCT,
     })
     bed = Bed.query.first()
     resp = client.get(f"/profile/{p.id}/bed/{bed.id}")
@@ -172,12 +182,14 @@ def test_property_dual_storage_round_trip(client, db, data):
             "thickness": "10",
             "phi_clastic_base": entry.phi,
             "size_clastic_base": entry.name,
+            **_PCT,
         }
     else:
         form_data = {
             "thickness": "10",
             "phi_carbo_base": entry.phi,
             "size_carbo_base": entry.name,
+            **_PCT,
         }
 
     client.post(f"/profile/{p.id}/bed/new", data=form_data)
