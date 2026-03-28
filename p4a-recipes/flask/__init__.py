@@ -10,10 +10,7 @@ class FlaskRecipe(PythonRecipe):
     """
     version = '3.1.1'
     url = None                              # nothing to download
-    depends = ['python3']
-    python_depends = [
-        'jinja2', 'werkzeug', 'markupsafe', 'itsdangerous', 'click', 'blinker',
-    ]
+    depends = ['python3', 'jinja2', 'werkzeug', 'markupsafe', 'itsdangerous', 'click', 'blinker']
     site_packages_name = 'flask'
     call_hostpython_via_targetpython = False
     install_in_hostpython = False
