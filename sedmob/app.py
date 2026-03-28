@@ -255,6 +255,70 @@ def create_app(config=None):
         flash(f"Structure '{item.name}' deleted.")
         return redirect(url_for("reference"))
 
+    @app.route("/reference/lithology/<int:item_id>/rename", methods=["POST"])
+    def lithology_rename(item_id):
+        item = db.get_or_404(Lithology, item_id)
+        name = request.form["name"].strip()
+        if not name or not name.replace(" ", "").isalnum():
+            flash("Name must contain only letters, digits and spaces.")
+            return redirect(url_for("reference"))
+        existing = Lithology.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Lithology '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Lithology renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/structure/<int:item_id>/rename", methods=["POST"])
+    def structure_rename(item_id):
+        item = db.get_or_404(Structure, item_id)
+        name = request.form["name"].strip()
+        if not name or not name.replace(" ", "").isalnum():
+            flash("Name must contain only letters, digits and spaces.")
+            return redirect(url_for("reference"))
+        existing = Structure.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Structure '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Structure renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/lithology-type/<int:item_id>/rename", methods=["POST"])
+    def lithology_type_rename(item_id):
+        item = db.get_or_404(LithologyType, item_id)
+        name = request.form["name"].strip()
+        if not name or not name.replace(" ", "").isalnum():
+            flash("Name must contain only letters, digits and spaces.")
+            return redirect(url_for("reference"))
+        existing = LithologyType.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Lithology group '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Lithology group renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/structure-type/<int:item_id>/rename", methods=["POST"])
+    def structure_type_rename(item_id):
+        item = db.get_or_404(StructureType, item_id)
+        name = request.form["name"].strip()
+        if not name or not name.replace(" ", "").isalnum():
+            flash("Name must contain only letters, digits and spaces.")
+            return redirect(url_for("reference"))
+        existing = StructureType.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Structure group '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Structure group renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
     # ── Helpers ────────────────────────────────────────────
     def _validate_percentages(form):
         """Return an error message string if percentages are invalid, else None."""
