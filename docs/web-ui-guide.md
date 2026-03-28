@@ -52,7 +52,7 @@ If no profiles exist, a "No logs yet." message is shown.
 | ----------- | -------- | -------- | ------------------------------------------ |
 | Log Name    | Text     | Yes      | Unique name for the log                    |
 | Description | Textarea | No       | Free-text description                      |
-| Direction   | Select   | No       | Borehole reversal: "Off" (default) or "On" |
+| Direction   | Select   | No       | Borehole reversal: "Off" (default) or "On". Toggling this value reverses all existing bed positions using the formula `new_position = bed_count - old_position + 1`. |
 | Latitude    | Text     | No       | GPS latitude                               |
 | Longitude   | Text     | No       | GPS longitude                              |
 | Altitude    | Text     | No       | GPS altitude                               |

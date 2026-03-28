@@ -1,7 +1,7 @@
 title: Gneisswork
 description: A free and open-source web application for field geological and sedimentological core logging
-url: https://stark1tty.github.io
-baseurl: /Gneisswork
+url: https://gneisswork.app
+baseurl: ""
 
 plugins:
   - jekyll-seo-tag

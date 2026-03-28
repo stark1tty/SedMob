@@ -295,6 +295,15 @@ def create_app(config=None):
             profile = Profile(name=name)
             db.session.add(profile)
         else:
+            # Reverse bed positions if direction changed
+            old_direction = profile.direction
+            new_direction = request.form.get("direction", "off")
+            if old_direction != new_direction:
+                bed_count = Bed.query.filter_by(profile_id=profile.id).count()
+                if bed_count > 0:
+                    Bed.query.filter_by(profile_id=profile.id).update(
+                        {Bed.position: bed_count - Bed.position + 1}
+                    )
             profile.name = name
         profile.description = request.form.get("description", "")
         profile.direction = request.form.get("direction", "off")

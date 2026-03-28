@@ -102,7 +102,7 @@ curl http://localhost:5000/api/profiles
 - [ ] Database backup & restore — Export/import full database as downloadable file (original: SQL dump to file)
 - [ ] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
 - [ ] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
-- [ ] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
+- [x] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
 - [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
 
 ### Future enhancements
