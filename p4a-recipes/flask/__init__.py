@@ -1,3 +1,4 @@
+import sys
 from pythonforandroid.recipe import PythonRecipe
 
 
@@ -11,6 +12,9 @@ class FlaskRecipe(PythonRecipe):
     PythonRecipe cannot handle (it expects setup.py).  We bypass the
     source-based workflow entirely and pip-install the wheel from PyPI
     directly into the target site-packages.
+
+    Note: p4a's hostpython does not have pip, so we use the system Python
+    (sys.executable) which does.
     """
     version = '3.1.1'
     url = None
@@ -28,13 +32,13 @@ class FlaskRecipe(PythonRecipe):
         from os import makedirs
         from pythonforandroid.logger import shprint
 
-        # Ensure build dir exists (p4a internals may reference it)
         makedirs(self.get_build_dir(arch.arch), exist_ok=True)
 
-        hostpython = sh.Command(self.hostpython_location)
+        # Use system Python (has pip) — hostpython does not have pip
+        system_python = sh.Command(sys.executable)
         install_dir = self.ctx.get_python_install_dir(arch.arch)
 
-        shprint(hostpython, '-m', 'pip', 'install',
+        shprint(system_python, '-m', 'pip', 'install',
                 f'flask=={self.version}',
                 '--no-deps',
                 '--target', install_dir)
