@@ -147,11 +147,17 @@ jobs:
         fi
 
         # Generate categorized release notes
-        python3 - "$RANGE" <<'PYEOF'
-        import subprocess, sys, re
+        python3 - "$RANGE" "${{ github.repository_owner }}" <<'PYEOF'
+        import subprocess, sys, re, os
 
         commit_range = sys.argv[1]
-        cmd = ["git", "log", commit_range, "--pretty=format:%s\x1f%b\x1f%an", "--no-merges"]
+        repo_owner = sys.argv[2] if len(sys.argv) > 2 else ""
+
+        # Use %x00 (null byte) as commit delimiter to handle multi-line bodies
+        SEP = "\x1f"
+        COMMIT_END = "\x00"
+        fmt = f"%s{SEP}%b{SEP}%an{COMMIT_END}"
+        cmd = ["git", "log", commit_range, f"--pretty=format:{fmt}", "--no-merges"]
         result = subprocess.run(cmd, capture_output=True, text=True)
 
         categories = {
@@ -171,18 +177,23 @@ jobs:
             "chores": re.compile(r"^(chore|ci|build|refactor|style|perf)[:(]", re.I),
         }
 
-        for line in result.stdout.strip().split("\n"):
-            if not line.strip():
+        for chunk in result.stdout.strip().split(COMMIT_END):
+            chunk = chunk.strip()
+            if not chunk:
                 continue
-            parts = line.split("\x1f")
-            subject = parts[0] if len(parts) > 0 else ""
+            parts = chunk.split(SEP)
+            subject = parts[0].strip() if len(parts) > 0 else ""
             body = parts[1].strip().split("\n")[0].strip() if len(parts) > 1 else ""
-            author = parts[2] if len(parts) > 2 else "unknown"
+            author = parts[2].strip() if len(parts) > 2 else ""
 
             if not subject:
                 continue
 
-            entry = f"- {subject} (by {author})"
+            # Only show author for external contributors
+            if author and author.lower() != repo_owner.lower() and author != "github-actions[bot]":
+                entry = f"- {subject} (by {author})"
+            else:
+                entry = f"- {subject}"
             if body and body != subject:
                 entry += f"\n  > {body}"
 
@@ -205,11 +216,7 @@ jobs:
 
         if not any(entries for _, entries in categories.values()):
             lines.append("## Changes\n")
-            for line in result.stdout.strip().split("\n"):
-                parts = line.split("\x1f")
-                if parts[0]:
-                    author = parts[2] if len(parts) > 2 else "unknown"
-                    lines.append(f"- {parts[0]} (by {author})")
+            lines.append("- No notable changes")
 
         with open("/tmp/release_notes.md", "w") as f:
             f.write("\n".join(lines) + "\n")
