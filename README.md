@@ -117,13 +117,13 @@ curl http://localhost:5000/api/profiles
 - [x] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% with server-side validation (original: `pagebed.js`)
 - [ ] Database backup & restore — Export/import full database as downloadable file (original: SQL dump to file)
 - [ ] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
-- [ ] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
+- [x] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
 - [x] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
 - [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
 
 ### Future enhancements
 
-- [ ] GPS "Get Location" button — Capture current device coordinates into Lat/Long/Alt fields on the profile form
+- [x] GPS "Get Location" button — Capture current device coordinates into Lat/Long/Alt fields on the profile form
 - [ ] Variable popup descriptions — Info popups explaining each field/variable on the bed and profile forms
 - [ ] Reference data descriptions — Add a description/definition field to reference data items (lithologies, structures, etc.)
 - [ ] Dark mode / UI improvements

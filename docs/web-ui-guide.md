@@ -48,14 +48,22 @@ If no profiles exist, a "No logs yet." message is shown.
 
 #### Profile Fields
 
-| Field       | Type     | Required | Description                                |
-| ----------- | -------- | -------- | ------------------------------------------ |
-| Log Name    | Text     | Yes      | Unique name for the log                    |
-| Description | Textarea | No       | Free-text description                      |
-| Direction   | Select   | No       | Borehole reversal: "Off" (default) or "On". Toggling this value reverses all existing bed positions using the formula `new_position = bed_count - old_position + 1`. |
-| Latitude    | Text     | No       | GPS latitude                               |
-| Longitude   | Text     | No       | GPS longitude                              |
-| Altitude    | Text     | No       | GPS altitude                               |
+| Field             | Type     | Required | Description                                                                                                                                                          |
+| ----------------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Log Name          | Text     | Yes      | Unique name for the log                                                                                                                                              |
+| Description       | Textarea | No       | Free-text description                                                                                                                                                |
+| Direction         | Select   | No       | Borehole reversal: "Off" (default) or "On". Toggling this value reverses all existing bed positions using the formula `new_position = bed_count - old_position + 1`. |
+| Latitude          | Text     | No       | GPS latitude                                                                                                                                                         |
+| Longitude         | Text     | No       | GPS longitude                                                                                                                                                        |
+| Altitude          | Text     | No       | GPS altitude                                                                                                                                                         |
+| Accuracy          | Text     | No       | GPS accuracy in metres                                                                                                                                               |
+| Altitude Accuracy | Text     | No       | GPS altitude accuracy in metres                                                                                                                                      |
+
+#### GPS Location Capture
+
+A "Get GPS Location" button appears on both the new and edit profile forms. Clicking it invokes the browser Geolocation API to auto-populate all five coordinate fields (latitude, longitude, altitude, accuracy, altitude accuracy). The fields remain editable so values can be corrected manually.
+
+A status message next to the button shows the current state of the request ("Acquiring location…", "Location acquired", or an error description). If the browser does not support geolocation, the button is hidden and a message is shown instead.
 
 #### Bed List (Edit Mode Only)
 
