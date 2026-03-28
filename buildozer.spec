@@ -16,9 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,html,css,js,json
 
 # (list) List of inclusions using pattern matching
-# source.include_exts already handles recursive inclusion by extension;
-# these patterns ensure any nested dirs are captured too.
-source.include_patterns = sedmob/**/*,sedmob/templates/**/*,sedmob/static/**/*
+source.include_patterns = sedmob/*,sedmob/templates/*,sedmob/static/*,sedmob/static/css/*,sedmob/static/js/*
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -38,11 +36,6 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-# Only list packages that have working p4a recipes or are the direct
-# top-level dependencies. Pure-Python transitive deps (werkzeug, jinja2,
-# itsdangerous, click, blinker, sqlalchemy) are auto-installed via pip
-# during the build — do NOT list them explicitly or p4a may try to use
-# a broken/outdated recipe instead of pip.
 requirements = python3,kivy,flask,flask-sqlalchemy,jnius,android
 
 # (str) Custom source folders for requirements
@@ -67,11 +60,6 @@ fullscreen = 0
 # (list) Permissions
 android.permissions = INTERNET
 
-# Allow cleartext HTTP traffic to localhost (Flask on http://127.0.0.1:5000).
-# Android 9+ (API 28+) blocks cleartext by default, which prevents the
-# WebView from reaching the local Flask server.
-android.extra_manifest_application_arguments = ./android_manifest_extra.xml
-
 # (int) Target Android API, should be as high as possible.
 android.api = 35
 
@@ -95,6 +83,15 @@ android.archs = arm64-v8a,armeabi-v7a
 
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
+
+#
+# Python for android (p4a) specific
+#
+
+# (str) Extra command line arguments to pass when invoking pythonforandroid.toolchain
+# Enable cleartext HTTP traffic to localhost — Flask runs on http://127.0.0.1:5000
+# and Android 9+ (API 28) blocks cleartext by default, breaking the WebView.
+p4a.extra_args = --extra-manifest-application-arguments='android:usesCleartextTraffic="true"'
 
 [buildozer]
 
