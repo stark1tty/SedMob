@@ -91,7 +91,7 @@ Currently overridden:
 | Flask    | 2.0.3           | 3.1.1         | Gneisswork requires Flask 3.0+          |
 | Werkzeug | (p4a default)   | 3.1.7         | Pinned for Flask 3.x compatibility      |
 
-Each recipe is a Python class in `p4a-recipes/<package>/__init__.py` that extends `PythonRecipe`. Recipes can either download source from a URL (like the Flask recipe) or pip-install a wheel directly from PyPI (like the Werkzeug recipe). If you need to pin or override another dependency for the APK build, add a new recipe following one of these patterns.
+Each recipe is a Python class in `p4a-recipes/<package>/__init__.py` that extends `PythonRecipe`. Both recipes download source from GitHub and let PythonRecipe handle the standard install. If you need to pin or override another dependency for the APK build, add a new recipe following the same pattern.
 
 ## Installation
 
