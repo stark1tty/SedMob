@@ -86,9 +86,7 @@ android.archs = arm64-v8a,armeabi-v7a
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
 
-# Enable cleartext HTTP traffic to localhost — Flask runs on http://127.0.0.1:5000
-# and Android 9+ (API 28) blocks cleartext by default, breaking the WebView.
-android.extra_manifest_application_arguments = ./android_manifest_extra.xml
+
 
 [buildozer]
 
