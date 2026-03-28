@@ -7,17 +7,37 @@
     <h2>Download Backup</h2>
     <p>Export all database records as a JSON file.</p>
     <p style="color:#666; font-size:.85rem">Note: The backup includes database records only. Uploaded files (photos and audio) are not included.</p>
-    <a href="/backup" class="btn btn-primary">Download Backup</a>
+    <a href="/backup" class="btn btn-primary">Download Backup (JSON)</a>
+</div>
+
+<div class="card">
+    <h2>Download Full Backup</h2>
+    <p>Export everything — database records, photos, and audio — as a single ZIP file.</p>
+    <a href="/export/full" class="btn btn-primary">Download Full Backup (ZIP)</a>
 </div>
 
 <div class="card">
     <h2>Restore from Backup</h2>
-    <p style="color:#e74c3c; font-weight:600">Warning: Restoring will replace all existing data in the database.</p>
-    <form method="post" action="/restore" enctype="multipart/form-data">
-        <label for="file">Select a .json backup file</label>
-        <input type="file" id="file" name="file" accept=".json" required style="margin-bottom:.75rem">
-        <button type="submit" class="btn btn-danger">Restore</button>
-    </form>
+    <p style="color:#e74c3c; font-weight:600">Warning: Restoring will replace all existing data.</p>
+
+    <div style="margin-bottom:1.25rem">
+        <h3 style="font-size:1rem; margin-bottom:.5rem">Database only (JSON)</h3>
+        <form method="post" action="/restore" enctype="multipart/form-data">
+            <label for="file">Select a .json backup file</label>
+            <input type="file" id="file" name="file" accept=".json" required style="margin-bottom:.75rem">
+            <button type="submit" class="btn btn-danger">Restore JSON</button>
+        </form>
+    </div>
+
+    <div>
+        <h3 style="font-size:1rem; margin-bottom:.5rem">Full backup (ZIP)</h3>
+        <p style="color:#666; font-size:.85rem">Restores database records and all uploaded files (photos, audio).</p>
+        <form method="post" action="/restore/full" enctype="multipart/form-data">
+            <label for="file_full">Select a .zip full backup file</label>
+            <input type="file" id="file_full" name="file" accept=".zip" required style="margin-bottom:.75rem">
+            <button type="submit" class="btn btn-danger">Restore Full Backup</button>
+        </form>
+    </div>
 </div>
 
 <div class="card">

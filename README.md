@@ -13,7 +13,7 @@ A free and open-source web application for field geological and sedimentological
 - Drag-and-drop bed reordering
 - CSV export compatible with [SedLog](https://sedlog.rhul.ac.uk/), plus bulk export (ZIP)
 - Customizable reference data with standard sedimentological schemes pre-loaded
-- Database backup and restore, read-only JSON API
+- Database backup and restore (JSON or full ZIP with photos and audio), read-only JSON API
 - SQLite database, no external services required
 
 📖 Full documentation at [gneisswork.app/docs](https://gneisswork.app/docs/)

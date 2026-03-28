@@ -186,7 +186,15 @@ A "Download Backup" button exports the entire database as a JSON file. The backu
 
 #### Restore
 
-A file upload form accepts a previously exported JSON backup file. Restoring replaces all existing data with the contents of the backup file. A confirmation is required before proceeding. Uploaded files (photos, audio) are not included in the backup — only database records.
+A file upload form accepts a previously exported JSON backup file. Restoring replaces all existing data with the contents of the backup file. A confirmation is required before proceeding. Uploaded files (photos, audio) are not included in the JSON backup — only database records.
+
+#### Full Backup (Database + Files)
+
+A "Download Full Backup" button exports the entire database and all uploaded files (photos, audio) as a single ZIP archive. The ZIP contains `database.json` (same format as the regular backup) plus an `uploads/` directory tree with all media files. The file is named `gneisswork_full_backup_<timestamp>.zip`.
+
+#### Full Restore
+
+A file upload form accepts a previously exported full backup ZIP. Restoring replaces all existing data in the database and all uploaded files on disk. The ZIP must contain a valid `database.json` entry. Any existing uploads directory is cleared and replaced with the contents from the archive.
 
 #### Application Logs
 

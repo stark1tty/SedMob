@@ -90,6 +90,7 @@ Routes are organized into logical groups within `app.py`:
 | Bulk Export     | `/export/all`           | Download all profiles as ZIP of CSVs |
 | Reference Data  | `/reference/...`        | Manage lithologies and structures  |
 | Backup/Restore  | `/backup`, `/restore`, `/settings` | JSON database export/import |
+| Full Backup     | `/export/full`, `/restore/full`    | ZIP archive with database JSON + uploaded files |
 | Logs            | `/logs`                 | Live application log stream (JSON) |
 | API (Blueprint) | `/api/...`              | Read-only JSON API                 |
 

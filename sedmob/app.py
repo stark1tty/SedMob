@@ -612,6 +612,76 @@ def create_app(config=None):
         flash("Database restored successfully.")
         return redirect(url_for("settings"))
 
+    @app.route("/export/full")
+    def export_full():
+        """Export database JSON + all uploaded files as a single ZIP."""
+        data = _build_backup_dict()
+        ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        buf = io.BytesIO()
+        upload_root = app.config["UPLOAD_FOLDER"]
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr("database.json", json.dumps(data, indent=2))
+            if os.path.isdir(upload_root):
+                for dirpath, _dirs, filenames in os.walk(upload_root):
+                    for fname in filenames:
+                        full = os.path.join(dirpath, fname)
+                        arc = os.path.join("uploads", os.path.relpath(full, upload_root))
+                        zf.write(full, arc)
+        buf.seek(0)
+        return Response(
+            buf.getvalue(),
+            mimetype="application/zip",
+            headers={
+                "Content-Disposition": f"attachment; filename=gneisswork_full_backup_{ts}.zip"
+            },
+        )
+
+    @app.route("/restore/full", methods=["POST"])
+    def restore_full():
+        """Restore database + uploaded files from a full backup ZIP."""
+        file = request.files.get("file")
+        if not file:
+            flash("No file provided.")
+            return redirect(url_for("settings"))
+        try:
+            zf = zipfile.ZipFile(io.BytesIO(file.read()))
+        except zipfile.BadZipFile:
+            flash("Invalid ZIP file.")
+            return redirect(url_for("settings"))
+        if "database.json" not in zf.namelist():
+            flash("ZIP does not contain database.json.")
+            return redirect(url_for("settings"))
+        try:
+            data = json.loads(zf.read("database.json"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            flash("Invalid database.json inside ZIP.")
+            return redirect(url_for("settings"))
+        if "version" not in data:
+            flash("Unrecognized backup format.")
+            return redirect(url_for("settings"))
+        # Restore database
+        try:
+            _restore_from_dict(data)
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e))
+            return redirect(url_for("settings"))
+        # Restore uploaded files
+        upload_root = app.config["UPLOAD_FOLDER"]
+        # Clear existing uploads
+        if os.path.isdir(upload_root):
+            shutil.rmtree(upload_root)
+        os.makedirs(upload_root, exist_ok=True)
+        for entry in zf.namelist():
+            if entry.startswith("uploads/") and not entry.endswith("/"):
+                rel = entry[len("uploads/"):]
+                dest = os.path.join(upload_root, rel)
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                with open(dest, "wb") as f:
+                    f.write(zf.read(entry))
+        flash("Full backup restored successfully (database + files).")
+        return redirect(url_for("settings"))
+
     @app.route("/settings")
     def settings():
         return render_template("settings.html")

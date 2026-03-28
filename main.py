@@ -18,19 +18,85 @@ PythonActivity = autoclass('org.kivy.android.PythonActivity')
 AndroidWebView = autoclass('android.webkit.WebView')
 WebViewClient = autoclass('android.webkit.WebViewClient')
 WebChromeClient = autoclass('android.webkit.WebChromeClient')
+Intent = autoclass('android.content.Intent')
+Uri = autoclass('android.net.Uri')
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('gneisswork')
 
+# Request code for file chooser activity result
+_FILE_CHOOSER_REQUEST = 1001
+# Holds the pending ValueCallback from onShowFileChooser
+_file_upload_callback = None
 
-class GeoWebChromeClient(PythonJavaClass):
-    """WebChromeClient proxy that auto-grants geolocation permission to the WebView."""
+
+class GeoFileWebChromeClient(PythonJavaClass):
+    """WebChromeClient that handles geolocation permissions and file uploads."""
     __javaclass__ = 'android/webkit/WebChromeClient'
     __javainterfaces__ = []
 
     @java_method('(Ljava/lang/String;Landroid/webkit/GeolocationPermissions$Callback;)V')
     def onGeolocationPermissionsShowPrompt(self, origin, callback):
         callback.invoke(origin, True, False)
+
+    @java_method(
+        '(Landroid/webkit/WebView;'
+        'Landroid/webkit/ValueCallback;'
+        'Landroid/webkit/WebChromeClient$FileChooserParams;)Z'
+    )
+    def onShowFileChooser(self, webview, value_callback, params):
+        """Launch Android file picker when <input type="file"> is tapped."""
+        global _file_upload_callback
+        # Cancel any previous pending callback
+        if _file_upload_callback is not None:
+            _file_upload_callback.onReceiveValue(None)
+        _file_upload_callback = value_callback
+        try:
+            intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.setType('*/*')
+            # Allow both images and audio
+            mime_types = ['image/*', 'audio/*']
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mime_types)
+            activity = PythonActivity.mActivity
+            activity.startActivityForResult(intent, _FILE_CHOOSER_REQUEST)
+        except Exception:
+            log.error("File chooser launch failed:\n%s", traceback.format_exc())
+            _file_upload_callback.onReceiveValue(None)
+            _file_upload_callback = None
+            return False
+        return True
+
+
+def _on_activity_result(request_code, result_code, intent):
+    """Handle result from the file picker activity."""
+    global _file_upload_callback
+    if request_code != _FILE_CHOOSER_REQUEST:
+        return
+    if _file_upload_callback is None:
+        return
+    try:
+        # RESULT_OK = -1 in Android
+        if result_code == -1 and intent is not None:
+            uri = intent.getData()
+            if uri is not None:
+                # Create a Uri[] array with one element
+                UriArray = autoclass('java.lang.reflect.Array')
+                uri_arr = UriArray.newInstance(Uri.getClass(uri), 1)
+                UriArray.set(uri_arr, 0, uri)
+                _file_upload_callback.onReceiveValue(uri_arr)
+            else:
+                _file_upload_callback.onReceiveValue(None)
+        else:
+            _file_upload_callback.onReceiveValue(None)
+    except Exception:
+        log.error("Activity result handling failed:\n%s", traceback.format_exc())
+        try:
+            _file_upload_callback.onReceiveValue(None)
+        except Exception:
+            pass
+    finally:
+        _file_upload_callback = None
 
 
 def _request_location_permission():
@@ -67,6 +133,12 @@ class GneissworkApp(App):
         self._webview = None
 
     def build(self):
+        _request_location_permission()
+        # Register file chooser activity result handler
+        activity = PythonActivity.mActivity
+        activity.registerActivityResultListener(
+            _ActivityResultListener()
+        )
         self.start_flask_server()
         Clock.schedule_interval(self._check_server, 0.5)
         # Handle Android back button
@@ -164,7 +236,7 @@ class GneissworkApp(App):
                 .getFilesDir().getAbsolutePath()
             )
             webview.setWebViewClient(WebViewClient())
-            webview.setWebChromeClient(WebChromeClient())
+            webview.setWebChromeClient(GeoWebChromeClient())
             activity.setContentView(webview)
             webview.loadUrl(self.server_url)
             self._webview = webview
