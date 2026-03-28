@@ -18,6 +18,7 @@ class Profile(db.Model):
 
     beds = db.relationship("Bed", backref="profile", cascade="all, delete-orphan",
                            order_by="Bed.position")
+    bed_photos = db.relationship("BedPhoto", backref="profile", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -58,6 +59,21 @@ class Bed(db.Model):
     top = db.Column(db.String, default="")
     bottom = db.Column(db.String, default="")
     audio = db.Column(db.String, default="")
+
+    photos = db.relationship("BedPhoto", backref="bed", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class BedPhoto(db.Model):
+    __tablename__ = "bed_photos"
+    id = db.Column(db.Integer, primary_key=True)
+    bed_id = db.Column(db.Integer, db.ForeignKey("beds.id"), nullable=False)
+    profile_id = db.Column(db.Integer, db.ForeignKey("profiles.id"), nullable=False)
+    filename = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, default="")
+    created_at = db.Column(db.DateTime, default=db.func.now())
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
