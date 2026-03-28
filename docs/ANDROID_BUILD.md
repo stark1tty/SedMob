@@ -88,10 +88,11 @@ Currently overridden:
 
 | Recipe | Bundled Version | Local Version | Reason                         |
 | ------ | --------------- | ------------- | ------------------------------ |
-| Flask    | 2.0.3           | 3.1.1         | Gneisswork requires Flask 3.0+          |
-| Werkzeug | (p4a default)   | 3.1.7         | Pinned for Flask 3.x compatibility      |
+| Flask      | 2.0.3           | 3.1.1         | Gneisswork requires Flask 3.0+                    |
+| SQLAlchemy | 1.3.3           | 2.0.40        | Flask-SQLAlchemy 3.x requires SQLAlchemy 2.0+     |
+| Werkzeug   | (p4a default)   | 3.1.7         | Pinned for Flask 3.x compatibility                |
 
-Each recipe is a Python class in `p4a-recipes/<package>/__init__.py` that extends `PythonRecipe`. Flask downloads source from GitHub and uses the default PythonRecipe install. Werkzeug bypasses the source-based workflow entirely — it overrides `build_arch` to pip-install the wheel directly from PyPI into the target site-packages, because Werkzeug 3.x uses `pyproject.toml` (flit) which PythonRecipe cannot handle. If you need to pin or override another dependency for the APK build, add a new recipe following the same pattern.
+Each recipe is a Python class in `p4a-recipes/<package>/__init__.py` that extends `PythonRecipe`. Flask downloads source from GitHub and uses the default PythonRecipe install. Werkzeug and SQLAlchemy bypass the source-based workflow — they override `build_arch` to pip-install the wheel directly from PyPI into the target site-packages, because their modern versions use `pyproject.toml` which PythonRecipe cannot handle. If you need to pin or override another dependency for the APK build, add a new recipe following the same pattern.
 
 ## Installation
 

@@ -106,6 +106,7 @@ jobs:
         rm -rf .buildozer/android/platform/build-*/build/python-installs 2>/dev/null || true
         rm -rf .buildozer/android/platform/build-*/build/other_builds/flask 2>/dev/null || true
         rm -rf .buildozer/android/platform/build-*/build/other_builds/werkzeug 2>/dev/null || true
+        rm -rf .buildozer/android/platform/build-*/build/other_builds/sqlalchemy 2>/dev/null || true
 
         # First pass — downloads SDK/NDK/p4a, compiles recipes, may fail at
         # Gradle because the manifest lacks usesCleartextTraffic.
