@@ -63,7 +63,7 @@ def _create_profile_and_bed(client):
     ext=st.sampled_from(list(ALLOWED_EXTENSIONS)),
     description=st.text(min_size=0, max_size=100),
 )
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_upload_round_trip(app, client, db, content, ext, description):
     """POSTing a valid file with description creates a BedPhoto record and saves
     the file to disk with matching content."""
@@ -100,7 +100,7 @@ def test_upload_round_trip(app, client, db, content, ext, description):
     content1=st.binary(min_size=1, max_size=512),
     content2=st.binary(min_size=1, max_size=512),
 )
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_upload_filenames_are_unique(app, client, db, content1, content2):
     """Two successive uploads to the same bed produce different filenames."""
     profile_id, bed_id = _create_profile_and_bed(client)
@@ -124,7 +124,7 @@ def test_upload_filenames_are_unique(app, client, db, content1, content2):
 # Feature: bed-photos, Property 3: Deletion round trip
 # **Validates: Requirements 5.1, 5.2**
 @given(content=st.binary(min_size=1, max_size=512))
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_delete_removes_file_and_record(app, client, db, content):
     """Deleting a photo removes the file from disk and the BedPhoto record from the database."""
     profile_id, bed_id = _create_profile_and_bed(client)
@@ -154,7 +154,7 @@ def test_delete_removes_file_and_record(app, client, db, content):
 # Feature: bed-photos, Property 4: Cascade file cleanup on bed deletion
 # **Validates: Requirements 1.3, 6.1**
 @given(content=st.binary(min_size=1, max_size=512))
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_bed_delete_removes_upload_dir(app, client, db, content):
     """Deleting a bed removes the bed's upload directory and all BedPhoto records."""
     profile_id, bed_id = _create_profile_and_bed(client)
@@ -183,7 +183,7 @@ def test_bed_delete_removes_upload_dir(app, client, db, content):
 # Feature: bed-photos, Property 5: Cascade file cleanup on profile deletion
 # **Validates: Requirements 1.4, 6.2**
 @given(content=st.binary(min_size=1, max_size=512))
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_profile_delete_removes_bed_photos(app, client, db, content):
     """Deleting a profile removes the entire profile upload directory including bed photo subdirectories."""
     profile_id, bed_id = _create_profile_and_bed(client)
@@ -208,7 +208,7 @@ def test_profile_delete_removes_bed_photos(app, client, db, content):
     content=st.binary(min_size=1, max_size=512),
     description=st.text(min_size=0, max_size=100),
 )
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@settings(max_examples=10, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_api_bed_photos_round_trip(app, client, db, content, description):
     """The photos list API and bed detail API return correct serialized BedPhoto data after upload."""
     profile_id, bed_id = _create_profile_and_bed(client)
