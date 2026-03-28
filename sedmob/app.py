@@ -6,7 +6,7 @@ import re
 import shutil
 import uuid
 import zipfile
-from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory, abort
 from sedmob.models import (
     db, Profile, Bed, BedPhoto, LithologyType, Lithology, StructureType, Structure,
     GrainClastic, GrainCarbonate, Bioturbation, Boundary,
@@ -129,6 +129,49 @@ def create_app(config=None):
         flash("Photo deleted.")
         return redirect(url_for("profile_edit", profile_id=profile.id))
 
+    # ── Bed Photo Upload ──────────────────────────────────
+    @app.route("/profile/<int:profile_id>/bed/<int:bed_id>/photo/new", methods=["POST"])
+    def bed_photo_upload(profile_id, bed_id):
+        profile = db.get_or_404(Profile, profile_id)
+        bed = db.get_or_404(Bed, bed_id)
+        if bed.profile_id != profile_id:
+            abort(404)
+        file = request.files.get("photo")
+        if not file or file.filename == "":
+            flash("No file selected.")
+            return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+        if not allowed_file(file.filename):
+            flash("File type not allowed. Use: png, jpg, jpeg, gif, webp.")
+            return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+        ext = file.filename.rsplit(".", 1)[1].lower()
+        filename = f"{uuid.uuid4().hex}.{ext}"
+        folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id))
+        os.makedirs(folder, exist_ok=True)
+        file.save(os.path.join(folder, filename))
+        description = request.form.get("description", "").strip()
+        photo = BedPhoto(bed_id=bed_id, profile_id=profile_id,
+                         filename=filename, description=description)
+        db.session.add(photo)
+        db.session.commit()
+        flash("Photo uploaded.")
+        return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+
+    @app.route("/profile/<int:profile_id>/bed/<int:bed_id>/photo/<int:photo_id>/delete",
+               methods=["POST"])
+    def bed_photo_delete(profile_id, bed_id, photo_id):
+        photo = db.get_or_404(BedPhoto, photo_id)
+        if photo.bed_id != bed_id or photo.profile_id != profile_id:
+            abort(404)
+        photo_path = os.path.join(
+            app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id), photo.filename
+        )
+        if os.path.exists(photo_path):
+            os.remove(photo_path)
+        db.session.delete(photo)
+        db.session.commit()
+        flash("Photo deleted.")
+        return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+
     # ── Bed CRUD ──────────────────────────────────────────
     @app.route("/profile/<int:profile_id>/bed/new", methods=["GET", "POST"])
     def bed_new(profile_id):
@@ -151,6 +194,12 @@ def create_app(config=None):
     def bed_delete(profile_id, bed_id):
         bed = db.get_or_404(Bed, bed_id)
         pos = bed.position
+        # Clean up bed photo files
+        bed_upload_dir = os.path.join(
+            app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id)
+        )
+        if os.path.isdir(bed_upload_dir):
+            shutil.rmtree(bed_upload_dir)
         db.session.delete(bed)
         # Shift positions down for beds after the deleted one
         Bed.query.filter(

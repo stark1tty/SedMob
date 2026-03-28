@@ -162,6 +162,38 @@
     </form>
 </div>
 {% endif %}
+{% if bed %}
+<div class="card">
+    <h2>Photos</h2>
+    {% if bed.photos %}
+    {% for photo in bed.photos %}
+    <div style="margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #eee">
+        <img src="/uploads/{{ profile.id }}/{{ bed.id }}/{{ photo.filename }}"
+             alt="Bed photo" style="max-width:100%; margin-bottom:.5rem">
+        {% if photo.description %}
+        <p style="margin:.25rem 0">{{ photo.description }}</p>
+        {% endif %}
+        <form method="post"
+              action="/profile/{{ profile.id }}/bed/{{ bed.id }}/photo/{{ photo.id }}/delete"
+              onsubmit="return confirm('Delete this photo?')">
+            <button type="submit" class="btn btn-danger">Delete Photo</button>
+        </form>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No photos uploaded.</p>
+    {% endif %}
+    <form method="post"
+          action="/profile/{{ profile.id }}/bed/{{ bed.id }}/photo/new"
+          enctype="multipart/form-data" style="margin-top:.75rem">
+        <label for="photo-description">Description</label>
+        <input id="photo-description" name="description" type="text">
+        <input type="file" name="photo" accept="image/*" style="margin-top:.5rem">
+        <button type="submit" class="btn btn-primary"
+                style="margin-top:.5rem">Upload Photo</button>
+    </form>
+</div>
+{% endif %}
 <script>
 document.querySelectorAll('select[data-name-field]').forEach(function(sel) {
     sel.addEventListener('change', function() {
