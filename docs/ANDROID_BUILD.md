@@ -76,9 +76,21 @@ Output APK location: `bin/gneisswork-*.apk`
 All build settings are in `buildozer.spec`:
 - **App metadata**: Name, version, icon
 - **Requirements**: Python packages to include
-- **Permissions**: Android permissions (currently: INTERNET, storage)
+- **Permissions**: Android permissions (currently: INTERNET only)
 - **Architecture**: Builds for ARM64 and ARMv7 by default
-- **API levels**: Targets Android 12 (API 31), minimum Android 5.0 (API 21)
+- **API levels**: Targets Android 14 (API 35), minimum Android 5.0 (API 21)
+
+### Custom python-for-android Recipes
+
+The `p4a-recipes/` directory contains local recipe overrides for python-for-android. These are referenced via `p4a.local_recipes = ./p4a-recipes` in `buildozer.spec` and take precedence over the recipes bundled with p4a.
+
+Currently overridden:
+
+| Recipe | Bundled Version | Local Version | Reason                         |
+| ------ | --------------- | ------------- | ------------------------------ |
+| Flask  | 2.0.3           | 3.1.1         | Gneisswork requires Flask 3.0+ |
+
+Each recipe is a Python class in `p4a-recipes/<package>/__init__.py` that extends `PythonRecipe` and declares the package version, download URL, and dependencies. If you need to pin or override another dependency for the APK build, add a new recipe following the same pattern.
 
 ## Installation
 
