@@ -14,11 +14,17 @@
             <option value="on" {{ 'selected' if profile and profile.direction == 'on' }}>On</option>
         </select>
         <label for="latitude">Latitude (°)</label>
-        <input id="latitude" name="latitude" value="{{ profile.latitude if profile else '' }}">
+        <input type="text" id="latitude" name="latitude" value="{{ profile.latitude if profile else '' }}">
         <label for="longitude">Longitude (°)</label>
-        <input id="longitude" name="longitude" value="{{ profile.longitude if profile else '' }}">
+        <input type="text" id="longitude" name="longitude" value="{{ profile.longitude if profile else '' }}">
         <label for="altitude">Altitude (m)</label>
-        <input id="altitude" name="altitude" value="{{ profile.altitude if profile else '' }}">
+        <input type="text" id="altitude" name="altitude" value="{{ profile.altitude if profile else '' }}">
+        <label for="accuracy">Accuracy (m)</label>
+        <input type="text" id="accuracy" name="accuracy" value="{{ profile.accuracy if profile else '' }}">
+        <label for="altitude_accuracy">Altitude Accuracy (m)</label>
+        <input type="text" id="altitude_accuracy" name="altitude_accuracy" value="{{ profile.altitude_accuracy if profile else '' }}">
+        <button type="button" id="btn-gps" class="btn btn-success" style="margin-top:.75rem">Get GPS Location</button>
+        <span id="geo-status"></span>
         <button type="submit" class="btn btn-primary" style="margin-top:1rem">Save Log</button>
     </form>
 </div>
@@ -49,4 +55,5 @@
     </form>
 </div>
 {% endif %}
+<script src="{{ url_for('static', filename='geolocation.js') }}"></script>
 {% endblock %}
