@@ -99,33 +99,6 @@ def something(profile_id):
 - Reference data is passed to templates via `_ref_data()` — add new reference tables there
 - All numeric values (thickness, percentages, phi) are stored as strings in the database to match the legacy app behavior
 
-## Roadmap Items
+## Roadmap
 
-From the README, completed features include:
-
-- ~~Grain size phi value storage~~ ✅
-- ~~Lithology percentage auto-balancing~~ ✅
-- ~~Bed direction reversal~~ ✅
-- ~~Reference data rename/edit~~ ✅
-- ~~Reference data group delete~~ ✅
-- ~~Bulk CSV export~~ ✅
-- ~~Browser geolocation~~ ✅
-- ~~GPS "Get Location" button~~ ✅
-- ~~Profile photo upload~~ ✅
-- ~~Bed photo management~~ ✅
-- ~~Bed audio upload~~ ✅
-- ~~Database backup & restore~~ ✅
-
-Planned features still to implement:
-
-- Reference data import/export
-- High-contrast field mode
-- Variable popup descriptions
-- Reference data descriptions
-- Dark mode / UI improvements
-- Default menu options for standard sedimentological recording (including Tröels-Smith 1955)
-- Colour recording menu
-- Core metadata fields (client, project, etc.)
-- Additional export options (Dropbox, email, RockWorks)
-- SedLog-style graphical previews
-- New sheet types: day sheets, trench pits, test pits, misc notes
+See the [Roadmap](roadmap.html) page for planned features and completed work.

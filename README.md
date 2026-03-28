@@ -3,190 +3,76 @@
 [![GitHub Pages](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/pages/pages-build-deployment)
 [![Build Android APK](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml/badge.svg)](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml)
 
-**Gneisswork**: A free and open-source web application for field geological and sedimentological core logging.
-
-## Introduction
-
-Gneisswork lets geologists create sedimentary logs in the field using any device with a browser. Create unlimited logs, record detailed bed-by-bed data, and export to CSV compatible with [SedLog](https://sedlog.rhul.ac.uk/) for desktop visualization.
+A free and open-source web application for field geological and sedimentological core logging. Create sedimentary logs in the field using any device with a browser.
 
 ## Features
 
 - Create and manage multiple sedimentary log profiles with GPS metadata
-- Record detailed bed data: lithology (up to 3 components), grain size (clastic and carbonate), sedimentary structures, bioturbation, boundaries, paleocurrents, and facies
-- Profile and bed photo uploads with gallery display
-- Bed audio recording uploads
+- Record detailed bed data: lithology (up to 3 components), grain size, sedimentary structures, bioturbation, boundaries, paleocurrents, and facies
+- Profile and bed photo uploads, bed audio recordings
 - Drag-and-drop bed reordering
-- CSV export compatible with SedLog, plus bulk export (all profiles as ZIP)
-- Customizable reference data (lithologies, structures, grain sizes, boundaries)
-- Pre-seeded with standard sedimentological classification schemes
-- Browser geolocation for GPS coordinate capture
-- Database backup and restore (JSON export/import)
-- Read-only JSON API for programmatic access
+- CSV export compatible with [SedLog](https://sedlog.rhul.ac.uk/), plus bulk export (ZIP)
+- Customizable reference data with standard sedimentological schemes pre-loaded
+- Database backup and restore, read-only JSON API
 - SQLite database, no external services required
 
-## Getting Started
+📖 Full documentation at [stark1tty.github.io/Gneisswork](https://stark1tty.github.io/Gneisswork/docs/)
 
-### Android APK (Mobile Field Use)
+## Quick Start
 
-Download the latest APK from the [Releases page](https://github.com/stark1tty/Gneisswork/releases) or build artifacts from the [Actions tab](https://github.com/stark1tty/Gneisswork/actions/workflows/build-apk.yml).
+### Android (Field Use)
 
-**Installation:**
-1. Download `gneisswork-*.apk` to your Android device
-2. Enable "Install from Unknown Sources" in Android settings
-3. Install the APK
-4. Launch Gneisswork - the app runs completely offline!
+Download the latest APK from the [Releases page](https://github.com/stark1tty/Gneisswork/releases). Install it, and the app runs completely offline — Python, Flask, and SQLite are all bundled in.
 
-The APK is a standalone app (~50-80 MB) with Python, Flask, and SQLite bundled. Perfect for field logging without internet.
+📖 [Building from source](docs/ANDROID_BUILD.md)
 
-📖 See [docs/ANDROID_BUILD.md](docs/ANDROID_BUILD.md) for building from source.
-
-### Web App (Desktop/Server)
-
-#### Requirements
-
-- Python 3.10+
-- pip
-
-#### Installation
+### Web App
 
 ```bash
-# Clone the repository
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
-
-# Create a virtual environment
 python -m venv .venv
 source .venv/bin/activate
-
-# Install dependencies
 pip install -r sedmob/requirements.txt
-
-# Run the application
 python run.py
 ```
 
-The app will be available at `http://localhost:5000`.
-
-#### Running Tests
-
-```bash
-pytest
-```
+Open `http://localhost:5000`.
 
 ### Docker
 
-Run Gneisswork in a container with no Python setup required.
-
 ```bash
-# Clone and start
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
 docker compose up -d
 ```
 
-The app will be available at `http://localhost:5000`. The database and uploads are persisted in Docker volumes (`db-data` and `uploads`), so your data survives container restarts.
+📖 [Getting Started guide](docs/getting-started.md) for full details including configuration and testing.
 
-To stop: `docker compose down`
-To rebuild after updates: `docker compose up -d --build`
+## Documentation
 
-## JSON API
-
-Gneisswork includes a read-only REST API at `/api` for programmatic access to your data.
-
-| Endpoint                               | Description                     |
-| -------------------------------------- | ------------------------------- |
-| `GET /api/profiles`                    | List all profiles               |
-| `GET /api/profiles/<id>`               | Single profile with nested beds |
-| `GET /api/profiles/<id>/beds`          | All beds for a profile          |
-| `GET /api/profiles/<id>/beds/<bed_id>` | Single bed detail with photos   |
-| `GET /api/profiles/<id>/beds/<bed_id>/photos` | All photos for a bed     |
-| `GET /api/profiles/<id>/beds/<bed_id>/photos/<photo_id>` | Single photo detail |
-
-All endpoints return JSON. Example:
-
-```bash
-curl http://localhost:5000/api/profiles
-```
-
-## Roadmap
-
-### Future enhancements
-
-- [ ] Variable popup descriptions — Info popups explaining each field/variable on the bed and profile forms
-- [ ] Reference data descriptions — Add a description/definition field to reference data items (lithologies, structures, etc.)
-- [ ] Dark mode / UI improvements
-- [ ] Default menu options for standard sedimentological recording (including Tröels-Smith 1955)
-- [ ] Colour recording menu
-- [ ] Core metadata fields (client, project, etc.)
-- [ ] Additional export options (Dropbox, email, RockWorks)
-- [ ] SedLog-style graphical previews
-- [ ] New sheet types: day sheets, trench pits, test pits, misc notes
-- [ ] Test project
-
-#### Missing from original app (conversion gaps)
-
-- [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)
-- [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
+| Topic                                      | Description                                  |
+| ------------------------------------------ | -------------------------------------------- |
+| [Getting Started](docs/getting-started.md) | Installation, configuration, Docker, testing |
+| [Web UI Guide](docs/web-ui-guide.md)       | Using the web interface                      |
+| [API Reference](docs/api-reference.md)     | Read-only REST API at `/api`                 |
+| [Data Models](docs/data-models.md)         | Database schema                              |
+| [CSV Export](docs/csv-export.md)           | Export format and SedLog compatibility       |
+| [Reference Data](docs/reference-data.md)   | Customizing lithologies and structures       |
+| [Architecture](docs/architecture.md)       | Technical overview                           |
+| [Contributing](docs/contributing.md)       | Development workflow                         |
+| [Roadmap](docs/roadmap.md)                 | Planned features and progress                |
 
 ## Background
 
-Gneisswork was originally developed as a Cordova-based mobile app by [Pawel Wolniewicz](https://github.com/pwlw/SedMob). This version is a rewrite as a Python/Flask web application, designed to run on any device with a browser.
+Originally developed as a Cordova mobile app by [Pawel Wolniewicz](https://github.com/pwlw/SedMob), described in:
 
-## References
+> Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary logs in the field. *Computers & Geosciences*, 66, 211-218. [doi:10.1016/j.cageo.2014.02.004](https://doi.org/10.1016/j.cageo.2014.02.004)
 
-Wolniewicz, P. (2014). SedMob: A mobile application for creating sedimentary logs in the field. *Computers & Geosciences*, 66, 211-218. [https://doi.org/10.1016/j.cageo.2014.02.004](https://doi.org/10.1016/j.cageo.2014.02.004)
+This version is a Python/Flask rewrite designed to run on any device with a browser.
 
-Zervas, D., Nichols, G.J., Hall, R., Smyth, H.R., Lüthje, C., & Murtagh, F. (2009). SedLog: A shareware program for drawing graphic logs and log data manipulation. *Computers & Geosciences*, 35(10), 2151-2159. [https://sedlog.rhul.ac.uk/](https://sedlog.rhul.ac.uk/)
-
-## Citing Gneisswork
-
-If you use Gneisswork in your research or publications, please cite the appropriate version:
-
-```bibtex
-% This web application version
-@software{gneisswork_web_2024,
-  author = {stark1tty},
-  title = {Gneisswork: Web Application for Field Geological Core Logging},
-  year = {2024},
-  url = {https://github.com/stark1tty/Gneisswork},
-  note = {Python/Flask web application}
-}
-
-% Original mobile application (SedMob)
-@software{sedmob_mobile_2014,
-  author = {Wolniewicz, Pawel},
-  title = {SedMob: Mobile Application for Sedimentary Logging},
-  year = {2014},
-  url = {https://github.com/pwlw/SedMob},
-  note = {Cordova-based mobile application}
-}
-
-% SedMob research paper
-@article{wolniewicz2014sedmob,
-  author = {Wolniewicz, Pawel},
-  title = {SedMob: A mobile application for creating sedimentary logs in the field},
-  journal = {Computers \& Geosciences},
-  volume = {66},
-  pages = {211--218},
-  year = {2014},
-  doi = {10.1016/j.cageo.2014.02.004},
-  url = {https://doi.org/10.1016/j.cageo.2014.02.004}
-}
-
-% SedLog desktop application (Gneisswork exports are compatible)
-@article{zervas2009sedlog,
-  author = {Zervas, D. and Nichols, G. J. and Hall, R. and Smyth, H. R. and L{\"u}thje, C. and Murtagh, F.},
-  title = {SedLog: A shareware program for drawing graphic logs and log data manipulation},
-  journal = {Computers \& Geosciences},
-  volume = {35},
-  number = {10},
-  pages = {2151--2159},
-  year = {2009},
-  doi = {10.1016/j.cageo.2009.02.009},
-  url = {https://sedlog.rhul.ac.uk/}
-}
-```
+📖 [Citing Gneisswork](docs/citing.md) — BibTeX entries for academic use.
 
 ## License
 
-This project is licensed under the [GNU General Public License v2.0](LICENSE) (or later), the same license as the original [SedMob](https://github.com/pwlw/SedMob) project by Pawel Wolniewicz.
+[GNU General Public License v2.0](LICENSE) (or later), the same license as the original [SedMob](https://github.com/pwlw/SedMob) project.
