@@ -38,9 +38,12 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-# Note: C-extension packages (markupsafe) must be listed explicitly so p4a
-# uses its compiled recipe instead of attempting a pip install on-device.
-requirements = python3,kivy,flask,werkzeug,jinja2,markupsafe,itsdangerous,click,blinker,flask-sqlalchemy,sqlalchemy,jnius,android
+# Only list packages that have working p4a recipes or are the direct
+# top-level dependencies. Pure-Python transitive deps (werkzeug, jinja2,
+# itsdangerous, click, blinker, sqlalchemy) are auto-installed via pip
+# during the build — do NOT list them explicitly or p4a may try to use
+# a broken/outdated recipe instead of pip.
+requirements = python3,kivy,flask,flask-sqlalchemy,jnius,android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
