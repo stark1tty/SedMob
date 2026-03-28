@@ -63,6 +63,12 @@ def create_app(config=None):
     @app.route("/profile/<int:profile_id>/delete", methods=["POST"])
     def profile_delete(profile_id):
         profile = db.get_or_404(Profile, profile_id)
+        # Clean up uploaded files
+        profile_upload_dir = os.path.join(
+            app.config["UPLOAD_FOLDER"], str(profile_id)
+        )
+        if os.path.isdir(profile_upload_dir):
+            shutil.rmtree(profile_upload_dir)
         db.session.delete(profile)
         db.session.commit()
         flash(f"Log '{profile.name}' deleted.")
@@ -73,6 +79,50 @@ def create_app(config=None):
     def uploaded_file(profile_id, filename):
         folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id))
         return send_from_directory(folder, filename)
+
+    @app.route("/profile/<int:profile_id>/photo", methods=["POST"])
+    def profile_photo_upload(profile_id):
+        profile = db.get_or_404(Profile, profile_id)
+        file = request.files.get("photo")
+        if not file or file.filename == "":
+            flash("No file selected.")
+            return redirect(url_for("profile_edit", profile_id=profile.id))
+        if not allowed_file(file.filename):
+            flash("File type not allowed. Use: png, jpg, jpeg, gif, webp.")
+            return redirect(url_for("profile_edit", profile_id=profile.id))
+        # Remove old photo if replacing
+        if profile.photo:
+            old_path = os.path.join(
+                app.config["UPLOAD_FOLDER"], str(profile.id), profile.photo
+            )
+            if os.path.exists(old_path):
+                os.remove(old_path)
+        # Save new photo
+        ext = file.filename.rsplit(".", 1)[1].lower()
+        filename = f"{uuid.uuid4().hex}.{ext}"
+        folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile.id))
+        os.makedirs(folder, exist_ok=True)
+        file.save(os.path.join(folder, filename))
+        profile.photo = filename
+        db.session.commit()
+        flash("Photo uploaded.")
+        return redirect(url_for("profile_edit", profile_id=profile.id))
+
+    @app.route("/profile/<int:profile_id>/photo/delete", methods=["POST"])
+    def profile_photo_delete(profile_id):
+        profile = db.get_or_404(Profile, profile_id)
+        if not profile.photo:
+            flash("No photo to delete.")
+            return redirect(url_for("profile_edit", profile_id=profile.id))
+        photo_path = os.path.join(
+            app.config["UPLOAD_FOLDER"], str(profile.id), profile.photo
+        )
+        if os.path.exists(photo_path):
+            os.remove(photo_path)
+        profile.photo = ""
+        db.session.commit()
+        flash("Photo deleted.")
+        return redirect(url_for("profile_edit", profile_id=profile.id))
 
     # ── Bed CRUD ──────────────────────────────────────────
     @app.route("/profile/<int:profile_id>/bed/new", methods=["GET", "POST"])

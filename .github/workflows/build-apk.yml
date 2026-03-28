@@ -179,8 +179,14 @@ jobs:
 
         # Build set of owner identifiers to suppress attribution for
         owner_ids = {repo_owner.lower()}
-        # Also match noreply GitHub emails for the owner
-        owner_ids.add(f"{repo_owner.lower()}@users.noreply.github.com")
+
+        def is_owner_email(email):
+            """Match GitHub noreply emails like 12345+user@users.noreply.github.com"""
+            e = email.lower()
+            return (
+                e == f"{repo_owner.lower()}@users.noreply.github.com"
+                or e.endswith(f"+{repo_owner.lower()}@users.noreply.github.com")
+            )
 
         for chunk in result.stdout.strip().split(COMMIT_END):
             chunk = chunk.strip()
@@ -198,7 +204,7 @@ jobs:
             # Only show author for external contributors
             is_owner = (
                 author.lower() in owner_ids
-                or email.lower() in owner_ids
+                or is_owner_email(email)
                 or author == "github-actions[bot]"
             )
             if author and not is_owner:
