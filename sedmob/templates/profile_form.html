@@ -30,6 +30,25 @@
 </div>
 {% if profile %}
 <div class="card">
+    <h2>Photo</h2>
+    {% if profile.photo %}
+    <img src="/uploads/{{ profile.id }}/{{ profile.photo }}"
+         alt="Profile photo" style="max-width:100%; margin-bottom:.75rem">
+    <form method="post" action="/profile/{{ profile.id }}/photo/delete"
+          onsubmit="return confirm('Delete this photo?')">
+        <button type="submit" class="btn btn-danger">Delete Photo</button>
+    </form>
+    {% else %}
+    <p>No photo uploaded.</p>
+    {% endif %}
+    <form method="post" action="/profile/{{ profile.id }}/photo"
+          enctype="multipart/form-data" style="margin-top:.75rem">
+        <input type="file" name="photo" accept="image/*">
+        <button type="submit" class="btn btn-primary"
+                style="margin-top:.5rem">Upload Photo</button>
+    </form>
+</div>
+<div class="card">
     <h2>Beds</h2>
     <a href="/profile/{{ profile.id }}/bed/new" class="btn btn-primary">Add new bed</a>
     {% if beds %}
