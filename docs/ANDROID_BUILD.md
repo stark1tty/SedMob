@@ -12,14 +12,15 @@ Gneisswork can be packaged as a standalone Android APK using [Buildozer](https:/
 The APK bundles:
 - Python 3 runtime
 - Flask web server
-- Kivy UI framework
+- Kivy (Android bootstrap only)
 - All Gneisswork dependencies
 - SQLite database
 
 When launched, the app:
-1. Starts a local Flask server on `127.0.0.1:5000`
-2. Opens a WebView displaying the Flask UI
-3. Runs completely offline on the device
+1. Starts a local Flask server in a background thread on `127.0.0.1:5000`
+2. Polls until the server is ready
+3. Replaces the Kivy surface with a native Android `WebView` (via pyjnius) displaying the Flask UI
+4. Runs completely offline on the device
 
 ## Automated Builds (GitHub Actions)
 
@@ -128,6 +129,6 @@ All build settings are in `buildozer.spec`:
 
 - First build downloads ~2GB of Android SDK/NDK components
 - Build cache is stored in `.buildozer/` (git-ignored)
-- The `main.py` file is the Android entry point (uses Kivy + Flask)
+- The `main.py` file is the Android entry point (Kivy bootstrap → Flask thread → native Android WebView via pyjnius)
 - The regular `run.py` is still used for desktop development
 - WebView requires Android 5.0+ (API 21)
