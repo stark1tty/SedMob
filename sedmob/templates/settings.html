@@ -19,4 +19,68 @@
         <button type="submit" class="btn btn-danger">Restore</button>
     </form>
 </div>
+
+<div class="card">
+    <h2>Application Logs</h2>
+    <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem">
+        <button id="logs-toggle" class="btn btn-primary" type="button">Start</button>
+        <button id="logs-clear" class="btn btn-danger" type="button">Clear</button>
+        <span id="logs-status" style="font-size:.8rem; color:#888">Paused</span>
+    </div>
+    <pre id="logs-output" style="
+        background:#1e1e1e; color:#d4d4d4; padding:.75rem; border-radius:6px;
+        height:320px; overflow-y:auto; font-size:.78rem; line-height:1.5;
+        white-space:pre-wrap; word-break:break-all; margin:0;
+    " aria-label="Live application logs"></pre>
+</div>
+
+<script>
+(function () {
+    var output = document.getElementById("logs-output");
+    var toggle = document.getElementById("logs-toggle");
+    var clearBtn = document.getElementById("logs-clear");
+    var status = document.getElementById("logs-status");
+    var timer = null;
+    var cursor = -1;
+    var POLL_MS = 2000;
+
+    function poll() {
+        fetch("/logs?after=" + cursor)
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data.lines.length) {
+                    cursor = data.cursor;
+                    output.textContent += data.lines.join("\n") + "\n";
+                    output.scrollTop = output.scrollHeight;
+                }
+            })
+            .catch(function () { /* silently retry next tick */ });
+    }
+
+    function start() {
+        if (timer) return;
+        timer = setInterval(poll, POLL_MS);
+        poll();
+        toggle.textContent = "Pause";
+        status.textContent = "Live";
+        status.style.color = "#27ae60";
+    }
+
+    function pause() {
+        clearInterval(timer);
+        timer = null;
+        toggle.textContent = "Start";
+        status.textContent = "Paused";
+        status.style.color = "#888";
+    }
+
+    toggle.addEventListener("click", function () {
+        timer ? pause() : start();
+    });
+
+    clearBtn.addEventListener("click", function () {
+        output.textContent = "";
+    });
+})();
+</script>
 {% endblock %}

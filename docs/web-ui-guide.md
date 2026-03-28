@@ -186,6 +186,15 @@ A "Download Backup" button exports the entire database as a JSON file. The backu
 
 A file upload form accepts a previously exported JSON backup file. Restoring replaces all existing data with the contents of the backup file. A confirmation is required before proceeding. Uploaded files (photos, audio) are not included in the backup — only database records.
 
+#### Application Logs
+
+A live log viewer displays recent server log output. Controls:
+
+- **Start / Pause** — toggles polling of the `/logs` endpoint every 2 seconds
+- **Clear** — clears the displayed log text
+
+New log lines are appended automatically and the panel scrolls to the latest entry. The viewer starts paused by default.
+
 ---
 
 ### Reference Data Management

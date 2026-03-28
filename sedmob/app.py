@@ -1,14 +1,29 @@
 """Gneisswork – Sedimentary logging web application."""
+import collections
 import csv
 import io
 import json
+import logging
 import os
 import re
 import shutil
 import uuid
 import zipfile
 from datetime import datetime, timezone
-from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory, abort, jsonify
+
+
+# ── In-memory log buffer ──────────────────────────────────
+_LOG_BUFFER_SIZE = 200
+
+class _BufferedHandler(logging.Handler):
+    """Ring-buffer handler that keeps the last N formatted log lines."""
+    def __init__(self, capacity=_LOG_BUFFER_SIZE):
+        super().__init__()
+        self.buffer = collections.deque(maxlen=capacity)
+
+    def emit(self, record):
+        self.buffer.append(self.format(record))
 from sedmob.models import (
     db, Profile, Bed, BedPhoto, LithologyType, Lithology, StructureType, Structure,
     GrainClastic, GrainCarbonate, Bioturbation, Boundary,
@@ -38,6 +53,18 @@ def create_app(config=None):
     with app.app_context():
         db.create_all()
         seed_database()
+
+    # ── Logging setup ─────────────────────────────────────
+    _log_handler = _BufferedHandler()
+    _log_handler.setFormatter(logging.Formatter(
+        "%(asctime)s  %(levelname)-8s  %(name)s – %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    ))
+    _log_handler.setLevel(logging.DEBUG)
+    # Attach to Flask's logger and the root werkzeug logger
+    app.logger.addHandler(_log_handler)
+    app.logger.setLevel(logging.DEBUG)
+    logging.getLogger("werkzeug").addHandler(_log_handler)
 
     # ── Home ──────────────────────────────────────────────
     @app.route("/")
@@ -588,6 +615,15 @@ def create_app(config=None):
     @app.route("/settings")
     def settings():
         return render_template("settings.html")
+
+    @app.route("/logs")
+    def logs():
+        """Return recent log lines as JSON (used by the live-logs panel)."""
+        after = request.args.get("after", -1, type=int)
+        all_lines = list(_log_handler.buffer)
+        # Each response includes a cursor so the client only fetches new lines
+        start = max(0, after + 1)
+        return jsonify({"cursor": len(all_lines) - 1, "lines": all_lines[start:]})
 
     # ── Helpers ────────────────────────────────────────────
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
