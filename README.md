@@ -110,25 +110,8 @@ curl http://localhost:5000/api/profiles
 
 ## Roadmap
 
-### Missing from original app (conversion gaps)
-
-- [x] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
-- [x] Profile photo upload — Upload/display a photo per profile (original: camera capture)
-- [x] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
-- [x] Reference data rename/edit — Rename lithologies, structures, and their groups (original: `butsavesymbol`)
-- [x] Reference data group delete — Delete lithology/structure groups with cascade (original: `butdelsymbol` for groups)
-- [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)
-- [x] Grain size phi value storage — Store phi values alongside grain size names in bed form (original: stored both)
-- [x] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% with server-side validation (original: `pagebed.js`)
-- [x] Database backup & restore — Export/import full database as downloadable JSON file (original: SQL dump to file)
-- [x] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
-- [x] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
-- [x] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
-- [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
-
 ### Future enhancements
 
-- [x] GPS "Get Location" button — Capture current device coordinates into Lat/Long/Alt fields on the profile form
 - [ ] Variable popup descriptions — Info popups explaining each field/variable on the bed and profile forms
 - [ ] Reference data descriptions — Add a description/definition field to reference data items (lithologies, structures, etc.)
 - [ ] Dark mode / UI improvements
@@ -139,6 +122,11 @@ curl http://localhost:5000/api/profiles
 - [ ] SedLog-style graphical previews
 - [ ] New sheet types: day sheets, trench pits, test pits, misc notes
 - [ ] Test project
+
+#### Missing from original app (conversion gaps)
+
+- [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)
+- [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
 
 ## Background
 
