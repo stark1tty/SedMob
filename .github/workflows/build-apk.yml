@@ -156,7 +156,7 @@ jobs:
         # Use record separator and group separator as delimiters
         SEP = "\x1f"
         COMMIT_END = "\x1e"
-        fmt = f"%s{SEP}%b{SEP}%an{COMMIT_END}"
+        fmt = f"%s{SEP}%b{SEP}%an{SEP}%ae{COMMIT_END}"
         cmd = ["git", "log", commit_range, f"--pretty=format:{fmt}", "--no-merges"]
         result = subprocess.run(cmd, capture_output=True, text=True)
 
@@ -177,6 +177,11 @@ jobs:
             "chores": re.compile(r"^(chore|ci|build|refactor|style|perf)[:(]", re.I),
         }
 
+        # Build set of owner identifiers to suppress attribution for
+        owner_ids = {repo_owner.lower()}
+        # Also match noreply GitHub emails for the owner
+        owner_ids.add(f"{repo_owner.lower()}@users.noreply.github.com")
+
         for chunk in result.stdout.strip().split(COMMIT_END):
             chunk = chunk.strip()
             if not chunk:
@@ -185,12 +190,18 @@ jobs:
             subject = parts[0].strip() if len(parts) > 0 else ""
             body = parts[1].strip().split("\n")[0].strip() if len(parts) > 1 else ""
             author = parts[2].strip() if len(parts) > 2 else ""
+            email = parts[3].strip() if len(parts) > 3 else ""
 
             if not subject:
                 continue
 
             # Only show author for external contributors
-            if author and author.lower() != repo_owner.lower() and author != "github-actions[bot]":
+            is_owner = (
+                author.lower() in owner_ids
+                or email.lower() in owner_ids
+                or author == "github-actions[bot]"
+            )
+            if author and not is_owner:
                 entry = f"- {subject} (by {author})"
             else:
                 entry = f"- {subject}"

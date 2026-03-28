@@ -1,9 +1,12 @@
 """Gneisswork – Sedimentary logging web application."""
 import csv
 import io
+import os
 import re
+import shutil
+import uuid
 import zipfile
-from flask import Flask, render_template, request, redirect, url_for, flash, Response
+from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory
 from sedmob.models import (
     db, Profile, Bed, LithologyType, Lithology, StructureType, Structure,
     GrainClastic, GrainCarbonate, Bioturbation, Boundary,
@@ -18,6 +21,12 @@ def create_app(config=None):
     app.config["SECRET_KEY"] = "dev-secret-key"
     if config:
         app.config.update(config)
+
+    app.config["UPLOAD_FOLDER"] = app.config.get(
+        "UPLOAD_FOLDER",
+        os.path.join(app.root_path, "..", "uploads")
+    )
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
     db.init_app(app)
 
