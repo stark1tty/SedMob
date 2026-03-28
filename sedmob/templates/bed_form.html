@@ -215,6 +215,11 @@
         <button type="submit" class="btn btn-primary"
                 style="margin-top:.5rem">Upload Audio</button>
     </form>
+    <div style="margin-top:.75rem">
+        <button type="button" id="btn-record" class="btn btn-success"
+                data-upload-url="/profile/{{ profile.id }}/bed/{{ bed.id }}/audio">Record Audio</button>
+        <span id="record-status" style="margin-left:.5rem; font-size:.85rem; color:#888"></span>
+    </div>
 </div>
 {% endif %}
 <script>
@@ -267,4 +272,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<script src="{{ url_for('static', filename='recorder.js') }}"></script>
 {% endblock %}

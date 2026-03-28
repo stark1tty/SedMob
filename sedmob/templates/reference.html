@@ -90,4 +90,114 @@
     </table>
     {% endfor %}
 </div>
+
+<div class="card">
+    <h2>Grain Size – Clastic</h2>
+    <form method="post" action="/reference/grain-clastic/add" style="margin-bottom:1rem">
+        <label for="gc_name">Name</label>
+        <input id="gc_name" name="name" required>
+        <label for="gc_phi">Phi value</label>
+        <input id="gc_phi" name="phi">
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    <table>
+        {% for g in grain_clastic %}
+        <tr>
+            <td>
+                <form method="post" action="/reference/grain-clastic/{{ g.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ g.name }}" required style="width:auto; display:inline-block">
+                    <input name="phi" value="{{ g.phi }}" style="width:5rem; display:inline-block" placeholder="phi">
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/reference/grain-clastic/{{ g.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <h2>Grain Size – Carbonate</h2>
+    <form method="post" action="/reference/grain-carbonate/add" style="margin-bottom:1rem">
+        <label for="gcarb_name">Name</label>
+        <input id="gcarb_name" name="name" required>
+        <label for="gcarb_phi">Phi value</label>
+        <input id="gcarb_phi" name="phi">
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    <table>
+        {% for g in grain_carbonate %}
+        <tr>
+            <td>
+                <form method="post" action="/reference/grain-carbonate/{{ g.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ g.name }}" required style="width:auto; display:inline-block">
+                    <input name="phi" value="{{ g.phi }}" style="width:5rem; display:inline-block" placeholder="phi">
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/reference/grain-carbonate/{{ g.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <h2>Bioturbation</h2>
+    <form method="post" action="/reference/bioturbation/add" style="margin-bottom:1rem">
+        <label for="bio_name">Name</label>
+        <input id="bio_name" name="name" required>
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    <table>
+        {% for b in bioturbation %}
+        <tr>
+            <td>
+                <form method="post" action="/reference/bioturbation/{{ b.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ b.name }}" required>
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/reference/bioturbation/{{ b.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="card">
+    <h2>Boundaries</h2>
+    <form method="post" action="/reference/boundary/add" style="margin-bottom:1rem">
+        <label for="bnd_name">Name</label>
+        <input id="bnd_name" name="name" required>
+        <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
+    </form>
+    <table>
+        {% for b in boundaries %}
+        <tr>
+            <td>
+                <form method="post" action="/reference/boundary/{{ b.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ b.name }}" required>
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/reference/boundary/{{ b.id }}/delete" style="display:inline">
+                    <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
