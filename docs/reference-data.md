@@ -202,12 +202,17 @@ Reference data can be managed through the web UI at `/reference`:
 
 - Add new lithologies to existing groups or create new groups
 - Add new structures to existing groups or create new groups
+- Rename individual lithologies and structures inline
+- Rename lithology and structure groups inline
 - Delete individual lithologies or structures
+- Delete entire lithology or structure groups (cascades to all items in the group)
 
 Validation rules:
 - Names must contain only letters, digits, and spaces
 - Duplicate names within the same table are rejected
+- Renaming to the current name is allowed (no-op)
 - Deleting a lithology or structure does not affect existing bed records (beds store values by name, not by foreign key)
+- Deleting a group removes the group and all its child items
 
 SedLog interoperability: Custom lithologies and structures added in Gneisswork must use the same names as their counterparts in SedLog for CSV exports to render correctly. SedLog also requires corresponding image files for custom symbols to generate graphic logs (see [Wolniewicz, 2014](https://doi.org/10.1016/j.cageo.2014.02.004)).
 

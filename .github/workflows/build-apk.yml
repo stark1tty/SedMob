@@ -18,6 +18,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
     
     - name: Set up Python
       uses: actions/setup-python@v6
@@ -124,11 +126,103 @@ jobs:
         git tag "${{ steps.version.outputs.tag }}"
         git push origin "${{ steps.version.outputs.tag }}"
     
+    - name: Generate release notes
+      if: github.event_name == 'push'
+      id: notes
+      run: |
+        git fetch --tags
+
+        # Find the previous tag
+        if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          CURRENT_TAG="${GITHUB_REF#refs/tags/}"
+          PREV_TAG=$(git tag -l 'v*' --sort=-v:refname | grep -v "^${CURRENT_TAG}$" | head -n1)
+        else
+          PREV_TAG=$(git tag -l 'v*' --sort=-v:refname | sed -n '2p')
+        fi
+
+        if [ -z "$PREV_TAG" ]; then
+          RANGE="HEAD"
+        else
+          RANGE="${PREV_TAG}..HEAD"
+        fi
+
+        # Generate categorized release notes
+        python3 - "$RANGE" <<'PYEOF'
+        import subprocess, sys, re
+
+        commit_range = sys.argv[1]
+        cmd = ["git", "log", commit_range, "--pretty=format:%s\x1f%b\x1f%an", "--no-merges"]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+
+        categories = {
+            "features": ("🚀 New Features", []),
+            "fixes": ("🐛 Bug Fixes", []),
+            "docs": ("📖 Documentation", []),
+            "tests": ("🧪 Testing", []),
+            "chores": ("🔧 Maintenance", []),
+            "other": ("Other Changes", []),
+        }
+
+        patterns = {
+            "features": re.compile(r"^(feat|feature|add)[:(]", re.I),
+            "fixes": re.compile(r"^(fix|bugfix|bug)[:(]", re.I),
+            "docs": re.compile(r"^(docs?)[:(]", re.I),
+            "tests": re.compile(r"^(tests?)[:(]", re.I),
+            "chores": re.compile(r"^(chore|ci|build|refactor|style|perf)[:(]", re.I),
+        }
+
+        for line in result.stdout.strip().split("\n"):
+            if not line.strip():
+                continue
+            parts = line.split("\x1f")
+            subject = parts[0] if len(parts) > 0 else ""
+            body = parts[1].strip().split("\n")[0].strip() if len(parts) > 1 else ""
+            author = parts[2] if len(parts) > 2 else "unknown"
+
+            if not subject:
+                continue
+
+            entry = f"- {subject} (by {author})"
+            if body and body != subject:
+                entry += f"\n  > {body}"
+
+            matched = False
+            for cat, pattern in patterns.items():
+                if pattern.match(subject):
+                    categories[cat][1].append(entry)
+                    matched = True
+                    break
+            if not matched:
+                categories["other"][1].append(entry)
+
+        lines = []
+        for key in ["features", "fixes", "docs", "tests", "chores", "other"]:
+            title, entries = categories[key]
+            if entries:
+                lines.append(f"## {title}\n")
+                lines.extend(entries)
+                lines.append("")
+
+        if not any(entries for _, entries in categories.values()):
+            lines.append("## Changes\n")
+            for line in result.stdout.strip().split("\n"):
+                parts = line.split("\x1f")
+                if parts[0]:
+                    author = parts[2] if len(parts) > 2 else "unknown"
+                    lines.append(f"- {parts[0]} (by {author})")
+
+        with open("/tmp/release_notes.md", "w") as f:
+            f.write("\n".join(lines) + "\n")
+        PYEOF
+
+        echo "notes_file=/tmp/release_notes.md" >> "$GITHUB_OUTPUT"
+    
     - name: Create Release (auto version)
       if: steps.version.outcome == 'success'
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.version.outputs.tag }}
+        body_path: ${{ steps.notes.outputs.notes_file }}
         files: bin/*.apk
         draft: false
         prerelease: false
@@ -140,6 +234,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
+        body_path: ${{ steps.notes.outputs.notes_file }}
         files: bin/*.apk
         draft: false
         prerelease: false
