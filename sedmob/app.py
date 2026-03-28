@@ -68,6 +68,12 @@ def create_app(config=None):
         flash(f"Log '{profile.name}' deleted.")
         return redirect(url_for("home"))
 
+    # ── Photo Upload ──────────────────────────────────────
+    @app.route("/uploads/<int:profile_id>/<filename>")
+    def uploaded_file(profile_id, filename):
+        folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id))
+        return send_from_directory(folder, filename)
+
     # ── Bed CRUD ──────────────────────────────────────────
     @app.route("/profile/<int:profile_id>/bed/new", methods=["GET", "POST"])
     def bed_new(profile_id):
@@ -386,6 +392,12 @@ def create_app(config=None):
         return redirect(url_for("reference"))
 
     # ── Helpers ────────────────────────────────────────────
+    ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+
+    def allowed_file(filename):
+        return "." in filename and \
+               filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
     def _validate_percentages(form):
         """Return an error message string if percentages are invalid, else None."""
         raw = [form.get("lit1_percentage", ""),
