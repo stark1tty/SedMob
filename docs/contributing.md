@@ -13,7 +13,11 @@ cd Gneisswork
 
 python -m venv .venv
 source .venv/bin/activate
+```
 
+Dependencies are installed automatically when you run `python run.py`. To install them manually:
+
+```bash
 pip install -r sedmob/requirements.txt
 ```
 
@@ -46,7 +50,7 @@ pytest --tb=short
 | `sedmob/api.py`       | Read-only JSON API blueprint                        |
 | `sedmob/app.py`       | App factory, all web routes, and helper functions   |
 | `sedmob/templates/`   | Jinja2 HTML templates                               |
-| `run.py`              | Entry point — do not add logic here                 |
+| `run.py`              | Entry point — auto-installs dependencies, starts Flask |
 
 ## Adding a New Route
 

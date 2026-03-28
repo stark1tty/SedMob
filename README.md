@@ -33,9 +33,10 @@ git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
 python -m venv .venv
 source .venv/bin/activate
-pip install -r sedmob/requirements.txt
 python run.py
 ```
+
+`run.py` automatically installs dependencies from `sedmob/requirements.txt` on startup.
 
 Open `http://localhost:5000`.
 
