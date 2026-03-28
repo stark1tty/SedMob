@@ -16,7 +16,7 @@ A free and open-source web application for field geological and sedimentological
 - Database backup and restore, read-only JSON API
 - SQLite database, no external services required
 
-📖 Full documentation at [stark1tty.github.io/Gneisswork](https://stark1tty.github.io/Gneisswork/docs/)
+📖 Full documentation at [gneisswork.app/docs](https://gneisswork.app/docs/)
 
 ## Quick Start
 

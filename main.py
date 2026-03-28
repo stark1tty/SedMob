@@ -17,7 +17,6 @@ from jnius import autoclass
 PythonActivity = autoclass('org.kivy.android.PythonActivity')
 AndroidWebView = autoclass('android.webkit.WebView')
 WebViewClient = autoclass('android.webkit.WebViewClient')
-WebSettings = autoclass('android.webkit.WebSettings')
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('gneisswork')

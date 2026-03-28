@@ -50,4 +50,5 @@ Gneisswork is a free and open-source web application for field geological and se
 ## Getting Help
 
 - **Issues**: Report bugs on [GitHub Issues](https://github.com/stark1tty/Gneisswork/issues)
+- **Website**: [gneisswork.app](https://gneisswork.app)
 - **Main Repository**: [github.com/stark1tty/Gneisswork](https://github.com/stark1tty/Gneisswork)
