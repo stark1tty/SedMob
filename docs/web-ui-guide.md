@@ -31,7 +31,7 @@ Displays a list of all sedimentary log profiles in a table with:
 | Description | Profile description text           |
 | Actions     | CSV export button for each profile |
 
-A "Create new log" button at the top opens the new profile form.
+A "Create new log" button at the top opens the new profile form. When profiles exist, an "Export All" button appears next to it, downloading a ZIP archive of all profiles as CSV files.
 
 If no profiles exist, a "No logs yet." message is shown.
 
@@ -161,13 +161,19 @@ Two sections for managing classification data:
 
 - View all lithology groups with their child lithologies in a table
 - Add a new lithology to an existing group, or create a new group by leaving the group selector blank
+- Rename individual lithologies inline
+- Rename lithology groups inline
 - Delete individual lithologies
+- Delete entire lithology groups (cascades to all items in the group)
 
 #### Structure Groups & Types
 
 - View all structure groups with their child structures
 - Add a new structure to an existing group, or create a new group
+- Rename individual structures inline
+- Rename structure groups inline
 - Delete individual structures
+- Delete entire structure groups (cascades to all items in the group)
 
 Validation: Names must contain only letters, digits, and spaces. Duplicate names are rejected.
 

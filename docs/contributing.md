@@ -101,18 +101,23 @@ def something(profile_id):
 
 ## Roadmap Items
 
-From the README, planned features include:
+From the README, completed features include:
+
+- ~~Grain size phi value storage~~ ✅
+- ~~Lithology percentage auto-balancing~~ ✅
+- ~~Bed direction reversal~~ ✅
+- ~~Reference data rename/edit~~ ✅
+- ~~Reference data group delete~~ ✅
+- ~~Bulk CSV export~~ ✅
+
+Planned features still to implement:
 
 - Bed photo management
 - Profile photo upload
-- Bulk CSV export
-- Reference data rename/edit and group delete
 - Reference data import/export
-- ~~Lithology percentage auto-balancing~~ ✅
 - Database backup & restore
 - Bed audio upload
 - Browser geolocation
-- Bed direction reversal
 - High-contrast field mode
 - GPS "Get Location" button
 - Variable popup descriptions

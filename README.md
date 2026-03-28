@@ -109,7 +109,7 @@ curl http://localhost:5000/api/profiles
 
 - [ ] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
 - [ ] Profile photo upload — Upload/display a photo per profile (original: camera capture)
-- [ ] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
+- [x] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
 - [x] Reference data rename/edit — Rename lithologies, structures, and their groups (original: `butsavesymbol`)
 - [x] Reference data group delete — Delete lithology/structure groups with cascade (original: `butdelsymbol` for groups)
 - [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)

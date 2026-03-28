@@ -17,6 +17,7 @@ Welcome to the Gneisswork documentation! Choose a topic from the navigation belo
 - [Reference Data](reference-data.html) — Customizing lithologies and structures
 - [Architecture](architecture.html) — Technical overview
 - [Contributing](contributing.html) — How to contribute
+- [Android APK Build](ANDROID_BUILD.html) — Building the Android APK
 - [Legacy Mobile App](legacy-mobile-app.html) — Original Cordova app history
 
 ## Overview

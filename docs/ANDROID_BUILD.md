@@ -1,3 +1,8 @@
+---
+layout: default
+title: Android APK Build
+---
+
 # Building Gneisswork as an Android APK
 
 Gneisswork can be packaged as a standalone Android APK using [Buildozer](https://buildozer.readthedocs.io/) and [Python for Android](https://python-for-android.readthedocs.io/).

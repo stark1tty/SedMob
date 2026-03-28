@@ -78,6 +78,7 @@ Routes are organized into logical groups within `app.py`:
 | Profile CRUD    | `/profile/...`          | Create, edit, delete profiles      |
 | Bed CRUD        | `/profile/<id>/bed/...` | Create, edit, delete, reorder beds |
 | CSV Export      | `/profile/<id>/export`  | Download profile as CSV            |
+| Bulk Export     | `/export/all`           | Download all profiles as ZIP of CSVs |
 | Reference Data  | `/reference/...`        | Manage lithologies and structures  |
 | API (Blueprint) | `/api/...`              | Read-only JSON API                 |
 

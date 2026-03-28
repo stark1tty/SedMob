@@ -15,6 +15,16 @@ GET /profile/<profile_id>/export
 
 This triggers a file download with the filename `<profile_name>_export.csv` (spaces replaced with underscores).
 
+## Bulk Export
+
+```
+GET /export/all
+```
+
+Downloads a ZIP archive (`gneisswork_export.zip`) containing one CSV file per profile. Each CSV uses the same SedLog-compatible format described below. Filenames are sanitized (spaces → underscores, special characters removed). If no profiles exist, the user is redirected to the home page with a flash message.
+
+The "Export All" button appears on the home page when at least one profile exists.
+
 ## CSV Columns
 
 The export includes one header row followed by one row per bed, ordered by position. Columns 1–25 use SedLog-compatible headers (matching the original SedMob Cordova app) so that exported files can be opened directly in SedLog. Columns 26–40 are Gneisswork extras that SedLog ignores.
