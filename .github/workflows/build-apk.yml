@@ -97,9 +97,15 @@ jobs:
 
     - name: Build APK with Buildozer
       run: |
-        # Clean stale p4a dists so local recipe overrides (Flask 3.x,
-        # Werkzeug 3.x) are picked up instead of p4a's bundled versions.
+        # Clean stale p4a build artifacts so local recipe overrides (Flask 3.x,
+        # Werkzeug 3.x) are picked up instead of cached old versions.
+        # - dists: final distribution (forces repackaging)
+        # - python-installs: installed Python packages (forces reinstall)
+        # - other_builds/flask & werkzeug: recipe build dirs (forces rebuild)
         rm -rf .buildozer/android/platform/build-*/dists 2>/dev/null || true
+        rm -rf .buildozer/android/platform/build-*/build/python-installs 2>/dev/null || true
+        rm -rf .buildozer/android/platform/build-*/build/other_builds/flask 2>/dev/null || true
+        rm -rf .buildozer/android/platform/build-*/build/other_builds/werkzeug 2>/dev/null || true
 
         # First pass — downloads SDK/NDK/p4a, compiles recipes, may fail at
         # Gradle because the manifest lacks usesCleartextTraffic.
