@@ -314,3 +314,197 @@ def test_rename_structure_group_404(client, db):
         data={"name": "Whatever"},
     )
     assert resp.status_code == 404
+
+
+# ── Property-based tests ──────────────────────────────────
+
+# Feature: reference-data-editing, Property 1: Valid rename updates the name
+# Validates: Requirements 1.1, 2.1, 3.1, 4.1, 8.1, 8.2
+
+valid_name_strategy = st.text(
+    alphabet=st.characters(whitelist_categories=("L", "N", "Zs")),
+    min_size=1,
+).filter(lambda s: s.strip().replace(" ", "").isalnum() and len(s.strip()) > 0)
+
+
+@given(name=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_valid_rename_updates_name_lithology(client, db, name):
+    """Property 1 – Lithology: any valid name is accepted and stored (stripped)."""
+    uid = uuid.uuid4().hex[:8]
+    unique_initial = f"PropLith {uid}"
+    # Ensure the target name is unique by appending a suffix
+    unique_name = f"{name.strip()} {uid}"
+    lt = LithologyType.query.first()
+    item = Lithology(type_id=lt.id, name=unique_initial)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    resp = client.post(f"/reference/lithology/{item_id}/rename", data={"name": unique_name})
+    assert resp.status_code == 302
+
+    updated = _db.session.get(Lithology, item_id)
+    assert updated.name == unique_name.strip()
+
+    # cleanup
+    _db.session.delete(updated)
+    _db.session.commit()
+
+
+@given(name=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_valid_rename_updates_name_structure(client, db, name):
+    """Property 1 – Structure: any valid name is accepted and stored (stripped)."""
+    uid = uuid.uuid4().hex[:8]
+    unique_initial = f"PropStruct {uid}"
+    unique_name = f"{name.strip()} {uid}"
+    st_type = StructureType.query.first()
+    item = Structure(type_id=st_type.id, name=unique_initial)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    resp = client.post(f"/reference/structure/{item_id}/rename", data={"name": unique_name})
+    assert resp.status_code == 302
+
+    updated = _db.session.get(Structure, item_id)
+    assert updated.name == unique_name.strip()
+
+    _db.session.delete(updated)
+    _db.session.commit()
+
+
+@given(name=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_valid_rename_updates_name_lithology_type(client, db, name):
+    """Property 1 – LithologyType: any valid name is accepted and stored (stripped)."""
+    uid = uuid.uuid4().hex[:8]
+    unique_initial = f"PropLithType {uid}"
+    unique_name = f"{name.strip()} {uid}"
+    item = LithologyType(name=unique_initial)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    resp = client.post(f"/reference/lithology-type/{item_id}/rename", data={"name": unique_name})
+    assert resp.status_code == 302
+
+    updated = _db.session.get(LithologyType, item_id)
+    assert updated.name == unique_name.strip()
+
+    _db.session.delete(updated)
+    _db.session.commit()
+
+
+@given(name=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_valid_rename_updates_name_structure_type(client, db, name):
+    """Property 1 – StructureType: any valid name is accepted and stored (stripped)."""
+    uid = uuid.uuid4().hex[:8]
+    unique_initial = f"PropStructType {uid}"
+    unique_name = f"{name.strip()} {uid}"
+    item = StructureType(name=unique_initial)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    resp = client.post(f"/reference/structure-type/{item_id}/rename", data={"name": unique_name})
+    assert resp.status_code == 302
+
+    updated = _db.session.get(StructureType, item_id)
+    assert updated.name == unique_name.strip()
+
+    _db.session.delete(updated)
+    _db.session.commit()
+
+
+# Feature: reference-data-editing, Property 2: Invalid name is rejected
+# Validates: Requirements 1.3, 2.3, 3.3, 4.3, 8.3, 8.4
+
+invalid_name_strategy = st.text(min_size=0).filter(
+    lambda s: not s.strip() or not s.strip().replace(" ", "").isalnum()
+)
+
+
+@given(name=invalid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_invalid_name_rejected_lithology(client, db, name):
+    """Property 2 – Lithology: any invalid name is rejected, record unchanged."""
+    uid = uuid.uuid4().hex[:8]
+    original_name = f"PropLith {uid}"
+    lt = LithologyType.query.first()
+    item = Lithology(type_id=lt.id, name=original_name)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    client.post(f"/reference/lithology/{item_id}/rename", data={"name": name})
+
+    unchanged = _db.session.get(Lithology, item_id)
+    assert unchanged.name == original_name
+
+    # cleanup
+    _db.session.delete(unchanged)
+    _db.session.commit()
+
+
+@given(name=invalid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_invalid_name_rejected_structure(client, db, name):
+    """Property 2 – Structure: any invalid name is rejected, record unchanged."""
+    uid = uuid.uuid4().hex[:8]
+    original_name = f"PropStruct {uid}"
+    st_type = StructureType.query.first()
+    item = Structure(type_id=st_type.id, name=original_name)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    client.post(f"/reference/structure/{item_id}/rename", data={"name": name})
+
+    unchanged = _db.session.get(Structure, item_id)
+    assert unchanged.name == original_name
+
+    _db.session.delete(unchanged)
+    _db.session.commit()
+
+
+@given(name=invalid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_invalid_name_rejected_lithology_type(client, db, name):
+    """Property 2 – LithologyType: any invalid name is rejected, record unchanged."""
+    uid = uuid.uuid4().hex[:8]
+    original_name = f"PropLithType {uid}"
+    item = LithologyType(name=original_name)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    client.post(f"/reference/lithology-type/{item_id}/rename", data={"name": name})
+
+    unchanged = _db.session.get(LithologyType, item_id)
+    assert unchanged.name == original_name
+
+    _db.session.delete(unchanged)
+    _db.session.commit()
+
+
+@given(name=invalid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_invalid_name_rejected_structure_type(client, db, name):
+    """Property 2 – StructureType: any invalid name is rejected, record unchanged."""
+    uid = uuid.uuid4().hex[:8]
+    original_name = f"PropStructType {uid}"
+    item = StructureType(name=original_name)
+    _db.session.add(item)
+    _db.session.commit()
+    item_id = item.id
+
+    client.post(f"/reference/structure-type/{item_id}/rename", data={"name": name})
+
+    unchanged = _db.session.get(StructureType, item_id)
+    assert unchanged.name == original_name
+
+    _db.session.delete(unchanged)
+    _db.session.commit()
