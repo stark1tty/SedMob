@@ -24,7 +24,7 @@ A free and open-source web application for field geological and sedimentological
 
 Download the latest APK from the [Releases page](https://github.com/stark1tty/Gneisswork/releases). Install it, and the app runs completely offline — Python, Flask, and SQLite are all bundled in.
 
-📖 [Building from source](docs/ANDROID_BUILD.md)
+📖 [Building from source](https://gneisswork.app/docs/ANDROID_BUILD.html)
 
 ### Web App
 
@@ -47,21 +47,21 @@ cd Gneisswork
 docker compose up -d
 ```
 
-📖 [Getting Started guide](docs/getting-started.md) for full details including configuration and testing.
+📖 [Getting Started guide](https://gneisswork.app/docs/getting-started.html) for full details including configuration and testing.
 
 ## Documentation
 
-| Topic                                      | Description                                  |
-| ------------------------------------------ | -------------------------------------------- |
-| [Getting Started](docs/getting-started.md) | Installation, configuration, Docker, testing |
-| [Web UI Guide](docs/web-ui-guide.md)       | Using the web interface                      |
-| [API Reference](docs/api-reference.md)     | Read-only REST API at `/api`                 |
-| [Data Models](docs/data-models.md)         | Database schema                              |
-| [CSV Export](docs/csv-export.md)           | Export format and SedLog compatibility       |
-| [Reference Data](docs/reference-data.md)   | Customizing lithologies and structures       |
-| [Architecture](docs/architecture.md)       | Technical overview                           |
-| [Contributing](docs/contributing.md)       | Development workflow                         |
-| [Roadmap](docs/roadmap.md)                 | Planned features and progress                |
+| Topic                                                               | Description                                  |
+| ------------------------------------------------------------------- | -------------------------------------------- |
+| [Getting Started](https://gneisswork.app/docs/getting-started.html) | Installation, configuration, Docker, testing |
+| [Web UI Guide](https://gneisswork.app/docs/web-ui-guide.html)       | Using the web interface                      |
+| [API Reference](https://gneisswork.app/docs/api-reference.html)     | Read-only REST API at `/api`                 |
+| [Data Models](https://gneisswork.app/docs/data-models.html)         | Database schema                              |
+| [CSV Export](https://gneisswork.app/docs/csv-export.html)           | Export format and SedLog compatibility       |
+| [Reference Data](https://gneisswork.app/docs/reference-data.html)   | Customizing lithologies and structures       |
+| [Architecture](https://gneisswork.app/docs/architecture.html)       | Technical overview                           |
+| [Contributing](https://gneisswork.app/docs/contributing.html)       | Development workflow                         |
+| [Roadmap](https://gneisswork.app/docs/roadmap.html)                 | Planned features and progress                |
 
 ## Background
 
@@ -71,7 +71,7 @@ Originally developed as a Cordova mobile app by [Pawel Wolniewicz](https://githu
 
 This version is a Python/Flask rewrite designed to run on any device with a browser.
 
-📖 [Citing Gneisswork](docs/citing.md) — BibTeX entries for academic use.
+📖 [Citing Gneisswork](https://gneisswork.app/docs/citing.html) — BibTeX entries for academic use.
 
 ## License
 
