@@ -339,7 +339,7 @@ def test_profile_delete_no_photo_succeeds(client, db):
     assert resp.status_code == 200
     with client.application.app_context():
         from sedmob.models import Profile as P
-        assert P.query.get(profile_id) is None
+        assert _db.session.get(P, profile_id) is None
 
 
 # Validates: Requirement 4.1
@@ -419,7 +419,7 @@ def test_serve_uploaded_file(app, client, db):
     )
     with app.app_context():
         from sedmob.models import Profile as P
-        profile = P.query.get(profile_id)
+        profile = _db.session.get(P, profile_id)
         filename = profile.photo
     resp = client.get(f"/uploads/{profile_id}/{filename}")
     assert resp.status_code == 200
