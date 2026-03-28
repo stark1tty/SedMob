@@ -206,6 +206,27 @@ def create_app(config=None):
             headers={"Content-Disposition": f"attachment; filename={filename}"},
         )
 
+    @app.route("/export/all")
+    def export_all():
+        profiles = Profile.query.all()
+        if not profiles:
+            flash("No profiles to export.")
+            return redirect(url_for("home"))
+
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            for profile in profiles:
+                beds = Bed.query.filter_by(profile_id=profile.id).order_by(Bed.position).all()
+                csv_content = _generate_csv(profile, beds)
+                safe_name = _sanitize_filename(profile.name)
+                zf.writestr(f"{safe_name}_export.csv", csv_content)
+        buf.seek(0)
+        return Response(
+            buf.getvalue(),
+            mimetype="application/zip",
+            headers={"Content-Disposition": "attachment; filename=gneisswork_export.zip"},
+        )
+
     # ── Reference data management ─────────────────────────
     @app.route("/reference")
     def reference():

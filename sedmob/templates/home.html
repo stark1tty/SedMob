@@ -2,6 +2,9 @@
 {% block content %}
 <h1>Log List</h1>
 <a href="/profile/new" class="btn btn-primary">Create new log</a>
+{% if profiles %}
+<a href="/export/all" class="btn btn-success">Export All</a>
+{% endif %}
 <div class="card" style="margin-top:1rem">
     <h2>Open existing log</h2>
     {% if profiles %}
