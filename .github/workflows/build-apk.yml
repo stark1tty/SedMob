@@ -95,19 +95,22 @@ jobs:
         mkdir -p ~/.android
         echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
 
+    - name: Patch p4a manifest for cleartext traffic
+      run: |
+        # Android 9+ (API 28) blocks cleartext HTTP by default. The app needs it
+        # because Flask runs on http://127.0.0.1:5000 and the WebView loads it.
+        # Buildozer's extra_manifest_application_arguments mangles quotes, so we
+        # patch the p4a SDL2 manifest template directly before building.
+        TMPL=$(python -c "import pythonforandroid; import os; print(os.path.join(os.path.dirname(pythonforandroid.__file__), 'bootstraps', 'sdl2', 'build', 'templates', 'AndroidManifest.tmpl.xml'))")
+        if [ -f "$TMPL" ]; then
+          sed -i 's|android:hardwareAccelerated="true"|android:hardwareAccelerated="true"\n                 android:usesCleartextTraffic="true"|' "$TMPL"
+          echo "Patched: $TMPL"
+        else
+          echo "WARNING: Could not find AndroidManifest.tmpl.xml at $TMPL"
+        fi
+
     - name: Build APK with Buildozer
       run: |
-        # First pass: let Buildozer download/setup p4a and SDK (may fail at Gradle)
-        yes | buildozer android debug 2>&1 || true
-        # Patch the p4a manifest template to allow cleartext HTTP traffic to localhost.
-        # Android 9+ (API 28) blocks cleartext by default, which prevents the WebView
-        # from reaching Flask on http://127.0.0.1:5000. Buildozer's CLI pipeline
-        # mangles quotes in extra_manifest_application_arguments, so we patch directly.
-        TMPL=$(find .buildozer -name "AndroidManifest.tmpl.xml" -path "*/sdl2/*" 2>/dev/null | head -1)
-        if [ -n "$TMPL" ]; then
-          sed -i 's|android:hardwareAccelerated="true"|android:hardwareAccelerated="true"\n                 android:usesCleartextTraffic="true"|' "$TMPL"
-        fi
-        # Second pass: rebuild with the patched template
         yes | buildozer android debug 2>&1
     
     - name: Upload APK artifact
