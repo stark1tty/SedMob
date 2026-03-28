@@ -153,9 +153,9 @@ jobs:
         commit_range = sys.argv[1]
         repo_owner = sys.argv[2] if len(sys.argv) > 2 else ""
 
-        # Use %x00 (null byte) as commit delimiter to handle multi-line bodies
+        # Use record separator and group separator as delimiters
         SEP = "\x1f"
-        COMMIT_END = "\x00"
+        COMMIT_END = "\x1e"
         fmt = f"%s{SEP}%b{SEP}%an{COMMIT_END}"
         cmd = ["git", "log", commit_range, f"--pretty=format:{fmt}", "--no-merges"]
         result = subprocess.run(cmd, capture_output=True, text=True)
