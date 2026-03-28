@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,html,css,js,json
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = sedmob/*,sedmob/templates/*,sedmob/static/*,sedmob/static/css/*,sedmob/static/js/*
+source.include_patterns = sedmob/**/*,sedmob/templates/**/*,sedmob/static/**/*
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -36,7 +36,9 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,flask,flask-sqlalchemy,jnius,android
+# C-extension packages (markupsafe) must be listed explicitly so p4a
+# uses its compiled recipe instead of attempting a pip install on-device.
+requirements = python3,kivy,flask,werkzeug,jinja2,markupsafe,itsdangerous,click,blinker,flask-sqlalchemy,sqlalchemy,jnius,android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -84,14 +86,9 @@ android.archs = arm64-v8a,armeabi-v7a
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
 
-#
-# Python for android (p4a) specific
-#
-
-# (str) Extra command line arguments to pass when invoking pythonforandroid.toolchain
 # Enable cleartext HTTP traffic to localhost — Flask runs on http://127.0.0.1:5000
 # and Android 9+ (API 28) blocks cleartext by default, breaking the WebView.
-p4a.extra_args = --extra-manifest-application-arguments='android:usesCleartextTraffic="true"'
+android.extra_manifest_application_arguments = ./android_manifest_extra.xml
 
 [buildozer]
 
