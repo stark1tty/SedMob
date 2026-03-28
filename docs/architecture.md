@@ -41,7 +41,8 @@ Gneisswork/
 │       ├── conftest.py     # Fixtures: app, client, db (in-memory SQLite)
 │       └── test_*.py       # Feature test modules
 ├── p4a-recipes/            # Custom python-for-android recipe overrides
-│   └── flask/              # Flask 3.1.1 (overrides p4a's bundled 2.0.3)
+│   ├── flask/              # Flask 3.1.1 (overrides p4a's bundled 2.0.3)
+│   └── werkzeug/           # Werkzeug 3.1.7 (compatible with Flask 3.x)
 ├── .pwlw-sedmob/           # Legacy Cordova mobile app (archived)
 ├── media/                  # Banner, icon, and screenshots
 └── docs/                   # This documentation

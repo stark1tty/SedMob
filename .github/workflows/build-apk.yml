@@ -82,7 +82,7 @@ jobs:
       uses: actions/cache@v5
       with:
         path: .buildozer
-        key: buildozer-build-${{ hashFiles('buildozer.spec') }}-${{ hashFiles('**/*.py') }}
+        key: buildozer-build-${{ hashFiles('buildozer.spec') }}-${{ hashFiles('p4a-recipes/**/*.py') }}-${{ hashFiles('**/*.py') }}
         restore-keys: |
           buildozer-build-${{ hashFiles('buildozer.spec') }}-
           buildozer-build-
@@ -97,8 +97,8 @@ jobs:
 
     - name: Build APK with Buildozer
       run: |
-        # Clean stale p4a dists so the local Flask 3.x recipe is picked up
-        # instead of a cached dist built with p4a's bundled Flask 2.0.3.
+        # Clean stale p4a dists so local recipe overrides (Flask 3.x,
+        # Werkzeug 3.x) are picked up instead of p4a's bundled versions.
         rm -rf .buildozer/android/platform/build-*/dists 2>/dev/null || true
 
         # First pass — downloads SDK/NDK/p4a, compiles recipes, may fail at
