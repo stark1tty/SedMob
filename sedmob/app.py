@@ -431,6 +431,8 @@ def create_app(config=None):
         profile.latitude = request.form.get("latitude", "No data")
         profile.longitude = request.form.get("longitude", "No data")
         profile.altitude = request.form.get("altitude", "No data")
+        profile.accuracy = request.form.get("accuracy", "No data")
+        profile.altitude_accuracy = request.form.get("altitude_accuracy", "No data")
         db.session.commit()
         flash(f"Log '{profile.name}' saved.")
         return redirect(url_for("profile_edit", profile_id=profile.id))
