@@ -110,10 +110,14 @@ def _request_location_permission():
     """Request ACCESS_FINE_LOCATION at runtime (required for Android 6+)."""
     try:
         from android.permissions import request_permissions, Permission
+
+        def _on_permission_result(permissions, grant_results):
+            log.info("Permission result: %s -> %s", permissions, grant_results)
+
         request_permissions([
             Permission.ACCESS_FINE_LOCATION,
             Permission.ACCESS_COARSE_LOCATION,
-        ])
+        ], _on_permission_result)
     except Exception:
         log.warning("Runtime permission request failed:\n%s", traceback.format_exc())
 
@@ -140,14 +144,17 @@ class GneissworkApp(App):
         self._webview = None
 
     def build(self):
-        _request_location_permission()
-        # Register file chooser activity result handler
+        # Register file chooser activity result handler — store a strong
+        # Python reference so pyjnius doesn't GC the PythonJavaClass proxy
+        # while Java still holds a reference (causes native crash on callback).
+        self._activity_listener = _ActivityResultListener()
         activity = PythonActivity.mActivity
-        activity.registerActivityResultListener(
-            _ActivityResultListener()
-        )
+        activity.registerActivityResultListener(self._activity_listener)
         self.start_flask_server()
         Clock.schedule_interval(self._check_server, 0.5)
+        # Request location permission after the event loop is running so the
+        # activity lifecycle is fully ready to handle the dialog result.
+        Clock.schedule_once(lambda dt: _request_location_permission(), 0.5)
         # Handle Android back button
         from kivy.core.window import Window
         Window.bind(on_keyboard=self._on_keyboard)
@@ -243,7 +250,10 @@ class GneissworkApp(App):
                 .getFilesDir().getAbsolutePath()
             )
             webview.setWebViewClient(WebViewClient())
-            webview.setWebChromeClient(GeoFileWebChromeClient())
+            # Store a strong Python reference to prevent GC of the
+            # PythonJavaClass proxy (same pattern as _activity_listener).
+            self._chrome_client = GeoFileWebChromeClient()
+            webview.setWebChromeClient(self._chrome_client)
             activity.setContentView(webview)
             webview.loadUrl(self.server_url)
             self._webview = webview
