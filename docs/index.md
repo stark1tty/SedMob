@@ -28,9 +28,14 @@ Gneisswork is a free and open-source web application for field geological and se
 
 - Create and manage multiple sedimentary log profiles
 - Record detailed bed-by-bed data
+- Profile and bed photo uploads with gallery display
+- Bed audio recording uploads
 - Drag-and-drop bed reordering
-- CSV export compatible with SedLog
+- CSV export compatible with SedLog, plus bulk export (ZIP)
 - Customizable reference data
+- Browser geolocation for GPS coordinate capture
+- Database backup and restore (JSON export/import)
+- Read-only JSON API for programmatic access
 - No internet connection required
 
 ### Technology Stack

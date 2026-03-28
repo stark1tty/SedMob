@@ -28,13 +28,15 @@ Gneisswork/
 │   ├── seed.py             # Reference data seeding
 │   ├── requirements.txt    # Python dependencies
 │   ├── static/
-│   │   └── favicon.png     # Site icon
+│   │   ├── favicon.png     # Site icon
+│   │   └── geolocation.js  # Browser GPS capture
 │   ├── templates/
 │   │   ├── base.html       # Master layout template
 │   │   ├── home.html       # Profile list (home page)
 │   │   ├── profile_form.html  # Profile create/edit + bed list
 │   │   ├── bed_form.html      # Bed create/edit form
-│   │   └── reference.html     # Reference data management
+│   │   ├── reference.html     # Reference data management
+│   │   └── settings.html      # Backup/restore settings
 │   └── tests/
 │       ├── conftest.py     # Fixtures: app, client, db (in-memory SQLite)
 │       └── test_*.py       # Feature test modules
@@ -76,10 +78,14 @@ Routes are organized into logical groups within `app.py`:
 | --------------- | ----------------------- | ---------------------------------- |
 | Home            | `/`                     | Profile listing                    |
 | Profile CRUD    | `/profile/...`          | Create, edit, delete profiles      |
+| Photo Upload    | `/profile/<id>/photo/...` | Upload, delete, serve profile photos |
 | Bed CRUD        | `/profile/<id>/bed/...` | Create, edit, delete, reorder beds |
+| Bed Photo Upload | `/profile/<id>/bed/<id>/photo/...` | Upload, delete bed photos |
+| Bed Audio Upload | `/profile/<id>/bed/<id>/audio/...` | Upload, delete bed audio  |
 | CSV Export      | `/profile/<id>/export`  | Download profile as CSV            |
 | Bulk Export     | `/export/all`           | Download all profiles as ZIP of CSVs |
 | Reference Data  | `/reference/...`        | Manage lithologies and structures  |
+| Backup/Restore  | `/backup`, `/restore`, `/settings` | JSON database export/import |
 | API (Blueprint) | `/api/...`              | Read-only JSON API                 |
 
 ## Design Patterns

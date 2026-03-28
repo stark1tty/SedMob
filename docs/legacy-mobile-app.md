@@ -79,13 +79,13 @@ The legacy app had several features that haven't been ported to the Flask rewrit
 
 | Feature                    | Legacy App | Flask App | Notes                                    |
 | -------------------------- | ---------- | --------- | ---------------------------------------- |
-| Photo capture (per bed)    | Yes        | No        | Used Cordova camera API                  |
-| Audio recording (per bed)  | Yes        | No        | Used Cordova media API                   |
-| Bed photos table           | Yes        | No        | `bedphotos` table with descriptions      |
-| Database backup/restore    | Yes        | No        | Exported SQL to device file system       |
+| Photo capture (per bed)    | Yes        | Yes       | BedPhoto model with gallery and upload   |
+| Audio recording (per bed)  | Yes        | Yes       | File upload per bed (mp3, wav, ogg, m4a, webm) |
+| Bed photos table           | Yes        | Yes       | `BedPhoto` model with descriptions       |
+| Database backup/restore    | Yes        | Yes       | JSON export/import via Settings page     |
 | MySQL synchronization      | Yes        | No        | Synced to remote MySQL via PHP endpoint  |
 | Theme switching            | Yes        | No        | High contrast mode toggle for field use  |
-| Geolocation auto-capture   | Yes        | No        | Used Cordova geolocation API             |
+| Geolocation auto-capture   | Yes        | Yes       | Browser Geolocation API on profile form  |
 | Lithology % auto-balance   | Yes        | Yes       | Client-side JS + server-side validation  |
 | Ref data import/export     | Yes        | No        | Export/import custom lithologies and structures between installations |
 
@@ -97,7 +97,7 @@ The legacy WebSQL schema and the Flask SQLAlchemy schema are functionally equiva
 | ------------------ | ---------------- | ------------------------------ |
 | `profiles`         | `Profile`        | Same columns                   |
 | `beds`             | `Bed`            | Column names use underscores in Flask (e.g., `lit1group` → `lit1_group`) |
-| `bedphotos`        | —                | Not ported                     |
+| `bedphotos`        | `BedPhoto`       | Ported — multiple photos per bed with descriptions |
 | `typelithology`    | `LithologyType`  | Same data                      |
 | `indexlithology`   | `Lithology`      | Same data                      |
 | `typestructure`    | `StructureType`  | Same data                      |
@@ -113,5 +113,5 @@ If migrating data from the legacy app:
 
 1. The reference data is identical between both versions
 2. Profile and bed data can be mapped directly, adjusting column names (remove camelCase, add underscores)
-3. The `bedphotos` table has no equivalent in the Flask version
-4. Audio file paths stored in bed records won't be usable without the Cordova file system
+3. The `bedphotos` table maps to the `BedPhoto` model (same concept, slightly different schema)
+4. Audio file paths stored in bed records will need files re-uploaded through the Flask UI

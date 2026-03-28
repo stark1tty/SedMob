@@ -109,17 +109,17 @@ From the README, completed features include:
 - ~~Reference data rename/edit~~ ✅
 - ~~Reference data group delete~~ ✅
 - ~~Bulk CSV export~~ ✅
+- ~~Browser geolocation~~ ✅
+- ~~GPS "Get Location" button~~ ✅
+- ~~Profile photo upload~~ ✅
+- ~~Bed photo management~~ ✅
+- ~~Bed audio upload~~ ✅
+- ~~Database backup & restore~~ ✅
 
 Planned features still to implement:
 
-- Bed photo management
-- Profile photo upload
 - Reference data import/export
-- Database backup & restore
-- Bed audio upload
-- Browser geolocation
 - High-contrast field mode
-- GPS "Get Location" button
 - Variable popup descriptions
 - Reference data descriptions
 - Dark mode / UI improvements

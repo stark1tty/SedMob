@@ -13,6 +13,7 @@ The top navigation bar appears on every page:
 
 - **Home** (`/`) — Profile list
 - **Reference Data** (`/reference`) — Manage lithologies and structures
+- **Settings** (`/settings`) — Database backup and restore
 
 Flash messages (success/error notifications) are displayed below the nav bar.
 
@@ -81,6 +82,10 @@ An "Add new bed" button opens the bed creation form.
 #### Delete Profile
 
 A "Delete Log" button at the bottom (edit mode only) deletes the profile and all its beds after a confirmation dialog.
+
+#### Profile Photo (Edit Mode Only)
+
+When editing a profile, a photo section allows uploading a single photo for the profile. If a photo exists, it is displayed with a delete button. Accepted formats: PNG, JPG, JPEG, GIF, WebP. Photos are stored in `uploads/<profile_id>/` with UUID-based filenames.
 
 ---
 
@@ -155,6 +160,31 @@ Phi values are stored automatically based on the selected grain size.
 - **Save Bed** — Saves and redirects to the profile edit page
 - **Cancel** — Returns to the profile edit page without saving
 - **Delete Bed** (edit mode only) — Deletes the bed after confirmation
+
+#### Bed Photos (Edit Mode Only)
+
+When editing a bed, a photo gallery section appears below the form. Multiple photos can be uploaded per bed, each with an optional description. Photos are displayed in a gallery with delete buttons. Accepted formats: PNG, JPG, JPEG, GIF, WebP. Files are stored in `uploads/<profile_id>/<bed_id>/` with UUID-based filenames.
+
+#### Bed Audio (Edit Mode Only)
+
+When editing a bed, an audio section allows uploading a single audio recording per bed. If audio exists, a playback control and delete button are shown. Accepted formats: MP3, WAV, OGG, M4A, WebM. Files are stored in `uploads/<profile_id>/<bed_id>/` with UUID-based filenames.
+
+---
+
+### Settings (Backup & Restore)
+
+**URL:** `/settings`
+**Template:** `settings.html`
+
+The settings page provides database backup and restore functionality:
+
+#### Backup
+
+A "Download Backup" button exports the entire database as a JSON file. The backup includes all profiles, beds, bed photos metadata, and reference data. The file is named `gneisswork_backup_<timestamp>.json`.
+
+#### Restore
+
+A file upload form accepts a previously exported JSON backup file. Restoring replaces all existing data with the contents of the backup file. A confirmation is required before proceeding. Uploaded files (photos, audio) are not included in the backup — only database records.
 
 ---
 

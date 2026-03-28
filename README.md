@@ -13,10 +13,15 @@ Gneisswork lets geologists create sedimentary logs in the field using any device
 
 - Create and manage multiple sedimentary log profiles with GPS metadata
 - Record detailed bed data: lithology (up to 3 components), grain size (clastic and carbonate), sedimentary structures, bioturbation, boundaries, paleocurrents, and facies
+- Profile and bed photo uploads with gallery display
+- Bed audio recording uploads
 - Drag-and-drop bed reordering
-- CSV export compatible with SedLog
+- CSV export compatible with SedLog, plus bulk export (all profiles as ZIP)
 - Customizable reference data (lithologies, structures, grain sizes, boundaries)
 - Pre-seeded with standard sedimentological classification schemes
+- Browser geolocation for GPS coordinate capture
+- Database backup and restore (JSON export/import)
+- Read-only JSON API for programmatic access
 - SQLite database, no external services required
 
 ## Getting Started
@@ -108,15 +113,15 @@ curl http://localhost:5000/api/profiles
 ### Missing from original app (conversion gaps)
 
 - [x] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
-- [ ] Profile photo upload — Upload/display a photo per profile (original: camera capture)
+- [x] Profile photo upload — Upload/display a photo per profile (original: camera capture)
 - [x] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
 - [x] Reference data rename/edit — Rename lithologies, structures, and their groups (original: `butsavesymbol`)
 - [x] Reference data group delete — Delete lithology/structure groups with cascade (original: `butdelsymbol` for groups)
 - [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)
 - [x] Grain size phi value storage — Store phi values alongside grain size names in bed form (original: stored both)
 - [x] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% with server-side validation (original: `pagebed.js`)
-- [ ] Database backup & restore — Export/import full database as downloadable file (original: SQL dump to file)
-- [ ] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
+- [x] Database backup & restore — Export/import full database as downloadable JSON file (original: SQL dump to file)
+- [x] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
 - [x] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
 - [x] Bed direction reversal — Actually reverse bed positions when direction is toggled (original: reversed in DB)
 - [ ] High-contrast field mode — Increase UI contrast for outdoor sunlight readability (original: contrast enhancement toggle in preferences)
