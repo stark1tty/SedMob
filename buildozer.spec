@@ -38,7 +38,7 @@ version = 0.1
 # comma separated e.g. requirements = sqlite3,kivy
 # C-extension packages (markupsafe) must be listed explicitly so p4a
 # uses its compiled recipe instead of attempting a pip install on-device.
-requirements = python3,kivy,flask,werkzeug,jinja2,markupsafe,itsdangerous,click,blinker,flask-sqlalchemy,sqlalchemy,jnius,android
+requirements = python3,kivy,flask,werkzeug,jinja2,markupsafe,itsdangerous,click,blinker,flask-sqlalchemy,sqlalchemy,sqlite3,jnius,android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
