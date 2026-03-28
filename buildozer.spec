@@ -60,7 +60,7 @@ orientation = portrait
 fullscreen = 0
 
 # (list) Permissions
-android.permissions = INTERNET
+android.permissions = INTERNET,ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION
 
 # (int) Target Android API, should be as high as possible.
 android.api = 35
@@ -85,6 +85,14 @@ android.archs = arm64-v8a,armeabi-v7a
 
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
+
+# Debug keystore — use a persistent keystore so APK signatures stay
+# consistent across CI builds, allowing in-place updates on devices.
+# The CI workflow restores this from the DEBUG_KEYSTORE secret.
+android.debug_keystore = ~/.android/debug.keystore
+android.debug_keystore_passwd = android
+android.debug_keyalias = androiddebugkey
+android.debug_keyalias_passwd = android
 
 # Use local recipe overrides (Flask 3.x instead of p4a's bundled 2.0.3)
 p4a.local_recipes = ./p4a-recipes

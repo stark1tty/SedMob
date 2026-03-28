@@ -12,14 +12,37 @@ from kivy.app import App
 from kivy.clock import Clock
 
 from android.runnable import run_on_ui_thread
-from jnius import autoclass
+from jnius import autoclass, PythonJavaClass, java_method
 
 PythonActivity = autoclass('org.kivy.android.PythonActivity')
 AndroidWebView = autoclass('android.webkit.WebView')
 WebViewClient = autoclass('android.webkit.WebViewClient')
+WebChromeClient = autoclass('android.webkit.WebChromeClient')
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('gneisswork')
+
+
+class GeoWebChromeClient(PythonJavaClass):
+    """WebChromeClient proxy that auto-grants geolocation permission to the WebView."""
+    __javaclass__ = 'android/webkit/WebChromeClient'
+    __javainterfaces__ = []
+
+    @java_method('(Ljava/lang/String;Landroid/webkit/GeolocationPermissions$Callback;)V')
+    def onGeolocationPermissionsShowPrompt(self, origin, callback):
+        callback.invoke(origin, True, False)
+
+
+def _request_location_permission():
+    """Request ACCESS_FINE_LOCATION at runtime (required for Android 6+)."""
+    try:
+        from android.permissions import request_permissions, Permission
+        request_permissions([
+            Permission.ACCESS_FINE_LOCATION,
+            Permission.ACCESS_COARSE_LOCATION,
+        ])
+    except Exception:
+        log.warning("Runtime permission request failed:\n%s", traceback.format_exc())
 
 
 def _android_data_dir():
@@ -41,12 +64,34 @@ class GneissworkApp(App):
         self.flask_error = None
         self._poll_count = 0
         self._max_polls = 60  # 30 seconds timeout
+        self._webview = None
 
     def build(self):
         self.start_flask_server()
         Clock.schedule_interval(self._check_server, 0.5)
+        # Handle Android back button
+        from kivy.core.window import Window
+        Window.bind(on_keyboard=self._on_keyboard)
         from kivy.uix.label import Label
         return Label(text="Starting Gneisswork…")
+
+    def _on_keyboard(self, window, key, *args):
+        """Handle Android back button (key 27) — navigate WebView history."""
+        if key == 27 and self._webview:
+            Clock.schedule_once(lambda dt: self._webview_go_back(), 0)
+            return True  # consume the event so Kivy doesn't exit
+        return False
+
+    @run_on_ui_thread
+    def _webview_go_back(self):
+        """Go back in WebView history if possible, otherwise let the app exit."""
+        try:
+            if self._webview and self._webview.canGoBack():
+                self._webview.goBack()
+            else:
+                self.stop()
+        except Exception:
+            log.error("Back navigation failed:\n%s", traceback.format_exc())
 
     def start_flask_server(self):
         """Start Flask server in a background thread with Android-safe paths."""
@@ -113,9 +158,16 @@ class GneissworkApp(App):
             settings.setDomStorageEnabled(True)
             settings.setDatabaseEnabled(True)
             settings.setAllowFileAccess(True)
+            settings.setGeolocationEnabled(True)
+            settings.setGeolocationDatabasePath(
+                PythonActivity.mActivity.getApplicationContext()
+                .getFilesDir().getAbsolutePath()
+            )
             webview.setWebViewClient(WebViewClient())
+            webview.setWebChromeClient(WebChromeClient())
             activity.setContentView(webview)
             webview.loadUrl(self.server_url)
+            self._webview = webview
         except Exception:
             log.error("WebView setup failed:\n%s", traceback.format_exc())
 

@@ -88,12 +88,28 @@ jobs:
           buildozer-build-
     
     - name: Restore debug keystore
-      if: env.DEBUG_KEYSTORE != ''
       env:
         DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
       run: |
         mkdir -p ~/.android
-        echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
+        if [ -n "$DEBUG_KEYSTORE" ]; then
+          echo "Restoring debug keystore from secret"
+          echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
+        elif [ ! -f ~/.android/debug.keystore ]; then
+          echo "No DEBUG_KEYSTORE secret found — generating a new debug keystore"
+          keytool -genkeypair -v \
+            -keystore ~/.android/debug.keystore \
+            -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 36500 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+          echo ""
+          echo "⚠️  To keep APK signatures consistent, add this keystore as a GitHub secret:"
+          echo "    base64 -w0 ~/.android/debug.keystore"
+          echo "    → Save the output as the DEBUG_KEYSTORE repository secret"
+        else
+          echo "Using cached debug keystore from ~/.android"
+        fi
 
     - name: Build APK with Buildozer
       run: |
