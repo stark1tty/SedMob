@@ -19,8 +19,6 @@
 .history/
 .hypothesis/*
 *.logs/*
-sedmob/__pycache__/*
-
 # Python
 **/__pycache__/
 *.py[cod]

@@ -316,6 +316,122 @@ def test_rename_structure_group_404(client, db):
     assert resp.status_code == 404
 
 
+# ── Lithology group delete tests ──────────────────────────
+
+
+def test_delete_lithology_group_with_children(client, db):
+    group = LithologyType(name="DelTestGroup")
+    _db.session.add(group)
+    _db.session.flush()
+    child1 = Lithology(type_id=group.id, name="DelChild1")
+    child2 = Lithology(type_id=group.id, name="DelChild2")
+    _db.session.add_all([child1, child2])
+    _db.session.commit()
+    group_id = group.id
+
+    resp = client.post(f"/reference/lithology-type/{group_id}/delete", follow_redirects=True)
+    assert resp.status_code == 200
+    assert _db.session.get(LithologyType, group_id) is None
+    assert Lithology.query.filter_by(name="DelChild1").first() is None
+    assert Lithology.query.filter_by(name="DelChild2").first() is None
+
+
+def test_delete_empty_lithology_group(client, db):
+    group = LithologyType(name="EmptyLithGroup")
+    _db.session.add(group)
+    _db.session.commit()
+    group_id = group.id
+    initial_lith_count = Lithology.query.count()
+
+    resp = client.post(f"/reference/lithology-type/{group_id}/delete", follow_redirects=True)
+    assert resp.status_code == 200
+    assert _db.session.get(LithologyType, group_id) is None
+    assert Lithology.query.count() == initial_lith_count
+
+
+def test_delete_lithology_group_404(client, db):
+    resp = client.post("/reference/lithology-type/99999/delete")
+    assert resp.status_code == 404
+
+
+def test_delete_lithology_group_others_unaffected(client, db):
+    grp_a = LithologyType(name="LithGrpA")
+    grp_b = LithologyType(name="LithGrpB")
+    _db.session.add_all([grp_a, grp_b])
+    _db.session.flush()
+    child_a = Lithology(type_id=grp_a.id, name="LithChildA")
+    child_b = Lithology(type_id=grp_b.id, name="LithChildB")
+    _db.session.add_all([child_a, child_b])
+    _db.session.commit()
+    grp_a_id = grp_a.id
+    grp_b_id = grp_b.id
+
+    client.post(f"/reference/lithology-type/{grp_a_id}/delete")
+
+    assert _db.session.get(LithologyType, grp_a_id) is None
+    assert _db.session.get(LithologyType, grp_b_id) is not None
+    assert Lithology.query.filter_by(name="LithChildB").first() is not None
+    assert Lithology.query.filter_by(name="LithChildA").first() is None
+
+
+# ── Structure group delete tests ──────────────────────────
+
+
+def test_delete_structure_group_with_children(client, db):
+    group = StructureType(name="DelStrGroup")
+    _db.session.add(group)
+    _db.session.flush()
+    child1 = Structure(type_id=group.id, name="DelStrChild1")
+    child2 = Structure(type_id=group.id, name="DelStrChild2")
+    _db.session.add_all([child1, child2])
+    _db.session.commit()
+    group_id = group.id
+
+    resp = client.post(f"/reference/structure-type/{group_id}/delete", follow_redirects=True)
+    assert resp.status_code == 200
+    assert _db.session.get(StructureType, group_id) is None
+    assert Structure.query.filter_by(name="DelStrChild1").first() is None
+    assert Structure.query.filter_by(name="DelStrChild2").first() is None
+
+
+def test_delete_empty_structure_group(client, db):
+    group = StructureType(name="EmptyStrGroup")
+    _db.session.add(group)
+    _db.session.commit()
+    group_id = group.id
+    initial_str_count = Structure.query.count()
+
+    resp = client.post(f"/reference/structure-type/{group_id}/delete", follow_redirects=True)
+    assert resp.status_code == 200
+    assert _db.session.get(StructureType, group_id) is None
+    assert Structure.query.count() == initial_str_count
+
+
+def test_delete_structure_group_404(client, db):
+    resp = client.post("/reference/structure-type/99999/delete")
+    assert resp.status_code == 404
+
+
+def test_delete_structure_group_others_unaffected(client, db):
+    grp_a = StructureType(name="StrGrpA")
+    grp_b = StructureType(name="StrGrpB")
+    _db.session.add_all([grp_a, grp_b])
+    _db.session.flush()
+    child_a = Structure(type_id=grp_a.id, name="StrChildA")
+    child_b = Structure(type_id=grp_b.id, name="StrChildB")
+    _db.session.add_all([child_a, child_b])
+    _db.session.commit()
+    grp_a_id = grp_a.id
+    grp_b_id = grp_b.id
+
+    client.post(f"/reference/structure-type/{grp_a_id}/delete")
+
+    assert _db.session.get(StructureType, grp_a_id) is None
+    assert _db.session.get(StructureType, grp_b_id) is not None
+    assert Structure.query.filter_by(name="StrChildB").first() is not None
+    assert Structure.query.filter_by(name="StrChildA").first() is None
+
+
 # ── Property-based tests ──────────────────────────────────
 
 # Feature: reference-data-editing, Property 1: Valid rename updates the name
@@ -703,4 +819,108 @@ def test_prop_group_rename_preserves_children_structure_type(client, db, n_child
     grp = _db.session.get(StructureType, group_id)
     if grp:
         _db.session.delete(grp)
+    _db.session.commit()
+
+
+# Feature: reference-data-editing, Property 5: Group delete cascades to all children
+# Validates: Requirements 5.1, 5.3, 5.4, 6.1, 6.3, 6.4
+
+
+@given(n_children=st.integers(min_value=0, max_value=10))
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_group_delete_cascades_lithology_type(client, db, n_children):
+    """Property 5 – LithologyType: deleting a group removes it and all children."""
+    uid = uuid.uuid4().hex[:8]
+    group_name = f"PropDelLitGrp {uid}"
+
+    # Create the target group with N children
+    group = LithologyType(name=group_name)
+    _db.session.add(group)
+    _db.session.flush()
+    group_id = group.id
+
+    child_names = [f"PropDelLitChild {uid} {i}" for i in range(n_children)]
+    for cname in child_names:
+        _db.session.add(Lithology(type_id=group_id, name=cname))
+
+    # Create a control group with 1 child (should be unaffected)
+    ctrl_uid = uuid.uuid4().hex[:8]
+    ctrl_group = LithologyType(name=f"CtrlLitGrp {ctrl_uid}")
+    _db.session.add(ctrl_group)
+    _db.session.flush()
+    ctrl_group_id = ctrl_group.id
+    ctrl_child_name = f"CtrlLitChild {ctrl_uid}"
+    _db.session.add(Lithology(type_id=ctrl_group_id, name=ctrl_child_name))
+    _db.session.commit()
+
+    # Delete the target group
+    resp = client.post(f"/reference/lithology-type/{group_id}/delete")
+    assert resp.status_code == 302
+
+    # Verify target group and all its children are gone
+    assert _db.session.get(LithologyType, group_id) is None
+    for cname in child_names:
+        assert Lithology.query.filter_by(name=cname).first() is None
+
+    # Verify control group and its child still exist
+    assert _db.session.get(LithologyType, ctrl_group_id) is not None
+    assert Lithology.query.filter_by(name=ctrl_child_name).first() is not None
+
+    # Cleanup control group
+    ctrl_child = Lithology.query.filter_by(name=ctrl_child_name).first()
+    if ctrl_child:
+        _db.session.delete(ctrl_child)
+    ctrl_grp = _db.session.get(LithologyType, ctrl_group_id)
+    if ctrl_grp:
+        _db.session.delete(ctrl_grp)
+    _db.session.commit()
+
+
+@given(n_children=st.integers(min_value=0, max_value=10))
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_group_delete_cascades_structure_type(client, db, n_children):
+    """Property 5 – StructureType: deleting a group removes it and all children."""
+    uid = uuid.uuid4().hex[:8]
+    group_name = f"PropDelStrGrp {uid}"
+
+    # Create the target group with N children
+    group = StructureType(name=group_name)
+    _db.session.add(group)
+    _db.session.flush()
+    group_id = group.id
+
+    child_names = [f"PropDelStrChild {uid} {i}" for i in range(n_children)]
+    for cname in child_names:
+        _db.session.add(Structure(type_id=group_id, name=cname))
+
+    # Create a control group with 1 child (should be unaffected)
+    ctrl_uid = uuid.uuid4().hex[:8]
+    ctrl_group = StructureType(name=f"CtrlStrGrp {ctrl_uid}")
+    _db.session.add(ctrl_group)
+    _db.session.flush()
+    ctrl_group_id = ctrl_group.id
+    ctrl_child_name = f"CtrlStrChild {ctrl_uid}"
+    _db.session.add(Structure(type_id=ctrl_group_id, name=ctrl_child_name))
+    _db.session.commit()
+
+    # Delete the target group
+    resp = client.post(f"/reference/structure-type/{group_id}/delete")
+    assert resp.status_code == 302
+
+    # Verify target group and all its children are gone
+    assert _db.session.get(StructureType, group_id) is None
+    for cname in child_names:
+        assert Structure.query.filter_by(name=cname).first() is None
+
+    # Verify control group and its child still exist
+    assert _db.session.get(StructureType, ctrl_group_id) is not None
+    assert Structure.query.filter_by(name=ctrl_child_name).first() is not None
+
+    # Cleanup control group
+    ctrl_child = Structure.query.filter_by(name=ctrl_child_name).first()
+    if ctrl_child:
+        _db.session.delete(ctrl_child)
+    ctrl_grp = _db.session.get(StructureType, ctrl_group_id)
+    if ctrl_grp:
+        _db.session.delete(ctrl_grp)
     _db.session.commit()

@@ -319,6 +319,22 @@ def create_app(config=None):
         flash(f"Structure group renamed to '{name}'.")
         return redirect(url_for("reference"))
 
+    @app.route("/reference/lithology-type/<int:item_id>/delete", methods=["POST"])
+    def lithology_type_delete(item_id):
+        item = db.get_or_404(LithologyType, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Lithology group '{item.name}' and all its items deleted.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/structure-type/<int:item_id>/delete", methods=["POST"])
+    def structure_type_delete(item_id):
+        item = db.get_or_404(StructureType, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Structure group '{item.name}' and all its items deleted.")
+        return redirect(url_for("reference"))
+
     # ── Helpers ────────────────────────────────────────────
     def _validate_percentages(form):
         """Return an error message string if percentages are invalid, else None."""
