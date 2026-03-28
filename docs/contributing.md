@@ -7,11 +7,13 @@ title: Contributing
 
 ## Development Setup
 
+Requires [uv](https://docs.astral.sh/uv/) (recommended) or pip.
+
 ```bash
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
 
-# Create and activate a virtual environment (uv recommended)
+# Create and activate a virtual environment
 uv venv .venv
 source .venv/bin/activate
 ```

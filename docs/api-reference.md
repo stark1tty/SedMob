@@ -273,12 +273,163 @@ Returns a single bed photo. Validates that the photo belongs to the specified be
 
 ---
 
+## Reference Data Endpoints
+
+### List Lithology Types (with Lithologies)
+
+```
+GET /api/lithology-types
+```
+
+Returns all lithology groups with their child lithologies nested.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Basic",
+    "lithologies": [
+      {
+        "id": 1,
+        "type_id": 1,
+        "name": "Sandstone",
+        "description": "Clastic sedimentary rock composed of sand-sized grains"
+      }
+    ]
+  }
+]
+```
+
+---
+
+### List Structure Types (with Structures)
+
+```
+GET /api/structures-types
+```
+
+Returns all structure groups with their child structures nested.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Sedimentary structures",
+    "structures": [
+      {
+        "id": 1,
+        "type_id": 1,
+        "name": "Current ripple cross-lamination",
+        "description": "Small-scale cross-lamination formed by unidirectional current flow"
+      }
+    ]
+  }
+]
+```
+
+---
+
+### List Clastic Grain Sizes
+
+```
+GET /api/grain-clastic
+```
+
+Returns the Wentworth clastic grain size scale with phi values.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "clay",
+    "phi": "10.0",
+    "description": "Finest clastic grain size, less than 1/256 mm diameter"
+  }
+]
+```
+
+---
+
+### List Carbonate Grain Sizes
+
+```
+GET /api/grain-carbonate
+```
+
+Returns the Dunham carbonate grain size classification with phi values.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "mudstone",
+    "phi": "6.0",
+    "description": "Carbonate rock with less than 10% grains, mud-supported"
+  }
+]
+```
+
+---
+
+### List Bioturbation Types
+
+```
+GET /api/bioturbation
+```
+
+Returns all bioturbation classification types.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Minor bioturbation",
+    "description": "Sparse biogenic disturbance affecting less than 30% of the sediment"
+  }
+]
+```
+
+---
+
+### List Boundary Types
+
+```
+GET /api/boundaries
+```
+
+Returns all bed boundary types.
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Sharp",
+    "description": "Abrupt contact between beds with no gradation"
+  }
+]
+```
+
+---
+
 ## Notes
 
 - All responses use `Content-Type: application/json`
 - The API is read-only — there are no POST, PUT, PATCH, or DELETE endpoints
 - All bed fields are returned as strings (including numeric values like thickness and percentages)
 - The `to_dict()` method on each model serializes all table columns automatically
+- Reference data items include a `description` field containing a short geological definition (may be empty for user-added items)
 
 ## Example Usage
 
@@ -300,4 +451,22 @@ curl http://localhost:5000/api/profiles/1/beds/3/photos
 
 # Get a specific photo
 curl http://localhost:5000/api/profiles/1/beds/3/photos/1
+
+# List lithology types with lithologies
+curl http://localhost:5000/api/lithology-types
+
+# List structure types with structures
+curl http://localhost:5000/api/structures-types
+
+# List clastic grain sizes
+curl http://localhost:5000/api/grain-clastic
+
+# List carbonate grain sizes
+curl http://localhost:5000/api/grain-carbonate
+
+# List bioturbation types
+curl http://localhost:5000/api/bioturbation
+
+# List boundary types
+curl http://localhost:5000/api/boundaries
 ```

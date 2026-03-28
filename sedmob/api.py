@@ -1,6 +1,9 @@
 """REST-ish JSON API blueprint for Gneisswork data."""
 from flask import Blueprint, jsonify, abort
-from sedmob.models import db, Profile, Bed, BedPhoto
+from sedmob.models import (db, Profile, Bed, BedPhoto, LithologyType,
+                            Lithology, StructureType, Structure,
+                            GrainClastic, GrainCarbonate, Bioturbation,
+                            Boundary)
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
@@ -57,3 +60,47 @@ def bed_photo_detail(profile_id, bed_id, photo_id):
     if photo.bed_id != bed_id:
         abort(404)
     return jsonify(photo.to_dict())
+
+
+# ── Reference Data ──────────────────────────────────────────────
+
+@api.route("/lithology-types")
+def lithology_types_list():
+    types = LithologyType.query.all()
+    result = []
+    for t in types:
+        d = t.to_dict()
+        d["lithologies"] = [l.to_dict() for l in t.lithologies]
+        result.append(d)
+    return jsonify(result)
+
+
+@api.route("/structures-types")
+def structure_types_list():
+    types = StructureType.query.all()
+    result = []
+    for t in types:
+        d = t.to_dict()
+        d["structures"] = [s.to_dict() for s in t.structures]
+        result.append(d)
+    return jsonify(result)
+
+
+@api.route("/grain-clastic")
+def grain_clastic_list():
+    return jsonify([g.to_dict() for g in GrainClastic.query.all()])
+
+
+@api.route("/grain-carbonate")
+def grain_carbonate_list():
+    return jsonify([g.to_dict() for g in GrainCarbonate.query.all()])
+
+
+@api.route("/bioturbation")
+def bioturbation_list():
+    return jsonify([b.to_dict() for b in Bioturbation.query.all()])
+
+
+@api.route("/boundaries")
+def boundaries_list():
+    return jsonify([b.to_dict() for b in Boundary.query.all()])

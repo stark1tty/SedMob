@@ -123,11 +123,12 @@ Relationships: `lithologies` — One-to-many to `Lithology`, cascade delete
 
 Individual lithology types within a group.
 
-| Column    | Type    | Constraints         | Description       |
-| --------- | ------- | ------------------- | ----------------- |
-| `id`      | Integer | Primary Key         | Unique identifier |
-| `type_id` | Integer | FK to LithologyType | Parent group      |
-| `name`    | String  | NOT NULL, UNIQUE    | Lithology name    |
+| Column        | Type    | Constraints         | Default | Description                 |
+| ------------- | ------- | ------------------- | ------- | --------------------------- |
+| `id`          | Integer | Primary Key         | Auto    | Unique identifier           |
+| `type_id`     | Integer | FK to LithologyType | —       | Parent group                |
+| `name`        | String  | NOT NULL, UNIQUE    | —       | Lithology name              |
+| `description` | String  |                     | `""`    | Short geological definition |
 
 ### StructureType
 
@@ -144,46 +145,51 @@ Relationships: `structures` — One-to-many to `Structure`, cascade delete
 
 Individual structure types within a group.
 
-| Column    | Type    | Constraints         | Description       |
-| --------- | ------- | ------------------- | ----------------- |
-| `id`      | Integer | Primary Key         | Unique identifier |
-| `type_id` | Integer | FK to StructureType | Parent group      |
-| `name`    | String  | NOT NULL, UNIQUE    | Structure name    |
+| Column        | Type    | Constraints         | Default | Description                 |
+| ------------- | ------- | ------------------- | ------- | --------------------------- |
+| `id`          | Integer | Primary Key         | Auto    | Unique identifier           |
+| `type_id`     | Integer | FK to StructureType | —       | Parent group                |
+| `name`        | String  | NOT NULL, UNIQUE    | —       | Structure name              |
+| `description` | String  |                     | `""`    | Short geological definition |
 
 ### GrainClastic
 
 Clastic grain size scale with phi values. Each bed stores a base and top grain size to represent grading within the bed. Note: the model does not handle multiple fining-upward or coarsening-upward sequences within a single bed (see [Wolniewicz, 2014](https://doi.org/10.1016/j.cageo.2014.02.004), Table 1).
 
-| Column | Type    | Constraints | Description                   |
-| ------ | ------- | ----------- | ----------------------------- |
-| `id`   | Integer | Primary Key | Unique identifier             |
-| `name` | String  | NOT NULL    | Size name (e.g., "silt", "f") |
-| `phi`  | String  | NOT NULL    | Phi value (e.g., "6.0")       |
+| Column        | Type    | Constraints | Default | Description                   |
+| ------------- | ------- | ----------- | ------- | ----------------------------- |
+| `id`          | Integer | Primary Key | Auto    | Unique identifier             |
+| `name`        | String  | NOT NULL    | —       | Size name (e.g., "silt", "f") |
+| `phi`         | String  | NOT NULL    | —       | Phi value (e.g., "6.0")       |
+| `description` | String  |             | `""`    | Short geological definition   |
 
 ### GrainCarbonate
 
 Carbonate grain size scale with phi values.
 
-| Column | Type    | Constraints | Description                               |
-| ------ | ------- | ----------- | ----------------------------------------- |
-| `id`   | Integer | Primary Key | Unique identifier                         |
-| `name` | String  | NOT NULL    | Size name (e.g., "mudstone", "packstone") |
-| `phi`  | String  | NOT NULL    | Phi value                                 |
+| Column        | Type    | Constraints | Default | Description                               |
+| ------------- | ------- | ----------- | ------- | ----------------------------------------- |
+| `id`          | Integer | Primary Key | Auto    | Unique identifier                         |
+| `name`        | String  | NOT NULL    | —       | Size name (e.g., "mudstone", "packstone") |
+| `phi`         | String  | NOT NULL    | —       | Phi value                                 |
+| `description` | String  |             | `""`    | Short geological definition               |
 
 ### Bioturbation
 
 Bioturbation classification types.
 
-| Column | Type    | Constraints | Description       |
-| ------ | ------- | ----------- | ----------------- |
-| `id`   | Integer | Primary Key | Unique identifier |
-| `name` | String  | NOT NULL    | Bioturbation type |
+| Column        | Type    | Constraints | Default | Description                 |
+| ------------- | ------- | ----------- | ------- | --------------------------- |
+| `id`          | Integer | Primary Key | Auto    | Unique identifier           |
+| `name`        | String  | NOT NULL    | —       | Bioturbation type           |
+| `description` | String  |             | `""`    | Short geological definition |
 
 ### Boundary
 
 Base boundary types for beds.
 
-| Column | Type    | Constraints | Description       |
-| ------ | ------- | ----------- | ----------------- |
-| `id`   | Integer | Primary Key | Unique identifier |
-| `name` | String  | NOT NULL    | Boundary type     |
+| Column        | Type    | Constraints | Default | Description                 |
+| ------------- | ------- | ----------- | ------- | --------------------------- |
+| `id`          | Integer | Primary Key | Auto    | Unique identifier           |
+| `name`        | String  | NOT NULL    | —       | Boundary type               |
+| `description` | String  |             | `""`    | Short geological definition |
