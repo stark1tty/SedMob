@@ -108,7 +108,7 @@ From the README, planned features include:
 - Bulk CSV export
 - Reference data rename/edit and group delete
 - Reference data import/export
-- Lithology percentage auto-balancing
+- ~~Lithology percentage auto-balancing~~ ✅
 - Database backup & restore
 - Bed audio upload
 - Browser geolocation

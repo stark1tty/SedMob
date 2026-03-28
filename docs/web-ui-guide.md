@@ -108,7 +108,7 @@ Each lithology section has:
 | Type       | Select | —       | Specific lithology within the group      |
 | Percentage | Number | 100/0/0 | Percentage of this lithology (0–100)     |
 
-Lithology 1 defaults to 100%, Lithology 2 and 3 default to 0%. The three percentages should sum to 100.
+Lithology 1 defaults to 100%, Lithology 2 and 3 default to 0%. The three percentages must sum to 100%. When you change one percentage, the others auto-balance to maintain the 100% total. The server also validates that all three are integers in the range 0–100 summing to 100, rejecting the submission with an error message if not.
 
 #### Grain Size — Clastic
 

@@ -67,7 +67,7 @@ jobs:
         pip install buildozer cython==3.0.11
     
     - name: Cache Buildozer global directory
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.buildozer
         key: buildozer-global-${{ hashFiles('buildozer.spec') }}
@@ -75,7 +75,7 @@ jobs:
           buildozer-global-
     
     - name: Cache Buildozer build directory
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: .buildozer
         key: buildozer-build-${{ hashFiles('buildozer.spec') }}-${{ hashFiles('**/*.py') }}
@@ -88,7 +88,7 @@ jobs:
         yes | buildozer android debug 2>&1
     
     - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: gneisswork-debug-apk
         path: bin/*.apk

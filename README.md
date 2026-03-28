@@ -98,7 +98,7 @@ curl http://localhost:5000/api/profiles
 - [ ] Reference data group delete — Delete lithology/structure groups with cascade (original: `butdelsymbol` for groups)
 - [ ] Reference data import/export — Export and import custom lithologies and structures as a shareable file (original: export/import custom symbols between installations)
 - [x] Grain size phi value storage — Store phi values alongside grain size names in bed form (original: stored both)
-- [ ] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% (original: `pagebed.js`)
+- [x] Lithology percentage auto-balancing — Client-side JS to keep lit1+lit2+lit3 = 100% with server-side validation (original: `pagebed.js`)
 - [ ] Database backup & restore — Export/import full database as downloadable file (original: SQL dump to file)
 - [ ] Bed audio upload — Upload audio notes per bed (original: Cordova audio recording)
 - [ ] Browser geolocation — Capture GPS coordinates on profile creation (original: `navigator.geolocation`)
