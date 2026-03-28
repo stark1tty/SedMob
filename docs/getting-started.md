@@ -8,7 +8,7 @@ title: Getting Started
 ## Requirements
 
 - Python 3.10 or higher
-- pip (Python package manager)
+- [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
 ## Installation
 
@@ -17,16 +17,23 @@ title: Getting Started
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
 
-# Create and activate a virtual environment
-python -m venv .venv
+# Create and activate a virtual environment (uv recommended)
+uv venv .venv
 source .venv/bin/activate   # Linux/macOS
 # .venv\Scripts\activate    # Windows
+
+# Or with standard Python:
+# python -m venv .venv
+# source .venv/bin/activate
 ```
 
 Dependencies are installed automatically when you run the app (see below). To install them manually instead:
 
 ```bash
-pip install -r sedmob/requirements.txt
+uv pip install -r sedmob/requirements.txt
+
+# Or with pip:
+# pip install -r sedmob/requirements.txt
 ```
 
 ## Dependencies

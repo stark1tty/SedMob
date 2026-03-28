@@ -75,6 +75,8 @@ When editing an existing profile, a bed table is shown below the profile form:
 | #         | Position number                |
 | Name      | Clickable link to edit the bed |
 | Thickness | Bed thickness in cm            |
+| Top       | Top boundary value             |
+| Bottom    | Bottom boundary value          |
 | Lithology | Primary lithology type         |
 
 An "Add new bed" button opens the bed creation form.

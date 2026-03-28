@@ -54,7 +54,7 @@ sudo apt-get install -y \
   openjdk-17-jdk
 
 # Install Buildozer
-pip install buildozer cython==0.29.36
+pip install buildozer cython==3.0.11
 ```
 
 ### Build Commands

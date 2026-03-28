@@ -11,14 +11,15 @@ title: Contributing
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
 
-python -m venv .venv
+# Create and activate a virtual environment (uv recommended)
+uv venv .venv
 source .venv/bin/activate
 ```
 
 Dependencies are installed automatically when you run `python run.py`. To install them manually:
 
 ```bash
-pip install -r sedmob/requirements.txt
+uv pip install -r sedmob/requirements.txt
 ```
 
 ## Running the App

@@ -16,13 +16,24 @@ exclude:
   - .venv/
   - .archives/
   - .claude/
+  - .dev/
   - .git/
   - .github/
   - .gitignore
+  - .hypothesis/
   - .kiro/
+  - .logs/
   - .pwlw-sedmob/
   - .pytest_cache/
+  - .test/
   - .vscode/
   - instance/
+  - p4a-recipes/
   - sedmob/
+  - uploads/
+  - .dockerignore
+  - buildozer.spec
+  - docker-compose.yml
+  - Dockerfile
+  - main.py
   - run.py
