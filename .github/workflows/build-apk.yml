@@ -87,6 +87,14 @@ jobs:
           buildozer-build-${{ hashFiles('buildozer.spec') }}-
           buildozer-build-
     
+    - name: Restore debug keystore
+      if: env.DEBUG_KEYSTORE != ''
+      env:
+        DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
+      run: |
+        mkdir -p ~/.android
+        echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
+
     - name: Build APK with Buildozer
       run: |
         yes | buildozer android debug 2>&1
