@@ -1,6 +1,8 @@
 """Gneisswork – Sedimentary logging web application."""
 import csv
 import io
+import re
+import zipfile
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from sedmob.models import (
     db, Profile, Bed, LithologyType, Lithology, StructureType, Structure,
@@ -127,10 +129,16 @@ def create_app(config=None):
             phi_top = bed.phi_carbo_top
         return size_base, phi_base, size_top, phi_top
 
-    @app.route("/profile/<int:profile_id>/export")
-    def profile_export(profile_id):
-        profile = db.get_or_404(Profile, profile_id)
-        beds = Bed.query.filter_by(profile_id=profile_id).order_by(Bed.position).all()
+    def _generate_csv(profile, beds):
+        """Generate SedLog-compatible CSV content for a profile.
+
+        Args:
+            profile: Profile model instance
+            beds: list of Bed model instances, ordered by position
+
+        Returns:
+            str: Complete CSV content including header row
+        """
         output = io.StringIO()
         writer = csv.writer(output)
         # Columns 1–25: SedLog-compatible (same order as original SedMob app)
@@ -179,9 +187,21 @@ def create_app(config=None):
                 bed.size_carbo_base, bed.phi_carbo_base,
                 bed.size_carbo_top, bed.phi_carbo_top,
             ])
+        return output.getvalue()
+
+    def _sanitize_filename(name):
+        """Replace spaces with underscores, remove chars not in [a-zA-Z0-9_-]."""
+        name = name.replace(" ", "_")
+        return re.sub(r"[^a-zA-Z0-9_-]", "", name)
+
+    @app.route("/profile/<int:profile_id>/export")
+    def profile_export(profile_id):
+        profile = db.get_or_404(Profile, profile_id)
+        beds = Bed.query.filter_by(profile_id=profile_id).order_by(Bed.position).all()
+        csv_content = _generate_csv(profile, beds)
         filename = f"{profile.name.replace(' ', '_')}_export.csv"
         return Response(
-            output.getvalue(),
+            csv_content,
             mimetype="text/csv",
             headers={"Content-Disposition": f"attachment; filename={filename}"},
         )
