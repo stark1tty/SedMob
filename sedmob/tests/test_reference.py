@@ -432,6 +432,94 @@ def test_delete_structure_group_others_unaffected(client, db):
     assert Structure.query.filter_by(name="StrChildA").first() is None
 
 
+# ── Reference page HTML structure tests ────────────────────
+
+
+def test_reference_page_contains_lithology_rename_forms(client, db):
+    """Validates: Requirements 7.1 — lithology items have inline rename forms."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    lith = Lithology.query.first()
+    assert f'/reference/lithology/{lith.id}/rename' in html
+    assert f'value="{lith.name}"' in html
+
+
+def test_reference_page_contains_structure_rename_forms(client, db):
+    """Validates: Requirements 7.2 — structure items have inline rename forms."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    struct = Structure.query.first()
+    assert f'/reference/structure/{struct.id}/rename' in html
+    assert f'value="{struct.name}"' in html
+
+
+def test_reference_page_contains_lithology_group_rename_forms(client, db):
+    """Validates: Requirements 7.3 — lithology groups have inline rename forms."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    lt = LithologyType.query.first()
+    assert f'/reference/lithology-type/{lt.id}/rename' in html
+    assert f'value="{lt.name}"' in html
+
+
+def test_reference_page_contains_structure_group_rename_forms(client, db):
+    """Validates: Requirements 7.4 — structure groups have inline rename forms."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    st = StructureType.query.first()
+    assert f'/reference/structure-type/{st.id}/rename' in html
+    assert f'value="{st.name}"' in html
+
+
+def test_reference_page_contains_lithology_group_delete_buttons(client, db):
+    """Validates: Requirements 7.5 — lithology groups have Delete Group buttons."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    lt = LithologyType.query.first()
+    assert f'/reference/lithology-type/{lt.id}/delete' in html
+    assert 'Delete Group' in html
+
+
+def test_reference_page_contains_structure_group_delete_buttons(client, db):
+    """Validates: Requirements 7.6 — structure groups have Delete Group buttons."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+    st = StructureType.query.first()
+    assert f'/reference/structure-type/{st.id}/delete' in html
+    assert 'Delete Group' in html
+
+
+def test_reference_page_rename_forms_for_all_entities(client, db):
+    """Validates: Requirements 7.1, 7.2, 7.3, 7.4, 7.5, 7.6 — all entity types present."""
+    resp = client.get("/reference")
+    html = resp.data.decode()
+
+    # Every lithology item should have a rename form
+    for lith in Lithology.query.all():
+        assert f'/reference/lithology/{lith.id}/rename' in html
+        assert f'value="{lith.name}"' in html
+
+    # Every structure item should have a rename form
+    for struct in Structure.query.all():
+        assert f'/reference/structure/{struct.id}/rename' in html
+        assert f'value="{struct.name}"' in html
+
+    # Every lithology group should have rename + delete forms
+    for lt in LithologyType.query.all():
+        assert f'/reference/lithology-type/{lt.id}/rename' in html
+        assert f'/reference/lithology-type/{lt.id}/delete' in html
+        assert f'value="{lt.name}"' in html
+
+    # Every structure group should have rename + delete forms
+    for st_type in StructureType.query.all():
+        assert f'/reference/structure-type/{st_type.id}/rename' in html
+        assert f'/reference/structure-type/{st_type.id}/delete' in html
+        assert f'value="{st_type.name}"' in html
+
+    # Name inputs exist
+    assert 'name="name"' in html
+
+
 # ── Property-based tests ──────────────────────────────────
 
 # Feature: reference-data-editing, Property 1: Valid rename updates the name

@@ -18,11 +18,24 @@
         <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
     </form>
     {% for lt in lithology_types %}
-    <h3>{{ lt.name }}</h3>
+    <h3 style="display:flex; align-items:center; gap:.5rem">
+        <form method="post" action="/reference/lithology-type/{{ lt.id }}/rename" style="display:inline">
+            <input name="name" value="{{ lt.name }}" required>
+            <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+        </form>
+        <form method="post" action="/reference/lithology-type/{{ lt.id }}/delete" style="display:inline">
+            <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete Group</button>
+        </form>
+    </h3>
     <table>
         {% for l in lt.lithologies %}
         <tr>
-            <td>{{ l.name }}</td>
+            <td>
+                <form method="post" action="/reference/lithology/{{ l.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ l.name }}" required>
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
             <td>
                 <form method="post" action="/reference/lithology/{{ l.id }}/delete" style="display:inline">
                     <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
@@ -49,11 +62,24 @@
         <button type="submit" class="btn btn-primary" style="margin-top:.5rem">Add</button>
     </form>
     {% for st in structure_types %}
-    <h3>{{ st.name }}</h3>
+    <h3 style="display:flex; align-items:center; gap:.5rem">
+        <form method="post" action="/reference/structure-type/{{ st.id }}/rename" style="display:inline">
+            <input name="name" value="{{ st.name }}" required>
+            <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+        </form>
+        <form method="post" action="/reference/structure-type/{{ st.id }}/delete" style="display:inline">
+            <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete Group</button>
+        </form>
+    </h3>
     <table>
         {% for s in st.structures %}
         <tr>
-            <td>{{ s.name }}</td>
+            <td>
+                <form method="post" action="/reference/structure/{{ s.id }}/rename" style="display:inline">
+                    <input name="name" value="{{ s.name }}" required>
+                    <button type="submit" class="btn btn-primary" style="padding:.2rem .5rem">Rename</button>
+                </form>
+            </td>
             <td>
                 <form method="post" action="/reference/structure/{{ s.id }}/delete" style="display:inline">
                     <button type="submit" class="btn btn-danger" style="padding:.2rem .5rem">Delete</button>
