@@ -1,0 +1,12 @@
+.venv
+__pycache__
+*.pyc
+.git
+.archives
+.dev
+.claude
+.kiro
+media
+docs
+instance
+uploads

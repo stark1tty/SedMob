@@ -508,3 +508,199 @@ def test_prop_invalid_name_rejected_structure_type(client, db, name):
 
     _db.session.delete(unchanged)
     _db.session.commit()
+
+
+# Feature: reference-data-editing, Property 3: Duplicate name is rejected
+# Validates: Requirements 1.4, 2.4, 3.4, 4.4
+
+
+@given(name_a=valid_name_strategy, name_b=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_duplicate_name_rejected_lithology(client, db, name_a, name_b):
+    """Property 3 – Lithology: renaming to another record's name is rejected."""
+    uid = uuid.uuid4().hex[:8]
+    unique_a = f"{name_a.strip()} {uid}a"
+    unique_b = f"{name_b.strip()} {uid}b"
+    lt = LithologyType.query.first()
+    item_a = Lithology(type_id=lt.id, name=unique_a)
+    item_b = Lithology(type_id=lt.id, name=unique_b)
+    _db.session.add_all([item_a, item_b])
+    _db.session.commit()
+    id_a = item_a.id
+    id_b = item_b.id
+
+    resp = client.post(f"/reference/lithology/{id_a}/rename", data={"name": unique_b})
+    assert resp.status_code == 302
+
+    unchanged = _db.session.get(Lithology, id_a)
+    assert unchanged.name == unique_a
+
+    # cleanup
+    _db.session.delete(_db.session.get(Lithology, id_a))
+    _db.session.delete(_db.session.get(Lithology, id_b))
+    _db.session.commit()
+
+
+@given(name_a=valid_name_strategy, name_b=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_duplicate_name_rejected_structure(client, db, name_a, name_b):
+    """Property 3 – Structure: renaming to another record's name is rejected."""
+    uid = uuid.uuid4().hex[:8]
+    unique_a = f"{name_a.strip()} {uid}a"
+    unique_b = f"{name_b.strip()} {uid}b"
+    st_type = StructureType.query.first()
+    item_a = Structure(type_id=st_type.id, name=unique_a)
+    item_b = Structure(type_id=st_type.id, name=unique_b)
+    _db.session.add_all([item_a, item_b])
+    _db.session.commit()
+    id_a = item_a.id
+    id_b = item_b.id
+
+    resp = client.post(f"/reference/structure/{id_a}/rename", data={"name": unique_b})
+    assert resp.status_code == 302
+
+    unchanged = _db.session.get(Structure, id_a)
+    assert unchanged.name == unique_a
+
+    # cleanup
+    _db.session.delete(_db.session.get(Structure, id_a))
+    _db.session.delete(_db.session.get(Structure, id_b))
+    _db.session.commit()
+
+
+@given(name_a=valid_name_strategy, name_b=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_duplicate_name_rejected_lithology_type(client, db, name_a, name_b):
+    """Property 3 – LithologyType: renaming to another record's name is rejected."""
+    uid = uuid.uuid4().hex[:8]
+    unique_a = f"{name_a.strip()} {uid}a"
+    unique_b = f"{name_b.strip()} {uid}b"
+    item_a = LithologyType(name=unique_a)
+    item_b = LithologyType(name=unique_b)
+    _db.session.add_all([item_a, item_b])
+    _db.session.commit()
+    id_a = item_a.id
+    id_b = item_b.id
+
+    resp = client.post(f"/reference/lithology-type/{id_a}/rename", data={"name": unique_b})
+    assert resp.status_code == 302
+
+    unchanged = _db.session.get(LithologyType, id_a)
+    assert unchanged.name == unique_a
+
+    # cleanup
+    _db.session.delete(_db.session.get(LithologyType, id_a))
+    _db.session.delete(_db.session.get(LithologyType, id_b))
+    _db.session.commit()
+
+
+@given(name_a=valid_name_strategy, name_b=valid_name_strategy)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_duplicate_name_rejected_structure_type(client, db, name_a, name_b):
+    """Property 3 – StructureType: renaming to another record's name is rejected."""
+    uid = uuid.uuid4().hex[:8]
+    unique_a = f"{name_a.strip()} {uid}a"
+    unique_b = f"{name_b.strip()} {uid}b"
+    item_a = StructureType(name=unique_a)
+    item_b = StructureType(name=unique_b)
+    _db.session.add_all([item_a, item_b])
+    _db.session.commit()
+    id_a = item_a.id
+    id_b = item_b.id
+
+    resp = client.post(f"/reference/structure-type/{id_a}/rename", data={"name": unique_b})
+    assert resp.status_code == 302
+
+    unchanged = _db.session.get(StructureType, id_a)
+    assert unchanged.name == unique_a
+
+    # cleanup
+    _db.session.delete(_db.session.get(StructureType, id_a))
+    _db.session.delete(_db.session.get(StructureType, id_b))
+    _db.session.commit()
+
+
+# Feature: reference-data-editing, Property 4: Group rename preserves children
+# Validates: Requirements 3.5, 4.5
+
+
+@given(
+    n_children=st.integers(min_value=0, max_value=10),
+    new_name=valid_name_strategy,
+)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_group_rename_preserves_children_lithology_type(client, db, n_children, new_name):
+    """Property 4 – LithologyType: renaming a group preserves all children."""
+    uid = uuid.uuid4().hex[:8]
+    group_name = f"PropLitGrp {uid}"
+    unique_new_name = f"{new_name.strip()} {uid}"
+
+    group = LithologyType(name=group_name)
+    _db.session.add(group)
+    _db.session.flush()
+    group_id = group.id
+
+    child_names = [f"PropChild {uid} {i}" for i in range(n_children)]
+    for cname in child_names:
+        _db.session.add(Lithology(type_id=group_id, name=cname))
+    _db.session.commit()
+
+    resp = client.post(
+        f"/reference/lithology-type/{group_id}/rename",
+        data={"name": unique_new_name},
+    )
+    assert resp.status_code == 302
+
+    children_after = Lithology.query.filter_by(type_id=group_id).all()
+    assert len(children_after) == n_children
+    assert sorted(c.name for c in children_after) == sorted(child_names)
+    assert all(c.type_id == group_id for c in children_after)
+
+    # cleanup
+    for c in children_after:
+        _db.session.delete(c)
+    grp = _db.session.get(LithologyType, group_id)
+    if grp:
+        _db.session.delete(grp)
+    _db.session.commit()
+
+
+@given(
+    n_children=st.integers(min_value=0, max_value=10),
+    new_name=valid_name_strategy,
+)
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+def test_prop_group_rename_preserves_children_structure_type(client, db, n_children, new_name):
+    """Property 4 – StructureType: renaming a group preserves all children."""
+    uid = uuid.uuid4().hex[:8]
+    group_name = f"PropStrGrp {uid}"
+    unique_new_name = f"{new_name.strip()} {uid}"
+
+    group = StructureType(name=group_name)
+    _db.session.add(group)
+    _db.session.flush()
+    group_id = group.id
+
+    child_names = [f"PropSChild {uid} {i}" for i in range(n_children)]
+    for cname in child_names:
+        _db.session.add(Structure(type_id=group_id, name=cname))
+    _db.session.commit()
+
+    resp = client.post(
+        f"/reference/structure-type/{group_id}/rename",
+        data={"name": unique_new_name},
+    )
+    assert resp.status_code == 302
+
+    children_after = Structure.query.filter_by(type_id=group_id).all()
+    assert len(children_after) == n_children
+    assert sorted(c.name for c in children_after) == sorted(child_names)
+    assert all(c.type_id == group_id for c in children_after)
+
+    # cleanup
+    for c in children_after:
+        _db.session.delete(c)
+    grp = _db.session.get(StructureType, group_id)
+    if grp:
+        _db.session.delete(grp)
+    _db.session.commit()

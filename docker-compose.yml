@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - db-data:/app/instance
+      - uploads:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  uploads:
