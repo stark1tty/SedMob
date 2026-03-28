@@ -88,6 +88,31 @@ You can override any setting by passing a config dict to `create_app()`:
 app = create_app({"SECRET_KEY": "your-production-key"})
 ```
 
+## Docker
+
+If you prefer containers over a local Python install, Gneisswork ships with a `Dockerfile` and `docker-compose.yml`.
+
+```bash
+docker compose up -d
+```
+
+This builds the image, starts the app on `http://localhost:5000` with Gunicorn, and persists data in two Docker volumes:
+
+| Volume    | Container Path  | Purpose                   |
+| --------- | --------------- | ------------------------- |
+| `db-data` | `/app/instance` | SQLite database           |
+| `uploads` | `/app/uploads`  | Uploaded photos and audio |
+
+Common commands:
+
+```bash
+docker compose down          # Stop the container
+docker compose up -d --build # Rebuild after code changes
+docker compose logs -f       # Follow logs
+```
+
+The container restarts automatically (`unless-stopped` policy), so it comes back after a reboot.
+
 ## Running Tests
 
 ```bash

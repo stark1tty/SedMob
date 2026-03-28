@@ -44,7 +44,7 @@ The APK is a standalone app (~50-80 MB) with Python, Flask, and SQLite bundled. 
 - Python 3.10+
 - pip
 
-### Installation
+#### Installation
 
 ```bash
 # Clone the repository
@@ -64,11 +64,27 @@ python run.py
 
 The app will be available at `http://localhost:5000`.
 
-### Running Tests
+#### Running Tests
 
 ```bash
 pytest
 ```
+
+### Docker
+
+Run Gneisswork in a container with no Python setup required.
+
+```bash
+# Clone and start
+git clone https://github.com/stark1tty/Gneisswork.git
+cd Gneisswork
+docker compose up -d
+```
+
+The app will be available at `http://localhost:5000`. The database and uploads are persisted in Docker volumes (`db-data` and `uploads`), so your data survives container restarts.
+
+To stop: `docker compose down`
+To rebuild after updates: `docker compose up -d --build`
 
 ## JSON API
 
