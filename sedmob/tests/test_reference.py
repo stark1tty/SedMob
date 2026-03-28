@@ -1,5 +1,10 @@
 """Tests for reference data management."""
-from sedmob.models import Lithology, LithologyType, Structure, StructureType
+import uuid
+
+from hypothesis import given, settings, HealthCheck
+from hypothesis import strategies as st
+
+from sedmob.models import db as _db, Lithology, LithologyType, Structure, StructureType
 
 
 def test_reference_page(client):
