@@ -12,6 +12,8 @@ on:
 jobs:
   build-apk:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout repository
@@ -94,12 +96,53 @@ jobs:
         path: bin/*.apk
         retention-days: 30
     
-    - name: Create Release (on tag)
+    - name: Determine version tag
+      if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/v')
+      id: version
+      run: |
+        # Fetch all tags
+        git fetch --tags
+        # Find the latest v* tag, default to v0.0.0 if none exist
+        LATEST=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+        if [ -z "$LATEST" ]; then
+          LATEST="v0.0.0"
+        fi
+        # Extract major.minor.patch and bump patch
+        VERSION="${LATEST#v}"
+        MAJOR=$(echo "$VERSION" | cut -d. -f1)
+        MINOR=$(echo "$VERSION" | cut -d. -f2)
+        PATCH=$(echo "$VERSION" | cut -d. -f3)
+        NEXT_PATCH=$((PATCH + 1))
+        NEXT_TAG="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
+        echo "tag=$NEXT_TAG" >> "$GITHUB_OUTPUT"
+    
+    - name: Create and push tag
+      if: steps.version.outcome == 'success'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag "${{ steps.version.outputs.tag }}"
+        git push origin "${{ steps.version.outputs.tag }}"
+    
+    - name: Create Release (auto version)
+      if: steps.version.outcome == 'success'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.version.outputs.tag }}
+        files: bin/*.apk
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Create Release (manual tag)
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
         files: bin/*.apk
         draft: false
         prerelease: false
+        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
