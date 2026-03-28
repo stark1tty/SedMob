@@ -1,11 +1,13 @@
 """Gneisswork – Sedimentary logging web application."""
 import csv
 import io
+import json
 import os
 import re
 import shutil
 import uuid
 import zipfile
+from datetime import datetime, timezone
 from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory, abort
 from sedmob.models import (
     db, Profile, Bed, BedPhoto, LithologyType, Lithology, StructureType, Structure,
@@ -546,6 +548,47 @@ def create_app(config=None):
         flash(f"Structure group '{item.name}' and all its items deleted.")
         return redirect(url_for("reference"))
 
+    # ── Backup/Restore ────────────────────────────────────
+    @app.route("/backup")
+    def backup():
+        data = _build_backup_dict()
+        payload = json.dumps(data, indent=2)
+        ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        return Response(
+            payload,
+            mimetype="application/json",
+            headers={
+                "Content-Disposition": f"attachment; filename=gneisswork_backup_{ts}.json"
+            },
+        )
+
+    @app.route("/restore", methods=["POST"])
+    def restore():
+        file = request.files.get("file")
+        if not file:
+            flash("No file provided")
+            return redirect(url_for("settings"))
+        try:
+            data = json.loads(file.read())
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            flash("Invalid JSON file")
+            return redirect(url_for("settings"))
+        if "version" not in data:
+            flash("Unrecognized backup format")
+            return redirect(url_for("settings"))
+        try:
+            _restore_from_dict(data)
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e))
+            return redirect(url_for("settings"))
+        flash("Database restored successfully.")
+        return redirect(url_for("settings"))
+
+    @app.route("/settings")
+    def settings():
+        return render_template("settings.html")
+
     # ── Helpers ────────────────────────────────────────────
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
     ALLOWED_AUDIO_EXTENSIONS = {"mp3", "wav", "ogg", "m4a", "webm"}
@@ -651,5 +694,76 @@ def create_app(config=None):
         db.session.commit()
         flash("Bed saved.")
         return redirect(url_for("profile_edit", profile_id=profile.id))
+
+    # ── Backup / Restore helpers ──────────────────────────
+    def _build_backup_dict():
+        """Serialize all database tables into a backup dict."""
+        table_models = [
+            ("profiles", Profile),
+            ("beds", Bed),
+            ("bed_photos", BedPhoto),
+            ("lithology_types", LithologyType),
+            ("lithologies", Lithology),
+            ("structure_types", StructureType),
+            ("structures", Structure),
+            ("grain_clastic", GrainClastic),
+            ("grain_carbonate", GrainCarbonate),
+            ("bioturbation", Bioturbation),
+            ("boundaries", Boundary),
+        ]
+        data = {
+            "version": "1.0",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+        for key, model in table_models:
+            rows = [row.to_dict() for row in model.query.all()]
+            if key == "bed_photos":
+                for row in rows:
+                    if isinstance(row.get("created_at"), datetime):
+                        row["created_at"] = row["created_at"].isoformat()
+            data[key] = rows
+        return data
+
+    def _restore_from_dict(data):
+        """Clear database and import from backup dict. Raises on error."""
+        # Table-to-model mapping for insert order (FK-safe)
+        insert_order = [
+            ("profiles", Profile),
+            ("beds", Bed),
+            ("bed_photos", BedPhoto),
+            ("lithology_types", LithologyType),
+            ("lithologies", Lithology),
+            ("structure_types", StructureType),
+            ("structures", Structure),
+            ("grain_clastic", GrainClastic),
+            ("grain_carbonate", GrainCarbonate),
+            ("bioturbation", Bioturbation),
+            ("boundaries", Boundary),
+        ]
+
+        # Delete order (FK-safe): children before parents
+        delete_order = [
+            BedPhoto, Bed, Profile,
+            Lithology, LithologyType,
+            Structure, StructureType,
+            GrainClastic, GrainCarbonate,
+            Bioturbation, Boundary,
+        ]
+
+        # Delete all existing rows in FK-safe order
+        for model in delete_order:
+            db.session.execute(model.__table__.delete())
+
+        # Insert rows in FK-safe order
+        for key, model in insert_order:
+            rows = data.get(key, [])
+            for row_dict in rows:
+                if key == "bed_photos" and "created_at" in row_dict:
+                    val = row_dict["created_at"]
+                    if isinstance(val, str):
+                        row_dict["created_at"] = datetime.fromisoformat(val)
+                db.session.add(model(**row_dict))
+
+        db.session.commit()
 
     return app

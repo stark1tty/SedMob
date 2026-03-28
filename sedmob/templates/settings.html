@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title_extra %} – Settings{% endblock %}
+{% block content %}
+<h1>Settings</h1>
+
+<div class="card">
+    <h2>Download Backup</h2>
+    <p>Export all database records as a JSON file.</p>
+    <p style="color:#666; font-size:.85rem">Note: The backup includes database records only. Uploaded files (photos and audio) are not included.</p>
+    <a href="/backup" class="btn btn-primary">Download Backup</a>
+</div>
+
+<div class="card">
+    <h2>Restore from Backup</h2>
+    <p style="color:#e74c3c; font-weight:600">Warning: Restoring will replace all existing data in the database.</p>
+    <form method="post" action="/restore" enctype="multipart/form-data">
+        <label for="file">Select a .json backup file</label>
+        <input type="file" id="file" name="file" accept=".json" required style="margin-bottom:.75rem">
+        <button type="submit" class="btn btn-danger">Restore</button>
+    </form>
+</div>
+{% endblock %}
