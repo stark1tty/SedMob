@@ -431,7 +431,11 @@ def create_app(config=None):
     def reference():
         return render_template("reference.html",
                                lithology_types=LithologyType.query.all(),
-                               structure_types=StructureType.query.all())
+                               structure_types=StructureType.query.all(),
+                               grain_clastic=GrainClastic.query.all(),
+                               grain_carbonate=GrainCarbonate.query.all(),
+                               bioturbation=Bioturbation.query.all(),
+                               boundaries=Boundary.query.all())
 
     @app.route("/reference/lithology/add", methods=["POST"])
     def lithology_add():
@@ -573,6 +577,170 @@ def create_app(config=None):
         db.session.delete(item)
         db.session.commit()
         flash(f"Structure group '{item.name}' and all its items deleted.")
+        return redirect(url_for("reference"))
+
+    # ── Reference: Grain Clastic ──────────────────────────
+    @app.route("/reference/grain-clastic/add", methods=["POST"])
+    def grain_clastic_add():
+        name = request.form["name"].strip()
+        phi = request.form.get("phi", "").strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        if GrainClastic.query.filter_by(name=name).first():
+            flash(f"Grain size '{name}' already exists.")
+            return redirect(url_for("reference"))
+        db.session.add(GrainClastic(name=name, phi=phi))
+        db.session.commit()
+        flash(f"Grain size '{name}' added.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/grain-clastic/<int:item_id>/rename", methods=["POST"])
+    def grain_clastic_rename(item_id):
+        item = db.get_or_404(GrainClastic, item_id)
+        name = request.form["name"].strip()
+        phi = request.form.get("phi", "").strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        existing = GrainClastic.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Grain size '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        if phi:
+            item.phi = phi
+        db.session.commit()
+        flash(f"Grain size renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/grain-clastic/<int:item_id>/delete", methods=["POST"])
+    def grain_clastic_delete(item_id):
+        item = db.get_or_404(GrainClastic, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Grain size '{item.name}' deleted.")
+        return redirect(url_for("reference"))
+
+    # ── Reference: Grain Carbonate ────────────────────────
+    @app.route("/reference/grain-carbonate/add", methods=["POST"])
+    def grain_carbonate_add():
+        name = request.form["name"].strip()
+        phi = request.form.get("phi", "").strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        if GrainCarbonate.query.filter_by(name=name).first():
+            flash(f"Carbonate grain size '{name}' already exists.")
+            return redirect(url_for("reference"))
+        db.session.add(GrainCarbonate(name=name, phi=phi))
+        db.session.commit()
+        flash(f"Carbonate grain size '{name}' added.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/grain-carbonate/<int:item_id>/rename", methods=["POST"])
+    def grain_carbonate_rename(item_id):
+        item = db.get_or_404(GrainCarbonate, item_id)
+        name = request.form["name"].strip()
+        phi = request.form.get("phi", "").strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        existing = GrainCarbonate.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Carbonate grain size '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        if phi:
+            item.phi = phi
+        db.session.commit()
+        flash(f"Carbonate grain size renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/grain-carbonate/<int:item_id>/delete", methods=["POST"])
+    def grain_carbonate_delete(item_id):
+        item = db.get_or_404(GrainCarbonate, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Carbonate grain size '{item.name}' deleted.")
+        return redirect(url_for("reference"))
+
+    # ── Reference: Bioturbation ───────────────────────────
+    @app.route("/reference/bioturbation/add", methods=["POST"])
+    def bioturbation_add():
+        name = request.form["name"].strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        if Bioturbation.query.filter_by(name=name).first():
+            flash(f"Bioturbation '{name}' already exists.")
+            return redirect(url_for("reference"))
+        db.session.add(Bioturbation(name=name))
+        db.session.commit()
+        flash(f"Bioturbation '{name}' added.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/bioturbation/<int:item_id>/rename", methods=["POST"])
+    def bioturbation_rename(item_id):
+        item = db.get_or_404(Bioturbation, item_id)
+        name = request.form["name"].strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        existing = Bioturbation.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Bioturbation '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Bioturbation renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/bioturbation/<int:item_id>/delete", methods=["POST"])
+    def bioturbation_delete(item_id):
+        item = db.get_or_404(Bioturbation, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Bioturbation '{item.name}' deleted.")
+        return redirect(url_for("reference"))
+
+    # ── Reference: Boundaries ─────────────────────────────
+    @app.route("/reference/boundary/add", methods=["POST"])
+    def boundary_add():
+        name = request.form["name"].strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        if Boundary.query.filter_by(name=name).first():
+            flash(f"Boundary '{name}' already exists.")
+            return redirect(url_for("reference"))
+        db.session.add(Boundary(name=name))
+        db.session.commit()
+        flash(f"Boundary '{name}' added.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/boundary/<int:item_id>/rename", methods=["POST"])
+    def boundary_rename(item_id):
+        item = db.get_or_404(Boundary, item_id)
+        name = request.form["name"].strip()
+        if not name:
+            flash("Name is required.")
+            return redirect(url_for("reference"))
+        existing = Boundary.query.filter_by(name=name).first()
+        if existing and existing.id != item.id:
+            flash(f"Boundary '{name}' already exists.")
+            return redirect(url_for("reference"))
+        item.name = name
+        db.session.commit()
+        flash(f"Boundary renamed to '{name}'.")
+        return redirect(url_for("reference"))
+
+    @app.route("/reference/boundary/<int:item_id>/delete", methods=["POST"])
+    def boundary_delete(item_id):
+        item = db.get_or_404(Boundary, item_id)
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Boundary '{item.name}' deleted.")
         return redirect(url_for("reference"))
 
     # ── Backup/Restore ────────────────────────────────────

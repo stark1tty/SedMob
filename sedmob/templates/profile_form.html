@@ -52,11 +52,13 @@
     <h2>Beds</h2>
     <a href="/profile/{{ profile.id }}/bed/new" class="btn btn-primary">Add new bed</a>
     {% if beds %}
-    <table style="margin-top:.5rem">
-        <tr><th>#</th><th>Name</th><th>Thickness</th><th>Top</th><th>Bottom</th><th>Lithology</th></tr>
+    <p style="font-size:.8rem; color:#888; margin-top:.5rem">Drag rows to reorder beds.</p>
+    <table style="margin-top:.25rem">
+        <thead><tr><th>#</th><th>Name</th><th>Thickness</th><th>Top</th><th>Bottom</th><th>Lithology</th></tr></thead>
+        <tbody id="bed-list" data-profile-id="{{ profile.id }}">
         {% for bed in beds %}
-        <tr>
-            <td>{{ bed.position }}</td>
+        <tr data-bed-id="{{ bed.id }}" style="cursor:grab">
+            <td class="bed-pos">{{ bed.position }}</td>
             <td><a href="/profile/{{ profile.id }}/bed/{{ bed.id }}">{{ bed.name or '(unnamed)' }}</a></td>
             <td>{{ bed.thickness }}</td>
             <td>{{ bed.top }}</td>
@@ -64,6 +66,7 @@
             <td>{{ bed.lit1_type }}</td>
         </tr>
         {% endfor %}
+        </tbody>
     </table>
     {% endif %}
 </div>
@@ -74,5 +77,7 @@
     </form>
 </div>
 {% endif %}
+<style>.drag-over { border-top: 2px solid #3498db; }</style>
 <script src="{{ url_for('static', filename='geolocation.js') }}"></script>
+<script src="{{ url_for('static', filename='reorder.js') }}"></script>
 {% endblock %}
