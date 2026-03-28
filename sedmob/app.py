@@ -172,6 +172,57 @@ def create_app(config=None):
         flash("Photo deleted.")
         return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
 
+    # ── Bed Audio Upload ──────────────────────────────────
+    @app.route("/profile/<int:profile_id>/bed/<int:bed_id>/audio", methods=["POST"])
+    def bed_audio_upload(profile_id, bed_id):
+        profile = db.get_or_404(Profile, profile_id)
+        bed = db.get_or_404(Bed, bed_id)
+        if bed.profile_id != profile_id:
+            abort(404)
+        file = request.files.get("audio")
+        if not file or file.filename == "":
+            flash("No file selected.")
+            return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+        if not allowed_audio_file(file.filename):
+            flash("File type not allowed. Use: mp3, wav, ogg, m4a, webm.")
+            return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+        # Remove previous audio file if exists
+        if bed.audio:
+            old_path = os.path.join(
+                app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id), bed.audio
+            )
+            if os.path.exists(old_path):
+                os.remove(old_path)
+        ext = file.filename.rsplit(".", 1)[1].lower()
+        filename = f"{uuid.uuid4().hex}.{ext}"
+        folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id))
+        os.makedirs(folder, exist_ok=True)
+        file.save(os.path.join(folder, filename))
+        bed.audio = filename
+        db.session.commit()
+        flash("Audio uploaded successfully.")
+        return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+
+    @app.route("/profile/<int:profile_id>/bed/<int:bed_id>/audio/delete",
+               methods=["POST"])
+    def bed_audio_delete(profile_id, bed_id):
+        profile = db.get_or_404(Profile, profile_id)
+        bed = db.get_or_404(Bed, bed_id)
+        if bed.profile_id != profile_id:
+            abort(404)
+        if not bed.audio:
+            flash("No audio to delete.")
+            return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+        audio_path = os.path.join(
+            app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id), bed.audio
+        )
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
+        bed.audio = ""
+        db.session.commit()
+        flash("Audio deleted.")
+        return redirect(url_for("bed_edit", profile_id=profile_id, bed_id=bed_id))
+
     # ── Bed CRUD ──────────────────────────────────────────
     @app.route("/profile/<int:profile_id>/bed/new", methods=["GET", "POST"])
     def bed_new(profile_id):
@@ -497,10 +548,15 @@ def create_app(config=None):
 
     # ── Helpers ────────────────────────────────────────────
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+    ALLOWED_AUDIO_EXTENSIONS = {"mp3", "wav", "ogg", "m4a", "webm"}
 
     def allowed_file(filename):
         return "." in filename and \
                filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    def allowed_audio_file(filename):
+        return "." in filename and \
+               filename.rsplit(".", 1)[1].lower() in ALLOWED_AUDIO_EXTENSIONS
 
     def _validate_percentages(form):
         """Return an error message string if percentages are invalid, else None."""

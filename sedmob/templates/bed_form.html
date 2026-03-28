@@ -194,6 +194,29 @@
     </form>
 </div>
 {% endif %}
+{% if bed %}
+<div class="card">
+    <h2>Audio</h2>
+    {% if bed.audio %}
+    <div style="margin-bottom:1rem">
+        <audio controls src="/uploads/{{ profile.id }}/{{ bed.id }}/{{ bed.audio }}"
+               style="width:100%"></audio>
+    </div>
+    <form method="post"
+          action="/profile/{{ profile.id }}/bed/{{ bed.id }}/audio/delete"
+          onsubmit="return confirm('Delete this audio?')" style="margin-bottom:1rem">
+        <button type="submit" class="btn btn-danger">Delete Audio</button>
+    </form>
+    {% endif %}
+    <form method="post"
+          action="/profile/{{ profile.id }}/bed/{{ bed.id }}/audio"
+          enctype="multipart/form-data">
+        <input type="file" name="audio" accept="audio/*">
+        <button type="submit" class="btn btn-primary"
+                style="margin-top:.5rem">Upload Audio</button>
+    </form>
+</div>
+{% endif %}
 <script>
 document.querySelectorAll('select[data-name-field]').forEach(function(sel) {
     sel.addEventListener('change', function() {
