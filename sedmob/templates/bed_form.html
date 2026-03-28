@@ -171,4 +171,45 @@ document.querySelectorAll('select[data-name-field]').forEach(function(sel) {
     });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var lit1 = document.getElementById('lit1_percentage');
+    var lit2 = document.getElementById('lit2_percentage');
+    var lit3 = document.getElementById('lit3_percentage');
+
+    function intVal(el) {
+        var v = Math.round(parseFloat(el.value));
+        return isNaN(v) ? 0 : v;
+    }
+
+    function clamp(v, min, max) {
+        return v < min ? min : (v > max ? max : v);
+    }
+
+    lit1.addEventListener('input', function() {
+        var v1 = clamp(intVal(lit1), 0, 100);
+        lit1.value = v1;
+        var v2 = intVal(lit2);
+        var budget = 100 - v1;
+        if (budget < v2) {
+            v2 = budget;
+            lit2.value = v2;
+        }
+        lit3.value = Math.max(0, 100 - v1 - v2);
+    });
+
+    lit2.addEventListener('input', function() {
+        var v1 = intVal(lit1);
+        var v2 = clamp(intVal(lit2), 0, 100 - v1);
+        lit2.value = v2;
+        lit3.value = Math.max(0, 100 - v1 - v2);
+    });
+
+    lit3.addEventListener('input', function() {
+        var v1 = intVal(lit1);
+        var v2 = intVal(lit2);
+        lit3.value = Math.max(0, 100 - v1 - v2);
+    });
+});
+</script>
 {% endblock %}
