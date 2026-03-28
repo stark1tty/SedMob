@@ -31,12 +31,10 @@ Download the latest APK from the [Releases page](https://github.com/stark1tty/Gn
 ```bash
 git clone https://github.com/stark1tty/Gneisswork.git
 cd Gneisswork
-python -m venv .venv
-source .venv/bin/activate
 python run.py
 ```
 
-`run.py` automatically installs dependencies from `sedmob/requirements.txt` on startup.
+`run.py` automatically installs dependencies from `sedmob/requirements.txt` on startup. No virtual environment setup needed for a quick start, though one is recommended for development (see [Getting Started](https://gneisswork.app/docs/getting-started.html)).
 
 Open `http://localhost:5000`.
 

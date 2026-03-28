@@ -45,7 +45,7 @@ Gneisswork is a free and open-source web application for field geological and se
 - **Backend**: Python 3.10+, Flask 3.0+
 - **Database**: SQLite with Flask-SQLAlchemy 3.1+
 - **Frontend**: HTML5, CSS3, vanilla JavaScript
-- **Testing**: Pytest
+- **Testing**: pytest, pytest-flask, hypothesis
 
 ## Getting Help
 

@@ -76,7 +76,7 @@ Output APK location: `bin/gneisswork-*.apk`
 All build settings are in `buildozer.spec`:
 - **App metadata**: Name, version, icon
 - **Requirements**: Python packages to include
-- **Permissions**: Android permissions (currently: INTERNET only)
+- **Permissions**: Android permissions (INTERNET, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
 - **Architecture**: Builds for ARM64 and ARMv7 by default
 - **API levels**: Targets Android 14 (API 35), minimum Android 5.0 (API 21)
 

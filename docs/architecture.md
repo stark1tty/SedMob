@@ -7,46 +7,54 @@ title: Architecture
 
 ## Tech Stack
 
-| Layer     | Technology                    |
-| --------- | ----------------------------- |
-| Backend   | Python 3.10+, Flask 3.0+      |
-| ORM       | Flask-SQLAlchemy 3.1+         |
-| Database  | SQLite                        |
-| Templates | Jinja2 (Flask built-in)       |
-| Frontend  | HTML5, inline CSS, vanilla JS |
+| Layer     | Technology                                      |
+| --------- | ----------------------------------------------- |
+| Backend   | Python 3.10+, Flask 3.0+                        |
+| ORM       | Flask-SQLAlchemy 3.1+                           |
+| Database  | SQLite                                          |
+| Templates | Jinja2 (Flask built-in)                         |
+| Frontend  | HTML5, inline CSS, vanilla JS                   |
+| Testing   | pytest 8.0+, pytest-flask 1.3+, hypothesis 6.0+ |
 
 ## Project Structure
 
 ```
 Gneisswork/
-├── run.py                  # Application entry point
+├── run.py                      # Application entry point (auto-installs deps)
+├── main.py                     # Android APK entry point (Kivy → Flask → WebView)
 ├── sedmob/
-│   ├── __init__.py         # Package marker
-│   ├── app.py              # Flask app factory, routes, and helpers
-│   ├── api.py              # REST API blueprint
-│   ├── models.py           # SQLAlchemy ORM models
-│   ├── seed.py             # Reference data seeding
-│   ├── requirements.txt    # Python dependencies
+│   ├── __init__.py             # Package marker
+│   ├── app.py                  # Flask app factory, all web routes, helpers
+│   ├── api.py                  # Read-only JSON API blueprint (/api prefix)
+│   ├── models.py               # SQLAlchemy ORM models
+│   ├── seed.py                 # Reference data seeding (runs once on first launch)
+│   ├── requirements.txt        # Python dependencies
 │   ├── static/
-│   │   ├── favicon.png     # Site icon
-│   │   └── geolocation.js  # Browser GPS capture
+│   │   ├── favicon.png         # Site icon
+│   │   └── geolocation.js      # Browser GPS capture script
 │   ├── templates/
-│   │   ├── base.html       # Master layout template
-│   │   ├── home.html       # Profile list (home page)
-│   │   ├── profile_form.html  # Profile create/edit + bed list
-│   │   ├── bed_form.html      # Bed create/edit form
-│   │   ├── reference.html     # Reference data management
-│   │   └── settings.html      # Backup/restore settings
+│   │   ├── base.html           # Master layout (nav, flash messages, inline CSS)
+│   │   ├── home.html           # Profile list
+│   │   ├── profile_form.html   # Profile create/edit + bed list
+│   │   ├── bed_form.html       # Bed create/edit form
+│   │   ├── reference.html      # Reference data management
+│   │   └── settings.html       # Backup/restore settings + live logs panel
 │   └── tests/
-│       ├── conftest.py     # Fixtures: app, client, db (in-memory SQLite)
-│       └── test_*.py       # Feature test modules
-├── p4a-recipes/            # Custom python-for-android recipe overrides
-│   ├── flask/              # Flask 3.1.1 (overrides p4a's bundled 2.0.3)
-│   ├── sqlalchemy/         # SQLAlchemy 2.0.40 (overrides p4a's bundled 1.3.3)
-│   └── werkzeug/           # Werkzeug 3.1.7 (compatible with Flask 3.x)
-├── .pwlw-sedmob/           # Legacy Cordova mobile app (archived)
-├── media/                  # Banner, icon, and screenshots
-└── docs/                   # This documentation
+│       ├── __init__.py         # Package marker
+│       ├── conftest.py         # Fixtures: app, client, db (in-memory SQLite)
+│       └── test_*.py           # Feature test modules (18 files)
+├── p4a-recipes/                # Custom python-for-android recipe overrides
+│   ├── flask/                  # Flask 3.1.1 (overrides p4a's bundled 2.0.3)
+│   ├── sqlalchemy/             # SQLAlchemy 2.0.40 (overrides p4a's bundled 1.3.3)
+│   └── werkzeug/               # Werkzeug 3.1.7 (compatible with Flask 3.x)
+├── .test/
+│   └── test_android_startup.py # Local simulation of Android startup
+├── buildozer.spec              # Buildozer config for APK packaging
+├── Dockerfile                  # Container image (Python 3.12-slim + gunicorn)
+├── docker-compose.yml          # Compose config (volumes for db + uploads)
+├── .pwlw-sedmob/               # Legacy Cordova mobile app (archived)
+├── media/                      # Banner, icon, and screenshots
+└── docs/                       # Documentation (published to GitHub Pages)
 ```
 
 ## Application Factory Pattern
@@ -78,21 +86,22 @@ def create_app(config=None):
 
 Routes are organized into logical groups within `app.py`:
 
-| Group           | Prefix                  | Purpose                            |
-| --------------- | ----------------------- | ---------------------------------- |
-| Home            | `/`                     | Profile listing                    |
-| Profile CRUD    | `/profile/...`          | Create, edit, delete profiles      |
-| Photo Upload    | `/profile/<id>/photo/...` | Upload, delete, serve profile photos |
-| Bed CRUD        | `/profile/<id>/bed/...` | Create, edit, delete, reorder beds |
-| Bed Photo Upload | `/profile/<id>/bed/<id>/photo/...` | Upload, delete bed photos |
-| Bed Audio Upload | `/profile/<id>/bed/<id>/audio/...` | Upload, delete bed audio  |
-| CSV Export      | `/profile/<id>/export`  | Download profile as CSV            |
-| Bulk Export     | `/export/all`           | Download all profiles as ZIP of CSVs |
-| Reference Data  | `/reference/...`        | Manage lithologies and structures  |
-| Backup/Restore  | `/backup`, `/restore`, `/settings` | JSON database export/import |
-| Full Backup     | `/export/full`, `/restore/full`    | ZIP archive with database JSON + uploaded files |
-| Logs            | `/logs`                 | Live application log stream (JSON) |
-| API (Blueprint) | `/api/...`              | Read-only JSON API                 |
+| Group            | Prefix                             | Purpose                                         |
+| ---------------- | ---------------------------------- | ----------------------------------------------- |
+| Home             | `/`                                | Profile listing                                 |
+| Profile CRUD     | `/profile/...`                     | Create, edit, delete profiles                   |
+| Photo Upload     | `/profile/<id>/photo/...`          | Upload, delete profile photos                   |
+| Bed Photo Upload | `/profile/<id>/bed/<id>/photo/...` | Upload, delete bed photos                       |
+| Bed Audio Upload | `/profile/<id>/bed/<id>/audio/...` | Upload, delete bed audio                        |
+| Bed CRUD         | `/profile/<id>/bed/...`            | Create, edit, delete, reorder beds              |
+| Upload Serving   | `/uploads/...`                     | Serve uploaded photos and audio                 |
+| CSV Export       | `/profile/<id>/export`             | Download profile as CSV                         |
+| Bulk Export      | `/export/all`                      | Download all profiles as ZIP of CSVs            |
+| Reference Data   | `/reference/...`                   | Manage lithologies and structures               |
+| Backup/Restore   | `/backup`, `/restore`, `/settings` | JSON database export/import                     |
+| Full Backup      | `/export/full`, `/restore/full`    | ZIP archive with database JSON + uploaded files |
+| Logs             | `/logs`                            | Live application log stream (JSON)              |
+| API (Blueprint)  | `/api/...`                         | Read-only JSON API                              |
 
 ## Design Patterns
 
