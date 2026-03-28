@@ -39,6 +39,7 @@ class SQLAlchemyRecipe(PythonRecipe):
 
         shprint(system_python, '-m', 'pip', 'install',
                 f'sqlalchemy=={self.version}',
+                'typing_extensions',
                 '--no-deps',
                 '--target', install_dir)
 
