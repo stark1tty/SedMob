@@ -93,7 +93,9 @@ Gneisswork includes a read-only REST API at `/api` for programmatic access to yo
 | `GET /api/profiles`                    | List all profiles               |
 | `GET /api/profiles/<id>`               | Single profile with nested beds |
 | `GET /api/profiles/<id>/beds`          | All beds for a profile          |
-| `GET /api/profiles/<id>/beds/<bed_id>` | Single bed detail               |
+| `GET /api/profiles/<id>/beds/<bed_id>` | Single bed detail with photos   |
+| `GET /api/profiles/<id>/beds/<bed_id>/photos` | All photos for a bed     |
+| `GET /api/profiles/<id>/beds/<bed_id>/photos/<photo_id>` | Single photo detail |
 
 All endpoints return JSON. Example:
 
@@ -105,7 +107,7 @@ curl http://localhost:5000/api/profiles
 
 ### Missing from original app (conversion gaps)
 
-- [ ] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
+- [x] Bed photo management — BedPhoto model, upload, display gallery, delete (original: `bedphotos` table)
 - [ ] Profile photo upload — Upload/display a photo per profile (original: camera capture)
 - [x] Bulk CSV export — Export all profiles at once from the home page (original: "Export all logs in CSV format")
 - [x] Reference data rename/edit — Rename lithologies, structures, and their groups (original: `butsavesymbol`)

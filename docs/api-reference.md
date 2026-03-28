@@ -178,13 +178,98 @@ Returns a single bed. Validates that the bed belongs to the specified profile.
 | `profile_id` | int  | URL path | Profile primary key |
 | `bed_id`     | int  | URL path | Bed primary key     |
 
-**Response:** Single bed object (same schema as in the beds list).
+**Response:** Single bed object with a nested `photos` array containing all attached bed photos.
+
+```json
+{
+  "id": 1,
+  "profile_id": 1,
+  "position": 1,
+  "name": "Bed 1",
+  "thickness": "25",
+  "...": "...",
+  "photos": [
+    {
+      "id": 1,
+      "bed_id": 1,
+      "profile_id": 1,
+      "filename": "a1b2c3d4.jpg",
+      "description": "Cross-bedding detail",
+      "created_at": "2025-06-15 10:30:00"
+    }
+  ]
+}
+```
 
 **Errors:**
 
 | Status | Condition                                        |
 | ------ | ------------------------------------------------ |
 | 404    | Bed does not exist or does not belong to profile |
+
+---
+
+### List Photos for a Bed
+
+```
+GET /api/profiles/<profile_id>/beds/<bed_id>/photos
+```
+
+Returns all photos attached to a bed.
+
+**Parameters:**
+
+| Name         | Type | Location | Description         |
+| ------------ | ---- | -------- | ------------------- |
+| `profile_id` | int  | URL path | Profile primary key |
+| `bed_id`     | int  | URL path | Bed primary key     |
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "bed_id": 1,
+    "profile_id": 1,
+    "filename": "a1b2c3d4.jpg",
+    "description": "Cross-bedding detail",
+    "created_at": "2025-06-15 10:30:00"
+  }
+]
+```
+
+**Errors:**
+
+| Status | Condition                                                        |
+| ------ | ---------------------------------------------------------------- |
+| 404    | Profile or bed does not exist, or bed does not belong to profile |
+
+---
+
+### Get Photo Detail
+
+```
+GET /api/profiles/<profile_id>/beds/<bed_id>/photos/<photo_id>
+```
+
+Returns a single bed photo. Validates that the photo belongs to the specified bed and profile.
+
+**Parameters:**
+
+| Name         | Type | Location | Description         |
+| ------------ | ---- | -------- | ------------------- |
+| `profile_id` | int  | URL path | Profile primary key |
+| `bed_id`     | int  | URL path | Bed primary key     |
+| `photo_id`   | int  | URL path | Photo primary key   |
+
+**Response:** Single photo object (same schema as in the photos list).
+
+**Errors:**
+
+| Status | Condition                                                    |
+| ------ | ------------------------------------------------------------ |
+| 404    | Profile, bed, or photo does not exist, or ownership mismatch |
 
 ---
 
@@ -207,6 +292,12 @@ curl http://localhost:5000/api/profiles/1
 # Get beds only
 curl http://localhost:5000/api/profiles/1/beds
 
-# Get a specific bed
+# Get a specific bed (includes photos)
 curl http://localhost:5000/api/profiles/1/beds/3
+
+# Get photos for a bed
+curl http://localhost:5000/api/profiles/1/beds/3/photos
+
+# Get a specific photo
+curl http://localhost:5000/api/profiles/1/beds/3/photos/1
 ```

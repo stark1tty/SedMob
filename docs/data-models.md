@@ -11,6 +11,8 @@ All models are defined in `sedmob/models.py` using Flask-SQLAlchemy. Every model
 
 ```
 Profile (1) ──── (Many) Bed
+Profile (1) ──── (Many) BedPhoto
+Bed (1) ──── (Many) BedPhoto
 LithologyType (1) ──── (Many) Lithology
 StructureType (1) ──── (Many) Structure
 ```
@@ -40,6 +42,7 @@ Represents a single sedimentary log (a field section or borehole).
 
 Relationships:
 - `beds` — One-to-many relationship to `Bed`, ordered by `Bed.position`, with cascade delete
+- `bed_photos` — One-to-many relationship to `BedPhoto`, with cascade delete
 
 ### Bed
 
@@ -80,6 +83,24 @@ Represents a single stratigraphic unit (bed/layer) within a profile.
 | `top`                    | String  |              | `""`    | Top boundary description           |
 | `bottom`                 | String  |              | `""`    | Bottom boundary description        |
 | `audio`                  | String  |              | `""`    | Audio recording path               |
+
+Relationships:
+- `photos` — One-to-many relationship to `BedPhoto`, with cascade delete
+
+### BedPhoto
+
+Represents a photo attached to a bed. Multiple photos can be uploaded per bed, each with an optional description. Files are stored on disk at `uploads/<profile_id>/<bed_id>/` with UUID-based filenames.
+
+| Column        | Type     | Constraints  | Default         | Description                   |
+| ------------- | -------- | ------------ | --------------- | ----------------------------- |
+| `id`          | Integer  | Primary Key  | Auto            | Unique identifier             |
+| `bed_id`      | Integer  | FK, NOT NULL | —               | Parent bed                    |
+| `profile_id`  | Integer  | FK, NOT NULL | —               | Parent profile (denormalized) |
+| `filename`    | String   | NOT NULL     | —               | UUID-based filename on disk   |
+| `description` | String   |              | `""`            | User-provided description     |
+| `created_at`  | DateTime |              | `db.func.now()` | Timestamp of upload           |
+
+The `profile_id` is stored denormalized (alongside `bed_id`) for simpler file path construction and cascade deletes.
 
 ---
 
