@@ -8,7 +8,7 @@ import uuid
 import zipfile
 from flask import Flask, render_template, request, redirect, url_for, flash, Response, send_from_directory
 from sedmob.models import (
-    db, Profile, Bed, LithologyType, Lithology, StructureType, Structure,
+    db, Profile, Bed, BedPhoto, LithologyType, Lithology, StructureType, Structure,
     GrainClastic, GrainCarbonate, Bioturbation, Boundary,
 )
 from sedmob.seed import seed_database
@@ -78,6 +78,11 @@ def create_app(config=None):
     @app.route("/uploads/<int:profile_id>/<filename>")
     def uploaded_file(profile_id, filename):
         folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id))
+        return send_from_directory(folder, filename)
+
+    @app.route("/uploads/<int:profile_id>/<int:bed_id>/<filename>")
+    def uploaded_bed_file(profile_id, bed_id, filename):
+        folder = os.path.join(app.config["UPLOAD_FOLDER"], str(profile_id), str(bed_id))
         return send_from_directory(folder, filename)
 
     @app.route("/profile/<int:profile_id>/photo", methods=["POST"])
