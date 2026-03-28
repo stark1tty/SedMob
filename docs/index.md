@@ -36,7 +36,7 @@ Gneisswork is a free and open-source web application for field geological and se
 - CSV export compatible with SedLog, plus bulk export (ZIP)
 - Customizable reference data
 - Browser geolocation for GPS coordinate capture
-- Database backup and restore (JSON export/import)
+- Database backup and restore (JSON or full ZIP with photos and audio)
 - Read-only JSON API for programmatic access
 - No internet connection required
 

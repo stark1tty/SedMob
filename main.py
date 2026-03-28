@@ -19,7 +19,6 @@ AndroidWebView = autoclass('android.webkit.WebView')
 WebViewClient = autoclass('android.webkit.WebViewClient')
 WebChromeClient = autoclass('android.webkit.WebChromeClient')
 Intent = autoclass('android.content.Intent')
-Uri = autoclass('android.net.Uri')
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('gneisswork')
@@ -78,15 +77,13 @@ def _on_activity_result(request_code, result_code, intent):
     try:
         # RESULT_OK = -1 in Android
         if result_code == -1 and intent is not None:
-            uri = intent.getData()
-            if uri is not None:
-                # Create a Uri[] array with one element
-                UriArray = autoclass('java.lang.reflect.Array')
-                uri_arr = UriArray.newInstance(Uri.getClass(uri), 1)
-                UriArray.set(uri_arr, 0, uri)
-                _file_upload_callback.onReceiveValue(uri_arr)
-            else:
-                _file_upload_callback.onReceiveValue(None)
+            # parseResult() returns Uri[] from the intent — handles the
+            # array creation for us, which avoids pyjnius reflection quirks.
+            FileChooserParams = autoclass(
+                'android.webkit.WebChromeClient$FileChooserParams'
+            )
+            results = FileChooserParams.parseResult(result_code, intent)
+            _file_upload_callback.onReceiveValue(results)
         else:
             _file_upload_callback.onReceiveValue(None)
     except Exception:
@@ -97,6 +94,16 @@ def _on_activity_result(request_code, result_code, intent):
             pass
     finally:
         _file_upload_callback = None
+
+
+class _ActivityResultListener(PythonJavaClass):
+    """Java interface impl that p4a's PythonActivity calls on activity results."""
+    __javaclass__ = 'org/kivy/android/PythonActivity$ActivityResultListener'
+    __javainterfaces__ = ['org/kivy/android/PythonActivity$ActivityResultListener']
+
+    @java_method('(IILandroid/content/Intent;)V')
+    def onActivityResult(self, request_code, result_code, intent):
+        _on_activity_result(request_code, result_code, intent)
 
 
 def _request_location_permission():
@@ -236,7 +243,7 @@ class GneissworkApp(App):
                 .getFilesDir().getAbsolutePath()
             )
             webview.setWebViewClient(WebViewClient())
-            webview.setWebChromeClient(GeoWebChromeClient())
+            webview.setWebChromeClient(GeoFileWebChromeClient())
             activity.setContentView(webview)
             webview.loadUrl(self.server_url)
             self._webview = webview

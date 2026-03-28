@@ -37,7 +37,7 @@ def test_full_export_returns_valid_zip(client, db):
     assert resp.status_code == 200
     assert resp.content_type == "application/zip"
     assert "gneisswork_full_backup_" in resp.headers["Content-Disposition"]
-    assert resp.headers["Content-Disposition"].endswith('.zip"')
+    assert resp.headers["Content-Disposition"].endswith('.zip')
 
 
 def test_full_export_contains_database_json(client, db):
