@@ -93,22 +93,25 @@ jobs:
       run: |
         mkdir -p ~/.android
         if [ -n "$DEBUG_KEYSTORE" ]; then
-          echo "Restoring debug keystore from secret"
+          echo "Restoring debug keystore from secret (overrides repo copy)"
           echo "$DEBUG_KEYSTORE" | base64 -d > ~/.android/debug.keystore
-        elif [ ! -f ~/.android/debug.keystore ]; then
-          echo "No DEBUG_KEYSTORE secret found — generating a new debug keystore"
+          # Also overwrite the repo copy so buildozer.spec's relative path
+          # picks up the secret version consistently.
+          cp ~/.android/debug.keystore ./debug.keystore
+        elif [ -f ./debug.keystore ]; then
+          echo "Using committed debug.keystore from repo"
+          cp ./debug.keystore ~/.android/debug.keystore
+        else
+          echo "No keystore found — generating a new debug keystore"
           keytool -genkeypair -v \
             -keystore ~/.android/debug.keystore \
             -alias androiddebugkey \
             -keyalg RSA -keysize 2048 -validity 36500 \
             -storepass android -keypass android \
-            -dname "CN=Android Debug,O=Android,C=US"
+            -dname "CN=Gneisswork Debug,O=Gneisswork,C=US"
+          cp ~/.android/debug.keystore ./debug.keystore
           echo ""
-          echo "⚠️  To keep APK signatures consistent, add this keystore as a GitHub secret:"
-          echo "    base64 -w0 ~/.android/debug.keystore"
-          echo "    → Save the output as the DEBUG_KEYSTORE repository secret"
-        else
-          echo "Using cached debug keystore from ~/.android"
+          echo "⚠️  Generated a new keystore. Commit debug.keystore to keep signatures consistent."
         fi
 
     - name: Build APK with Buildozer

@@ -147,14 +147,14 @@ class GneissworkApp(App):
         # Register file chooser activity result handler — store a strong
         # Python reference so pyjnius doesn't GC the PythonJavaClass proxy
         # while Java still holds a reference (causes native crash on callback).
-        self._activity_listener = _ActivityResultListener()
-        activity = PythonActivity.mActivity
-        activity.registerActivityResultListener(self._activity_listener)
+        try:
+            self._activity_listener = _ActivityResultListener()
+            activity = PythonActivity.mActivity
+            activity.registerActivityResultListener(self._activity_listener)
+        except Exception:
+            log.error("Activity listener registration failed:\n%s", traceback.format_exc())
         self.start_flask_server()
         Clock.schedule_interval(self._check_server, 0.5)
-        # Request location permission after the event loop is running so the
-        # activity lifecycle is fully ready to handle the dialog result.
-        Clock.schedule_once(lambda dt: _request_location_permission(), 0.5)
         # Handle Android back button
         from kivy.core.window import Window
         Window.bind(on_keyboard=self._on_keyboard)
@@ -257,6 +257,11 @@ class GneissworkApp(App):
             activity.setContentView(webview)
             webview.loadUrl(self.server_url)
             self._webview = webview
+            # Request location permission AFTER the WebView is visible so the
+            # app is fully initialised and the user sees the UI before the
+            # system dialog appears.  Scheduling on Clock ensures it runs on
+            # the Kivy/main thread outside the @run_on_ui_thread decorator.
+            Clock.schedule_once(lambda dt: _request_location_permission(), 1.0)
         except Exception:
             log.error("WebView setup failed:\n%s", traceback.format_exc())
 

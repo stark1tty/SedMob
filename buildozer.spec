@@ -25,7 +25,7 @@ source.include_patterns = sedmob/**/*,sedmob/templates/**/*,sedmob/static/**/*
 source.exclude_dirs = tests, bin, .git, .github, .venv, instance, __pycache__, .pytest_cache, docs, media, .archives, .claude, .dev, .kiro, .pwlw-sedmob, _layouts, .logs, .test, p4a-recipes
 
 # (list) List of exclusions using pattern matching
-source.exclude_patterns = */tests/*,*/test_*,*/.git/*,*/instance/*,Dockerfile,docker-compose.yml,CNAME,LICENSE,*.md,*.yml,*.yaml,*.spec,*.cfg,*.toml
+source.exclude_patterns = */tests/*,*/test_*,*/.git/*,*/instance/*,Dockerfile,docker-compose.yml,CNAME,LICENSE,*.md,*.yml,*.yaml,*.spec,*.cfg,*.toml,debug.keystore
 
 # (str) Application versioning (method 1)
 version = 0.1
@@ -86,10 +86,10 @@ android.archs = arm64-v8a,armeabi-v7a
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
 
-# Debug keystore — use a persistent keystore so APK signatures stay
-# consistent across CI builds, allowing in-place updates on devices.
-# The CI workflow restores this from the DEBUG_KEYSTORE secret.
-android.debug_keystore = ~/.android/debug.keystore
+# Debug keystore — committed to the repo so every build (local and CI)
+# produces the same APK signature, allowing in-place updates on devices.
+# The CI workflow can still override this via the DEBUG_KEYSTORE secret.
+android.debug_keystore = ./debug.keystore
 android.debug_keystore_passwd = android
 android.debug_keyalias = androiddebugkey
 android.debug_keyalias_passwd = android
