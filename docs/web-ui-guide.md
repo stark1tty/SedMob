@@ -42,6 +42,8 @@ If no profiles exist, a "No logs yet." message is shown.
 
 ### Profile Form (Create / Edit)
 
+<a href="../media/screenshots/profile-new.jpg"><img src="../media/screenshots/profile-new.jpg" width="400" alt="New profile form screenshot"></a> <a href="../media/screenshots/profile-edit.jpg"><img src="../media/screenshots/profile-edit.jpg" width="400" height="300" alt="Edit profile form screenshot" style="object-fit: cover; object-position: top;"></a>
+
 **URLs:**
 - New: `GET /profile/new`
 - Edit: `GET /profile/<id>`
@@ -94,6 +96,8 @@ When editing a profile, a photo section allows uploading a single photo for the 
 ---
 
 ### Bed Form (Create / Edit)
+
+<a href="../media/screenshots/bed-new.jpg"><img src="../media/screenshots/bed-new.jpg" width="400" height="300" alt="New bed form screenshot" style="object-fit: cover; object-position: top;"></a>
 
 **URLs:**
 - New: `GET /profile/<id>/bed/new`

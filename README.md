@@ -26,6 +26,11 @@ A free and open-source web application for field geological and sedimentological
     <td align="center"><a href="media/screenshots/reference-data.jpg"><img src="media/screenshots/reference-data.jpg" width="250" height="250" alt="Reference data management" style="object-fit: cover; object-position: top;"></a><br>Reference Data</td>
     <td align="center"><a href="media/screenshots/settings.jpg"><img src="media/screenshots/settings.jpg" width="250" alt="Settings — backup and restore"></a><br>Settings</td>
   </tr>
+  <tr>
+    <td align="center"><a href="media/screenshots/profile-new.jpg"><img src="media/screenshots/profile-new.jpg" width="250" alt="New profile form"></a><br>New Log</td>
+    <td align="center"><a href="media/screenshots/profile-edit.jpg"><img src="media/screenshots/profile-edit.jpg" width="250" height="250" alt="Edit profile with bed list" style="object-fit: cover; object-position: top;"></a><br>Edit Log</td>
+    <td align="center"><a href="media/screenshots/bed-new.jpg"><img src="media/screenshots/bed-new.jpg" width="250" height="250" alt="New bed form" style="object-fit: cover; object-position: top;"></a><br>New Bed</td>
+  </tr>
 </table>
 
 ## Quick Start

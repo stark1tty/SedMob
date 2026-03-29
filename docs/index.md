@@ -30,6 +30,11 @@ Welcome to the Gneisswork documentation! Choose a topic from the navigation belo
     <td align="center"><a href="reference-data.html"><img src="../media/screenshots/reference-data.jpg" width="220" height="220" alt="Reference data" style="object-fit: cover; object-position: top;"></a><br>Reference Data</td>
     <td align="center"><a href="web-ui-guide.html#settings-backup--restore"><img src="../media/screenshots/settings.jpg" width="220" alt="Settings"></a><br>Settings</td>
   </tr>
+  <tr>
+    <td align="center"><a href="web-ui-guide.html#profile-form-create--edit"><img src="../media/screenshots/profile-new.jpg" width="220" alt="New Log"></a><br>New Log</td>
+    <td align="center"><a href="web-ui-guide.html#profile-form-create--edit"><img src="../media/screenshots/profile-edit.jpg" width="220" height="220" alt="Edit Log" style="object-fit: cover; object-position: top;"></a><br>Edit Log</td>
+    <td align="center"><a href="web-ui-guide.html#bed-form-create--edit"><img src="../media/screenshots/bed-new.jpg" width="220" height="220" alt="New Bed" style="object-fit: cover; object-position: top;"></a><br>New Bed</td>
+  </tr>
 </table>
 
 Gneisswork is a free and open-source web application for field geological and sedimentological core logging. It's designed to help geologists create detailed sedimentary logs in the field using any device with a browser.
