@@ -22,6 +22,8 @@ A free and open-source web application for field geological and sedimentological
 
 ### Android (Field Use)
 
+> ⚠️ **Known Issue:** The Android APK is currently crashing on startup. This is being actively investigated. The web app (desktop/browser) works fine in the meantime.
+
 Download the latest APK from the [Releases page](https://github.com/stark1tty/Gneisswork/releases). Install it, and the app runs completely offline — Python, Flask, and SQLite are all bundled in.
 
 📖 [Building from source](https://gneisswork.app/docs/ANDROID_BUILD.html)
