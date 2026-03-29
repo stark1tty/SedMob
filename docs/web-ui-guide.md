@@ -21,6 +21,8 @@ Flash messages (success/error notifications) are displayed below the nav bar.
 
 ### Home Page
 
+<a href="../media/screenshots/home.jpg"><img src="../media/screenshots/home.jpg" width="400" alt="Home page screenshot"></a>
+
 **URL:** `/`
 **Template:** `home.html`
 
@@ -175,6 +177,8 @@ When editing a bed, an audio section allows uploading a single audio recording p
 
 ### Settings (Backup & Restore)
 
+<a href="../media/screenshots/settings.jpg"><img src="../media/screenshots/settings.jpg" width="400" alt="Settings page screenshot"></a>
+
 **URL:** `/settings`
 **Template:** `settings.html`
 
@@ -208,6 +212,8 @@ New log lines are appended automatically and the panel scrolls to the latest ent
 ---
 
 ### Reference Data Management
+
+<a href="../media/screenshots/reference-data.jpg"><img src="../media/screenshots/reference-data.jpg" width="400" alt="Reference data page screenshot"></a>
 
 **URL:** `/reference`
 **Template:** `reference.html`
