@@ -27,7 +27,7 @@ Welcome to the Gneisswork documentation! Choose a topic from the navigation belo
 <table>
   <tr>
     <td align="center"><a href="web-ui-guide.html"><img src="../media/screenshots/home.jpg" width="220" alt="Home page"></a><br>Home</td>
-    <td align="center"><a href="reference-data.html"><img src="../media/screenshots/reference-data.jpg" width="220" alt="Reference data"></a><br>Reference Data</td>
+    <td align="center"><a href="reference-data.html"><img src="../media/screenshots/reference-data.jpg" width="220" height="220" alt="Reference data" style="object-fit: cover; object-position: top;"></a><br>Reference Data</td>
     <td align="center"><a href="web-ui-guide.html#settings-backup--restore"><img src="../media/screenshots/settings.jpg" width="220" alt="Settings"></a><br>Settings</td>
   </tr>
 </table>

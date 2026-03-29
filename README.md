@@ -23,7 +23,7 @@ A free and open-source web application for field geological and sedimentological
 <table>
   <tr>
     <td align="center"><a href="media/screenshots/home.jpg"><img src="media/screenshots/home.jpg" width="250" alt="Home — profile list"></a><br>Home</td>
-    <td align="center"><a href="media/screenshots/reference-data.jpg"><img src="media/screenshots/reference-data.jpg" width="250" alt="Reference data management"></a><br>Reference Data</td>
+    <td align="center"><a href="media/screenshots/reference-data.jpg"><img src="media/screenshots/reference-data.jpg" width="250" height="250" alt="Reference data management" style="object-fit: cover; object-position: top;"></a><br>Reference Data</td>
     <td align="center"><a href="media/screenshots/settings.jpg"><img src="media/screenshots/settings.jpg" width="250" alt="Settings — backup and restore"></a><br>Settings</td>
   </tr>
 </table>

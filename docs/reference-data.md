@@ -5,7 +5,7 @@ title: Reference Data
 
 # Reference Data
 
-<a href="../media/screenshots/reference-data.jpg"><img src="../media/screenshots/reference-data.jpg" width="400" alt="Reference data management screenshot"></a>
+<a href="../media/screenshots/reference-data.jpg"><img src="../media/screenshots/reference-data.jpg" width="400" height="300" alt="Reference data management screenshot" style="object-fit: cover; object-position: top;"></a>
 
 Gneisswork ships with pre-seeded geological classification data that populates dropdown menus throughout the application. This data is inserted on first run if the reference tables are empty. The default reference data is fully compatible with the standard symbol libraries used in [SedLog](https://sedlog.rhul.ac.uk/) (Zervas et al., 2009), ensuring that CSV exports can be visualized directly without custom symbol setup.
 

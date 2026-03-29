@@ -213,7 +213,7 @@ New log lines are appended automatically and the panel scrolls to the latest ent
 
 ### Reference Data Management
 
-<a href="../media/screenshots/reference-data.jpg"><img src="../media/screenshots/reference-data.jpg" width="400" alt="Reference data page screenshot"></a>
+<a href="../media/screenshots/reference-data.jpg"><img src="../media/screenshots/reference-data.jpg" width="400" height="300" alt="Reference data page screenshot" style="object-fit: cover; object-position: top;"></a>
 
 **URL:** `/reference`
 **Template:** `reference.html`
