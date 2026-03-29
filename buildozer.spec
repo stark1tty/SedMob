@@ -22,7 +22,7 @@ source.include_patterns = sedmob/**/*,sedmob/templates/**/*,sedmob/static/**/*
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, .git, .github, .venv, instance, __pycache__, .pytest_cache, docs, media, .archives, .claude, .dev, .kiro, .pwlw-sedmob, _layouts, .logs, .test, p4a-recipes
+source.exclude_dirs = tests, bin, .git, .github, .venv, instance, __pycache__, .pytest_cache, docs, media, .archives, .claude, .dev, .kiro, .pwlw-sedmob, _layouts, .logs, .test, p4a-recipes, sedmob/tests
 
 # (list) List of exclusions using pattern matching
 source.exclude_patterns = */tests/*,*/test_*,*/.git/*,*/instance/*,Dockerfile,docker-compose.yml,CNAME,LICENSE,*.md,*.yml,*.yaml,*.spec,*.cfg,*.toml,debug.keystore

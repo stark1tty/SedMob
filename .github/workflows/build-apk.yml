@@ -127,30 +127,45 @@ jobs:
         rm -rf .buildozer/android/platform/build-*/build/other_builds/werkzeug 2>/dev/null || true
         rm -rf .buildozer/android/platform/build-*/build/other_builds/sqlalchemy 2>/dev/null || true
 
-        # First pass — downloads SDK/NDK/p4a, compiles recipes, may fail at
-        # Gradle because the manifest lacks usesCleartextTraffic.
-        yes | buildozer android debug 2>&1 || true
-
-        # Patch the p4a SDL2 manifest template to allow cleartext HTTP traffic
-        # to localhost. Android 9+ (API 28) blocks cleartext by default, which
-        # prevents the WebView from reaching Flask on http://127.0.0.1:5000.
-        # Buildozer's extra_manifest_application_arguments option mangles quotes
-        # and produces invalid XML, so we sed the template directly.
+        # Pre-patch: if the p4a SDL2 manifest template already exists in cache,
+        # patch it BEFORE the build so the cleartext attribute is baked in on
+        # the first (and only) pass.
         TMPL=$(find .buildozer -path "*/sdl2/build/templates/AndroidManifest.tmpl.xml" 2>/dev/null | head -1)
         if [ -n "$TMPL" ]; then
           if ! grep -q "usesCleartextTraffic" "$TMPL"; then
             sed -i 's|android:hardwareAccelerated="true"|android:hardwareAccelerated="true"\n                 android:usesCleartextTraffic="true"|' "$TMPL"
-            echo "Patched cleartext traffic in: $TMPL"
+            echo "Pre-patched cleartext traffic in cached template: $TMPL"
           else
-            echo "Template already has usesCleartextTraffic"
+            echo "Cached template already has usesCleartextTraffic"
           fi
         else
-          echo "WARNING: Could not find AndroidManifest.tmpl.xml"
+          echo "No cached template yet — will patch after first pass downloads p4a"
         fi
 
-        # Second pass — rebuilds with the patched template. Cached recipes
-        # are reused so only the Gradle step re-runs.
-        yes | buildozer android debug 2>&1
+        # First pass — downloads SDK/NDK/p4a, compiles recipes. If the template
+        # was already cached and patched above, this produces the final APK.
+        # If not (fresh build), it may fail at Gradle or produce an APK without
+        # the cleartext attribute.
+        yes | buildozer android debug 2>&1 || true
+
+        # Post-patch: if this was a fresh build, the template now exists but
+        # wasn't patched. Apply the patch and rebuild.
+        TMPL=$(find .buildozer -path "*/sdl2/build/templates/AndroidManifest.tmpl.xml" 2>/dev/null | head -1)
+        if [ -n "$TMPL" ] && ! grep -q "usesCleartextTraffic" "$TMPL"; then
+          sed -i 's|android:hardwareAccelerated="true"|android:hardwareAccelerated="true"\n                 android:usesCleartextTraffic="true"|' "$TMPL"
+          echo "Post-patched cleartext traffic in: $TMPL"
+          # Force dist rebuild so the patched manifest is picked up
+          rm -rf .buildozer/android/platform/build-*/dists 2>/dev/null || true
+          yes | buildozer android debug 2>&1
+        else
+          # Template was already patched (pre-patch path) — verify APK exists
+          if ls bin/*.apk 1>/dev/null 2>&1; then
+            echo "APK built successfully with cleartext traffic enabled"
+          else
+            echo "First pass failed — retrying build"
+            yes | buildozer android debug 2>&1
+          fi
+        fi
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v5
