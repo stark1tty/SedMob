@@ -95,7 +95,10 @@ android.debug_keyalias = androiddebugkey
 android.debug_keyalias_passwd = android
 
 # Use local recipe overrides (Flask 3.x instead of p4a's bundled 2.0.3)
-p4a.local_recipes = ./p4a-recipes
+# Buildozer changes CWD to .buildozer/android/platform/python-for-android/
+# before running p4a, so relative paths must navigate back up 4 levels.
+# See: https://github.com/kivy/buildozer/issues/1433
+p4a.local_recipes = ../../../../p4a-recipes
 
 
 
